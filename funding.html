@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Funding Solutions — Leverup Liquidity</title>
+<meta name="description" content="One application, multiple funding options — merchant cash advances, term loans, lines of credit, equipment financing, and invoice factoring, matched to your business.">
+
+<!-- ============================== GOOGLE FONTS ============================== -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- ============================== STYLES (shared, duplicated on every page) ============================== -->
+<style>
+  /* ---------- Brand tokens: change --purple here to re-skin the whole site ---------- */
+  :root{
+    --purple:#7C5CD6;
+    --purple-700:#5836B0;
+    --ink:#15121C;
+    --grape:#1E1633;
+    --haze:#F4F0FC;
+    --border:#E7E2F0;
+    --muted:#6B6480;
+    --white:#FFFFFF;
+
+    --radius:18px;
+    --radius-sm:12px;
+    --radius-pill:999px;
+    --maxw:1180px;
+    --shadow-sm:0 1px 2px rgba(21,18,28,.06), 0 4px 14px rgba(21,18,28,.05);
+    --shadow-md:0 10px 30px rgba(40,24,90,.10);
+    --shadow-lg:0 24px 60px rgba(40,24,90,.18);
+    --ease:cubic-bezier(.2,.7,.2,1);
+  }
+
+  /* ---------- Reset / base ---------- */
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink);
+    background:var(--white);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  img{max-width:100%;display:block}
+  a{color:var(--purple-700);text-decoration:none}
+  a:hover{text-decoration:underline}
+  h1,h2,h3,h4{
+    font-family:"Bricolage Grotesque","Inter",sans-serif;
+    color:var(--ink);
+    line-height:1.08;
+    letter-spacing:-.01em;
+    margin:0 0 .5em;
+    font-weight:700;
+  }
+  h1{font-size:clamp(2.1rem,6vw,3.6rem);font-weight:800}
+  h2{font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700}
+  h3{font-size:clamp(1.15rem,2.4vw,1.4rem);font-weight:700}
+  p{margin:0 0 1rem}
+
+  /* ---------- Layout helpers ---------- */
+  .container{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:20px}
+  .section{padding:clamp(48px,8vw,96px) 0}
+  .section--haze{background:var(--haze)}
+  .eyebrow{
+    display:inline-block;
+    font-weight:700;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--purple-700);
+    background:var(--haze);
+    border:1px solid var(--border);
+    padding:6px 14px;border-radius:var(--radius-pill);
+    margin-bottom:18px;
+  }
+  .section-head{max-width:680px;margin-bottom:40px}
+  .section-head.center{margin-inline:auto;text-align:center}
+  .lead{font-size:1.12rem;color:var(--muted)}
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:.5em;
+    font-family:"Inter",sans-serif;font-weight:600;font-size:1rem;
+    padding:14px 26px;border-radius:var(--radius-pill);
+    border:1.5px solid transparent;cursor:pointer;
+    transition:transform .18s var(--ease), box-shadow .18s var(--ease), background .18s var(--ease), color .18s var(--ease);
+    text-decoration:none;white-space:nowrap;
+  }
+  .btn:hover{text-decoration:none;transform:translateY(-2px)}
+  .btn-primary{background:var(--purple);color:var(--white);box-shadow:var(--shadow-md)}
+  .btn-primary:hover{background:var(--purple-700);box-shadow:var(--shadow-lg)}
+  .btn-secondary{background:var(--white);color:var(--ink);border-color:var(--border)}
+  .btn-secondary:hover{border-color:var(--purple);color:var(--purple-700)}
+  .btn-ghost{background:transparent;color:var(--white);border-color:rgba(255,255,255,.45)}
+  .btn-ghost:hover{background:rgba(255,255,255,.12)}
+  .btn-lg{padding:17px 34px;font-size:1.06rem}
+  .btn-block{width:100%}
+
+  /* ---------- Logo mark (ascending bars + rising arrow) ---------- */
+  .logo{display:inline-flex;align-items:center;gap:10px;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.2rem;color:var(--ink);letter-spacing:-.02em}
+  .logo:hover{text-decoration:none}
+  .logo .mark{flex:0 0 auto}
+  .logo .mark .bar{fill:var(--purple)}
+  .logo .mark .bar3{fill:var(--purple-700)}
+  .logo .mark .arrow{stroke:var(--purple-700);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+  /* ---------- Header ---------- */
+  .site-header{
+    position:sticky;top:0;z-index:60;
+    background:rgba(255,255,255,.85);
+    backdrop-filter:saturate(180%) blur(12px);
+    border-bottom:1px solid transparent;
+    transition:box-shadow .2s var(--ease), border-color .2s var(--ease), background .2s var(--ease);
+  }
+  .site-header.is-stuck{box-shadow:var(--shadow-sm);border-bottom-color:var(--border)}
+  .header-inner{display:flex;align-items:center;gap:18px;height:70px}
+  .header-nav{display:flex;align-items:center;gap:8px;margin-left:auto}
+  .header-nav a.navlink{
+    color:var(--ink);font-weight:600;padding:10px 14px;border-radius:var(--radius-sm);
+  }
+  .header-nav a.navlink:hover{background:var(--haze);color:var(--purple-700);text-decoration:none}
+  .header-phone{
+    display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--ink);
+    padding:10px 14px;border-radius:var(--radius-sm);
+  }
+  .header-phone:hover{background:var(--haze);color:var(--purple-700);text-decoration:none}
+  .header-phone svg{flex:0 0 auto}
+
+  /* Hamburger */
+  .hamburger{
+    display:none;margin-left:auto;width:46px;height:46px;border:1px solid var(--border);
+    background:var(--white);border-radius:var(--radius-sm);cursor:pointer;align-items:center;justify-content:center;
+  }
+  .hamburger:hover{border-color:var(--purple)}
+  .hamburger svg{display:block}
+
+  /* Mobile menu panel */
+  .mobile-menu{
+    display:none;
+    border-top:1px solid var(--border);
+    background:var(--white);
+  }
+  .mobile-menu.open{display:block}
+  .mobile-menu ul{list-style:none;margin:0;padding:12px 20px 22px}
+  .mobile-menu li{margin:0}
+  .mobile-menu a{
+    display:block;padding:14px 6px;font-weight:600;font-size:1.1rem;color:var(--ink);
+    border-bottom:1px solid var(--border);
+  }
+  .mobile-menu a:hover{color:var(--purple-700);text-decoration:none}
+  .mobile-menu .menu-cta{margin-top:18px;display:grid;gap:10px}
+
+  /* ---------- Page hero (compact) ---------- */
+  .page-hero{
+    position:relative;color:var(--white);overflow:hidden;
+    background:linear-gradient(135deg,var(--grape) 0%, #3a2470 50%, var(--purple) 100%);
+  }
+  .page-hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(1000px 460px at 88% -20%, rgba(255,255,255,.16), transparent 60%)}
+  .page-hero-inner{position:relative;z-index:1;padding:clamp(48px,8vw,84px) 0;max-width:760px}
+  .page-hero .eyebrow{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25);color:#EAE2FB}
+  .page-hero h1{color:var(--white)}
+  .page-hero p{font-size:1.14rem;color:#E8E1F6;max-width:640px;margin-bottom:0}
+
+  /* ---------- Cards / grids ---------- */
+  .grid{display:grid;gap:20px}
+  .grid-2{grid-template-columns:repeat(2,1fr)}
+  .grid-3{grid-template-columns:repeat(3,1fr)}
+  .grid-4{grid-template-columns:repeat(4,1fr)}
+
+  .card{
+    background:var(--white);border:1px solid var(--border);border-radius:var(--radius);
+    padding:26px;box-shadow:var(--shadow-sm);
+    transition:transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s var(--ease);
+    display:flex;flex-direction:column;
+  }
+  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:#D8CEEC}
+  .card .best{color:var(--muted);margin:0}
+  .card .best strong{color:var(--ink)}
+
+  .icon-chip{
+    width:46px;height:46px;border-radius:12px;background:var(--haze);
+    display:flex;align-items:center;justify-content:center;margin-bottom:16px;color:var(--purple-700);
+  }
+
+  /* Product detail block */
+  .product{
+    display:grid;grid-template-columns:64px 1fr;gap:20px;align-items:start;
+    background:var(--white);border:1px solid var(--border);border-radius:var(--radius);
+    padding:30px;box-shadow:var(--shadow-sm);
+    transition:transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s var(--ease);
+  }
+  .product:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:#D8CEEC}
+  .product .p-ico{width:60px;height:60px;border-radius:14px;background:var(--haze);color:var(--purple-700);display:flex;align-items:center;justify-content:center}
+  .product h3{margin-bottom:.4em}
+  .product .best{margin:.6em 0 0;color:var(--ink)}
+  .product .best strong{color:var(--purple-700)}
+  .tag{
+    display:inline-block;font-size:.74rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    padding:4px 10px;border-radius:999px;margin-bottom:4px;
+  }
+  .tag-mca{background:#EFE7FD;color:var(--purple-700)}
+  .tag-loan{background:#E3F0EC;color:#1E6B53}
+
+  /* ---------- Steps ---------- */
+  .steps{display:grid;gap:20px}
+  .step{
+    position:relative;background:var(--white);border:1px solid var(--border);
+    border-radius:var(--radius);padding:28px 26px 26px;
+  }
+  .step .num{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:42px;height:42px;border-radius:12px;background:var(--haze);color:var(--purple-700);
+    font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.15rem;margin-bottom:14px;
+  }
+  .step h3{margin-bottom:.3em}
+  .step p{margin:0;color:var(--muted)}
+
+  /* ---------- Cost callout ---------- */
+  .cost-card{
+    background:var(--white);border:1px solid var(--border);border-radius:var(--radius);
+    box-shadow:var(--shadow-md);padding:clamp(26px,4vw,40px);max-width:920px;margin-inline:auto;
+  }
+  .cost-figure{
+    display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px;
+    background:var(--haze);border:1px solid var(--border);border-radius:var(--radius-sm);
+    padding:22px;margin:22px 0;
+  }
+  .cost-figure .num{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:clamp(1.4rem,3vw,2rem);color:var(--ink)}
+  .cost-figure .arrow{color:var(--purple-700)}
+  .cost-figure .res{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:clamp(1.4rem,3vw,2rem);color:var(--purple-700)}
+  .cost-figure .lbl{display:block;font-size:.82rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+
+  /* ---------- FAQ accordion ---------- */
+  .faq{max-width:820px;margin-inline:auto}
+  .faq-item{border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--white);margin-bottom:12px;overflow:hidden}
+  .faq-q{
+    width:100%;text-align:left;background:none;border:0;cursor:pointer;
+    font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.06rem;color:var(--ink);
+    padding:20px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  }
+  .faq-q:hover{color:var(--purple-700)}
+  .faq-q .ico{flex:0 0 auto;transition:transform .25s var(--ease);color:var(--purple-700)}
+  .faq-q[aria-expanded="true"] .ico{transform:rotate(45deg)}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .3s var(--ease);padding:0 22px;color:var(--muted)}
+  .faq-a p{margin:0 0 18px}
+
+  /* ---------- Final CTA band ---------- */
+  .cta-band{
+    color:var(--white);border-radius:28px;overflow:hidden;position:relative;
+    background:linear-gradient(135deg,var(--grape) 0%, #3a2470 50%, var(--purple) 100%);
+    padding:clamp(40px,7vw,72px) clamp(24px,5vw,64px);text-align:center;
+  }
+  .cta-band::after{content:"";position:absolute;inset:0;background:radial-gradient(800px 360px at 80% -20%, rgba(255,255,255,.16), transparent 60%)}
+  .cta-band > *{position:relative;z-index:1}
+  .cta-band h2{color:var(--white)}
+  .cta-band p{color:#E6DEF7;max-width:560px;margin-inline:auto}
+  .cta-actions{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:26px}
+
+  /* ---------- Footer ---------- */
+  .site-footer{background:var(--grape);color:#CFC6E4;padding:64px 0 0}
+  .site-footer .logo{color:#fff}
+  .site-footer .logo .bar{fill:#cdbcf5}
+  .site-footer .logo .bar3{fill:#fff}
+  .site-footer .logo .arrow{stroke:#fff}
+  .footer-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:36px}
+  .footer-blurb{max-width:320px;color:#B7ACD4;margin-top:16px}
+  .footer-contact{margin-top:18px;display:grid;gap:8px}
+  .footer-contact a{color:#fff;font-weight:600;display:inline-flex;align-items:center;gap:8px}
+  .footer-col h4{color:#fff;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+  .footer-col ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .footer-col a{color:#CFC6E4}
+  .footer-col a:hover{color:#fff}
+  .footer-disclosure{border-top:1px solid rgba(255,255,255,.12);margin-top:48px;padding:28px 0;font-size:.85rem;color:#9F95BE;line-height:1.7}
+  .footer-bottom{
+    border-top:1px solid rgba(255,255,255,.12);padding:22px 0 calc(28px + var(--mobilebar,0px));
+    display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between;font-size:.85rem;color:#9F95BE;
+  }
+
+  /* ---------- Sticky mobile bottom bar ---------- */
+  .mobile-bar{
+    display:none;position:fixed;left:0;right:0;bottom:0;z-index:70;
+    background:var(--white);border-top:1px solid var(--border);
+    padding:10px 14px;gap:10px;box-shadow:0 -6px 20px rgba(21,18,28,.08);
+  }
+  .mobile-bar .btn{flex:1;padding:13px 10px}
+
+  /* ---------- Fade-in on scroll ---------- */
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s var(--ease), transform .6s var(--ease)}
+  .reveal.is-visible{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    html{scroll-behavior:auto}
+    .btn:hover,.card:hover,.product:hover{transform:none}
+  }
+
+  /* Accessibility: visible focus everywhere */
+  a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,.btn:focus-visible{
+    outline:3px solid var(--purple);outline-offset:2px;border-radius:8px;
+  }
+  .skip-link{position:absolute;left:-9999px;top:0;z-index:200;background:var(--white);color:var(--purple-700);padding:12px 18px;border-radius:0 0 12px 0;font-weight:700;box-shadow:var(--shadow-md)}
+  .skip-link:focus{left:0}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:980px){
+    .footer-top{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:820px){
+    .header-nav{display:none}
+    .hamburger{display:flex}
+    .grid-3,.grid-4{grid-template-columns:repeat(2,1fr)}
+    .mobile-bar{display:flex}
+    :root{--mobilebar:64px}
+  }
+  @media (max-width:560px){
+    .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+    .footer-top{grid-template-columns:1fr 1fr}
+    .footer-bottom{justify-content:flex-start}
+    .product{grid-template-columns:1fr}
+    .cta-actions .btn{width:100%}
+  }
+  @media (max-width:400px){
+    .footer-top{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<!-- ============================== HEADER (shared, duplicated on every page) ============================== -->
+<header class="site-header" id="siteHeader">
+  <div class="container">
+    <div class="header-inner">
+      <a class="logo" href="index.html" aria-label="Leverup Liquidity home">
+        <svg class="mark" width="32" height="32" viewBox="0 0 32 32" role="img" aria-hidden="true">
+          <rect class="bar" x="2"  y="19" width="6" height="11" rx="2"></rect>
+          <rect class="bar" x="11" y="13" width="6" height="17" rx="2"></rect>
+          <rect class="bar3" x="20" y="7"  width="6" height="23" rx="2"></rect>
+          <path class="arrow" d="M5 13 L15 9 L26 3"></path>
+          <path class="arrow" d="M20 3 L26 3 L26 9"></path>
+        </svg>
+        <span>Leverup&nbsp;Liquidity</span>
+      </a>
+
+      <nav class="header-nav" aria-label="Primary">
+        <a class="navlink" href="index.html">Home</a>
+        <a class="navlink" href="funding.html" aria-current="page">Funding</a>
+        <a class="header-phone" href="tel:+19472386272">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          (947) 238-6272
+        </a>
+        <a class="btn btn-primary" href="apply.html">Apply now</a>
+      </nav>
+
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+        <svg id="hamIcon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="funding.html">Funding</a></li>
+      <li><a href="tel:+19472386272">Call (947) 238-6272</a></li>
+    </ul>
+    <div class="menu-cta container" style="padding-bottom:22px">
+      <a class="btn btn-primary btn-block" href="apply.html">Apply now</a>
+    </div>
+  </nav>
+</header>
+
+<main id="main">
+
+  <!-- ============================== PAGE HERO / INTRO ============================== -->
+  <section class="page-hero">
+    <div class="container">
+      <div class="page-hero-inner">
+        <span class="eyebrow">Funding solutions</span>
+        <h1>Funding solutions</h1>
+        <p>One application. Multiple funding options — matched to your business instead of forced on it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== THE FIVE PRODUCTS ============================== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Products</span>
+        <h2>Five ways to fund your business</h2>
+        <p class="lead">We match your file to the financing that actually fits — and we keep the difference between an advance and a loan crystal clear.</p>
+      </div>
+
+      <div class="grid" style="gap:22px">
+
+        <!-- Merchant Cash Advance -->
+        <article class="product reveal">
+          <div class="p-ico" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <div>
+            <span class="tag tag-mca">Advance · not a loan</span>
+            <h3>Merchant Cash Advance</h3>
+            <p>An advance based on your future receivables. You receive a lump sum and repay it as a fixed amount or a percentage of sales, priced with a <strong>factor rate</strong> — not an interest rate, because it isn't a loan.</p>
+            <p class="best"><strong>Best for:</strong> businesses with strong sales that need capital fast.</p>
+          </div>
+        </article>
+
+        <!-- Business Term Loan -->
+        <article class="product reveal">
+          <div class="p-ico" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          </div>
+          <div>
+            <span class="tag tag-loan">Loan</span>
+            <h3>Business Term Loan</h3>
+            <p>A lump sum repaid over a set term with <strong>interest</strong> and fixed payments — straightforward financing for a defined investment.</p>
+            <p class="best"><strong>Best for:</strong> planned, predictable payments.</p>
+          </div>
+        </article>
+
+        <!-- Business Line of Credit -->
+        <article class="product reveal">
+          <div class="p-ico" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>
+          </div>
+          <div>
+            <span class="tag tag-loan">Loan</span>
+            <h3>Business Line of Credit</h3>
+            <p>Draw what you need, when you need it, and pay <strong>interest</strong> only on what you use. Reusable working capital on standby.</p>
+            <p class="best"><strong>Best for:</strong> flexible, ongoing access to capital.</p>
+          </div>
+        </article>
+
+        <!-- Equipment Financing -->
+        <article class="product reveal">
+          <div class="p-ico" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </div>
+          <div>
+            <span class="tag tag-loan">Loan</span>
+            <h3>Equipment Financing</h3>
+            <p>Financing secured by the equipment itself, so you can get what your business needs while preserving working capital.</p>
+            <p class="best"><strong>Best for:</strong> buying or upgrading equipment.</p>
+          </div>
+        </article>
+
+        <!-- Invoice Factoring -->
+        <article class="product reveal">
+          <div class="p-ico" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>
+          </div>
+          <div>
+            <span class="tag tag-mca">Receivables purchase</span>
+            <h3>Invoice Factoring</h3>
+            <p>Turn outstanding invoices into immediate cash by selling them at a discount — stop waiting on customers to pay.</p>
+            <p class="best"><strong>Best for:</strong> cash tied up in unpaid invoices.</p>
+          </div>
+        </article>
+
+      </div>
+
+      <div style="text-align:center;margin-top:36px" class="reveal">
+        <a class="btn btn-primary btn-lg" href="apply.html">Apply once — we'll match you</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== HOW IT WORKS (expanded) ============================== -->
+  <section class="section section--haze">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow">How it works</span>
+        <h2>Funding in four simple steps</h2>
+      </div>
+      <div class="steps grid grid-4">
+        <div class="step reveal"><div class="num">1</div><h3>Apply</h3><p>Tell us about your business and share your last 3–4 months of bank statements. It takes just a few minutes and there's no obligation.</p></div>
+        <div class="step reveal"><div class="num">2</div><h3>Get matched</h3><p>We match your file to the funders most likely to approve you, drawing on a network of trusted third-party funders and lenders.</p></div>
+        <div class="step reveal"><div class="num">3</div><h3>Compare offers</h3><p>Review amount, cost, and remittance with no obligation. We explain the full cost in plain English before you decide.</p></div>
+        <div class="step reveal"><div class="num">4</div><h3>Get funded</h3><p>Choose the offer that fits and receive funds, often within a few business days of approval, so you can put the capital to work.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== WHAT FUNDING COSTS ============================== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Costs explained</span>
+        <h2>What funding costs</h2>
+      </div>
+      <div class="cost-card reveal">
+        <p>An MCA uses a <strong>factor rate</strong>, not an interest rate. Here's a simple example:</p>
+        <div class="cost-figure">
+          <div><span class="lbl">Advance amount</span><span class="num">$50,000</span></div>
+          <span class="arrow" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+          <div><span class="lbl">1.3 factor rate</span><span class="num">×&nbsp;1.3</span></div>
+          <span class="arrow" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+          <div><span class="lbl">Total payback</span><span class="res">$65,000</span></div>
+        </div>
+        <p>A 1.3 factor on $50,000 means <strong>$65,000 in total repayment</strong> — there's no APR because it isn't a loan. Loan products like term loans and lines of credit use <strong>interest</strong>. Whatever the product, we'll explain the full cost before you decide.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== FAQ (keyboard-accessible accordion) ============================== -->
+  <section class="section section--haze">
+    <div class="container">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Questions</span>
+        <h2>Funding questions, answered</h2>
+      </div>
+      <div class="faq">
+        <div class="faq-item reveal">
+          <h3 style="margin:0">
+            <button class="faq-q" aria-expanded="false" aria-controls="fq1" id="fqb1">
+              Is a merchant cash advance a loan?
+              <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+            </button>
+          </h3>
+          <div class="faq-a" id="fq1" role="region" aria-labelledby="fqb1">
+            <p>No. A merchant cash advance is the purchase of a portion of your future receivables, not a loan. It's priced with a factor rate and repaid through remittances — there is no interest rate or APR attached to it.</p>
+          </div>
+        </div>
+        <div class="faq-item reveal">
+          <h3 style="margin:0">
+            <button class="faq-q" aria-expanded="false" aria-controls="fq2" id="fqb2">
+              What's the difference between a factor rate and an interest rate?
+              <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+            </button>
+          </h3>
+          <div class="faq-a" id="fq2" role="region" aria-labelledby="fqb2">
+            <p>A factor rate is a simple multiplier that sets the total payback on an advance — multiply the advance by the factor to get total payback. Interest, used on loan products like term loans and lines of credit, accrues over time on the balance you owe.</p>
+          </div>
+        </div>
+        <div class="faq-item reveal">
+          <h3 style="margin:0">
+            <button class="faq-q" aria-expanded="false" aria-controls="fq3" id="fqb3">
+              Which product is right for my business?
+              <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+            </button>
+          </h3>
+          <div class="faq-a" id="fq3" role="region" aria-labelledby="fqb3">
+            <p>That depends on your sales, time in business, and what you need the capital for. You don't have to decide up front — submit one application and we'll match your file to the funding options that fit, then walk you through the trade-offs.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== FINAL CTA ============================== -->
+  <section class="section">
+    <div class="container">
+      <div class="cta-band reveal">
+        <h2>One application. Multiple funding paths.</h2>
+        <p>Tell us about your business and we'll match you to the funding that fits. No obligation to accept.</p>
+        <div class="cta-actions">
+          <a class="btn btn-primary btn-lg" href="apply.html">Apply now</a>
+          <a class="btn btn-ghost btn-lg" href="tel:+19472386272">Call (947) 238-6272</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================== FOOTER (shared, duplicated on every page) ============================== -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="logo" href="index.html" aria-label="Leverup Liquidity home">
+          <svg class="mark" width="32" height="32" viewBox="0 0 32 32" role="img" aria-hidden="true">
+            <rect class="bar" x="2"  y="19" width="6" height="11" rx="2"></rect>
+            <rect class="bar" x="11" y="13" width="6" height="17" rx="2"></rect>
+            <rect class="bar3" x="20" y="7"  width="6" height="23" rx="2"></rect>
+            <path class="arrow" d="M5 13 L15 9 L26 3" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path class="arrow" d="M20 3 L26 3 L26 9" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          <span>Leverup&nbsp;Liquidity</span>
+        </a>
+        <p class="footer-blurb">A small-business funding marketplace and ISO brokerage. One application, multiple funding paths — matched to your business.</p>
+        <div class="footer-contact">
+          <a href="tel:+19472386272">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            (947) 238-6272
+          </a>
+          <a href="mailto:ryanrodriguez@leverupliquidity.com">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+            ryanrodriguez@leverupliquidity.com
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Funding</h4>
+        <ul>
+          <li><a href="funding.html">Merchant Cash Advance</a></li>
+          <li><a href="funding.html">Business Term Loan</a></li>
+          <li><a href="funding.html">Business Line of Credit</a></li>
+          <li><a href="funding.html">Equipment Financing</a></li>
+          <li><a href="funding.html">Invoice Factoring</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="apply.html">Apply</a></li>
+          <li><a href="tel:+19472386272">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#privacy">Privacy Policy</a></li>
+          <li><a href="#terms">Terms of Service</a></li>
+          <li><a href="#disclosures">Disclosures</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-disclosure">
+      Leverup Liquidity is an Independent Sales Organization (ISO) and broker, not a direct lender. We connect businesses with financing from third-party funders and lenders. Products, rates, amounts, and terms are determined by the funder and are subject to approval. Submitting an application is a request for funding, not an offer of financing. A merchant cash advance is a purchase of future receivables, not a loan.
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 Leverup Liquidity, LLC. All rights reserved.</span>
+      <span>Leverup Liquidity is a Michigan limited liability company.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================== STICKY MOBILE BOTTOM BAR ============================== -->
+<div class="mobile-bar" aria-label="Quick actions">
+  <a class="btn btn-secondary" href="tel:+19472386272">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    Call
+  </a>
+  <a class="btn btn-primary" href="apply.html">Apply now</a>
+</div>
+
+<!-- ============================== SHARED JS ============================== -->
+<script>
+(function(){
+  "use strict";
+
+  /* ---- Sticky header shadow on scroll ---- */
+  var header = document.getElementById('siteHeader');
+  function onScroll(){
+    if(window.scrollY > 8){ header.classList.add('is-stuck'); }
+    else { header.classList.remove('is-stuck'); }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  /* ---- Mobile hamburger menu (keyboard operable) ---- */
+  var ham = document.getElementById('hamburger');
+  var menu = document.getElementById('mobileMenu');
+  var hamIcon = document.getElementById('hamIcon');
+  function setMenu(open){
+    menu.classList.toggle('open', open);
+    ham.setAttribute('aria-expanded', open ? 'true' : 'false');
+    ham.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    hamIcon.innerHTML = open
+      ? '<line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/>'
+      : '<line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/>';
+  }
+  if(ham){
+    ham.addEventListener('click', function(){ setMenu(!menu.classList.contains('open')); });
+    menu.addEventListener('click', function(e){ if(e.target.closest('a')) setMenu(false); });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && menu.classList.contains('open')){ setMenu(false); ham.focus(); }
+    });
+  }
+
+  /* ---- Smooth-scroll for in-page anchor links ---- */
+  document.querySelectorAll('a[href^="#"]').forEach(function(link){
+    link.addEventListener('click', function(e){
+      var id = link.getAttribute('href');
+      if(id.length < 2) return;
+      var target = document.querySelector(id);
+      if(target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth', block:'start'}); }
+    });
+  });
+
+  /* ---- FAQ accordion (aria-expanded / aria-controls, keyboard friendly) ---- */
+  document.querySelectorAll('.faq-q').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      var panel = document.getElementById(btn.getAttribute('aria-controls'));
+      btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+      if(panel){ panel.style.maxHeight = expanded ? null : (panel.scrollHeight + 40) + 'px'; }
+    });
+  });
+
+  /* ---- Reveal-on-scroll via IntersectionObserver ---- */
+  var reveals = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ en.target.classList.add('is-visible'); io.unobserve(en.target); }
+      });
+    }, {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
+    reveals.forEach(function(el){ io.observe(el); });
+  } else {
+    reveals.forEach(function(el){ el.classList.add('is-visible'); });
+  }
+})();
+</script>
+</body>
+</html>
