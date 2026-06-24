@@ -228,9 +228,45 @@
   .consent-error{display:none;color:var(--danger);font-size:.86rem;margin:-6px 0 14px;font-weight:600}
   .consent-error.show{display:block}
 
+  /* ---------- Bank-statements dropbox ---------- */
+  .hp-field{position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0;pointer-events:none}
+  .dropzone{
+    position:relative;border:2px dashed var(--border);border-radius:var(--radius-sm);
+    background:var(--haze);padding:26px 18px;text-align:center;cursor:pointer;
+    transition:border-color .15s var(--ease), background .15s var(--ease);
+  }
+  .dropzone:hover{border-color:var(--purple)}
+  .dropzone.dragover{border-color:var(--purple);background:var(--haze-200)}
+  .dropzone-input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+  .dropzone-ico{color:var(--purple-700);margin-bottom:8px}
+  .dropzone-title{margin:0 0 4px;color:var(--ink);font-size:.98rem}
+  .dropzone-browse{color:var(--purple-700);text-decoration:underline;font-weight:600}
+  .dropzone-sub{margin:0;color:var(--muted);font-size:.84rem}
+  .dropzone:focus-visible{outline:3px solid var(--purple);outline-offset:2px}
+  .file-list{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:8px}
+  .file-list li{
+    display:flex;align-items:center;gap:10px;background:var(--white);border:1px solid var(--border);
+    border-radius:10px;padding:10px 12px;font-size:.9rem;
+  }
+  .file-list .f-ico{flex:0 0 auto;color:var(--purple-700)}
+  .file-list .f-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;color:var(--ink)}
+  .file-list .f-size{flex:0 0 auto;color:var(--muted);font-size:.82rem}
+  .file-list .f-remove{flex:0 0 auto;background:none;border:0;color:var(--danger);cursor:pointer;padding:4px;border-radius:6px;display:inline-flex}
+  .file-list .f-remove:hover{background:rgba(192,57,43,.08)}
+
   /* Step nav + small print */
   .form-nav{display:flex;gap:12px;justify-content:space-between;margin-top:10px}
   .small-print{color:var(--muted);font-size:.85rem;margin:16px 0 0}
+
+  /* Submit feedback (sending / error) */
+  .submit-error{display:none;color:var(--danger);font-weight:600;font-size:.9rem;background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.25);border-radius:10px;padding:12px 14px;margin:14px 0 0}
+  .submit-error.show{display:block}
+  .btn.is-loading{position:relative;color:transparent!important}
+  .btn.is-loading::after{
+    content:"";position:absolute;width:18px;height:18px;border-radius:50%;
+    border:2.5px solid rgba(255,255,255,.5);border-top-color:#fff;animation:spin .7s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
 
   /* Success state */
   .success{text-align:center;padding:18px 6px}
@@ -392,15 +428,31 @@
             <p class="progress-label" id="progressLabel" role="status" aria-live="polite">Step 1 of 4 · Business information</p>
 
             <!--
-              SENSITIVE DATA NOTICE — this is a FRONT-END SHELL ONLY.
-              This form collects SSN, date of birth, and EIN. Real submissions MUST be
-              encrypted in transit (TLS) and at rest, and sent to a GLBA-compliant backend.
-              This data must NEVER be emailed or stored in plaintext. The SSN field is
-              masked (type="password") and SSN/EIN use autocomplete="off". No data is
-              transmitted by this page — submit is intercepted and handled client-side only.
-              [WIRE UP A SECURE CRM / LEAD SYSTEM HERE — see the submit handler below.]
+              ============================ DELIVERY / DATA NOTICE ============================
+              Applications (all fields) and the uploaded bank statements are emailed to
+              ryanrodriguez@leverupliquidity.com via Web3Forms (https://web3forms.com).
+
+              ACTION REQUIRED before go-live:
+                1. Create a free Web3Forms access key registered to
+                   ryanrodriguez@leverupliquidity.com — that registration is what routes
+                   every submission to this inbox.
+                2. Paste it into the hidden "access_key" input below (replace
+                   YOUR_WEB3FORMS_ACCESS_KEY).
+
+              ⚠ COMPLIANCE WARNING (acknowledged): this form collects SSN, date of birth,
+              and EIN, and bank statements. Sending these through a third-party form-to-email
+              service delivers them as PLAINTEXT EMAIL and is NOT GLBA-compliant. This was
+              chosen deliberately. For a compliant setup, point the fetch() in the submit
+              handler at an encrypted, GLBA-compliant backend instead and stop emailing PII.
             -->
-            <form id="leadForm" novalidate>
+            <form id="leadForm" action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data" novalidate>
+
+              <!-- Web3Forms hidden config — replace the access key with your real one -->
+              <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
+              <input type="hidden" name="subject" value="New funding application — Leverup Liquidity">
+              <input type="hidden" name="from_name" value="Leverup Liquidity — Apply">
+              <!-- Honeypot spam trap: leave empty; bots that fill it are rejected -->
+              <input type="checkbox" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
 
               <!-- ===================== STEP 1 — Business information ===================== -->
               <fieldset class="fieldset step-pane active" data-step="1">
@@ -562,8 +614,23 @@
 
               <!-- ===================== STEP 4 — Authorization ===================== -->
               <fieldset class="fieldset step-pane" data-step="4">
-                <legend>Authorization</legend>
-                <p class="step-intro">Please review and agree to the following. All three are required.</p>
+                <legend>Bank statements &amp; authorization</legend>
+                <p class="step-intro">Attach your statements, then review and agree to the three authorizations below.</p>
+
+                <!-- ===================== Bank statements dropbox ===================== -->
+                <!-- Files are attached to the Web3Forms submission and emailed with the application. -->
+                <div class="field">
+                  <span class="legend-sm" id="dropLabel">Upload last 3–4 months of bank statements</span>
+                  <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-describedby="dropHint" aria-label="Upload bank statements. Drag and drop files here or press Enter to browse.">
+                    <input type="file" id="statements" name="statements" multiple accept=".pdf,.jpg,.jpeg,.png,.csv,.xls,.xlsx" class="dropzone-input" aria-labelledby="dropLabel">
+                    <svg class="dropzone-ico" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 9 12 4 17 9"/><line x1="12" y1="4" x2="12" y2="16"/></svg>
+                    <p class="dropzone-title"><strong>Drag &amp; drop</strong> your statements here, or <span class="dropzone-browse">browse files</span></p>
+                    <p class="dropzone-sub" id="dropHint">PDF, JPG, PNG, CSV or XLSX · up to 5&nbsp;MB total</p>
+                  </div>
+                  <ul class="file-list" id="fileList" aria-live="polite"></ul>
+                  <p class="hint">You can also provide these after you apply.</p>
+                  <p class="error" id="fileSizeError" style="display:none">Those files exceed 5&nbsp;MB total. Please remove some, or send the rest after you apply.</p>
+                </div>
 
                 <!-- Credit / FICO consent (required, UNCHECKED) -->
                 <div class="consent" data-consent>
@@ -588,15 +655,17 @@
 
                 <div class="form-nav" style="margin-top:18px">
                   <button type="button" class="btn btn-secondary" data-back>Back</button>
-                  <button type="submit" class="btn btn-primary">Submit application</button>
+                  <button type="submit" class="btn btn-primary" id="submitBtn">Submit application</button>
                 </div>
+
+                <p class="submit-error" id="submitError" role="alert">Something went wrong sending your application. Please try again, or call (947) 238-6272.</p>
 
                 <p class="small-print">Submitting this application is a request for funding, not an offer. All financing is subject to funder approval; rates and terms are set by the funder.</p>
               </fieldset>
 
             </form>
 
-            <!-- Inline success state (shown after a valid submit; nothing is posted) -->
+            <!-- Inline success state (shown after the application emails successfully) -->
             <div class="success" id="successState" hidden>
               <div class="check" aria-hidden="true">
                 <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -967,14 +1036,82 @@
   });
 
   /* ======================================================================
-     SUBMIT — validate step 4 + all three consents, then show success.
-     NOTE: This page does NOT transmit data. To go live, send the collected
-     values to a GLBA-compliant, encrypted backend / CRM HERE (server-side,
-     over TLS). Never email or store SSN/EIN/DOB in plaintext.
+     BANK-STATEMENTS DROPBOX — drag & drop + browse, with a running file list.
+     Files live on the #statements input, so they ride along with the
+     Web3Forms submission as email attachments.
   ====================================================================== */
-  form.addEventListener('submit', function(e){
-    e.preventDefault(); // never post anywhere from the front end
+  var dropzone = document.getElementById('dropzone');
+  var fileInput = document.getElementById('statements');
+  var fileList = document.getElementById('fileList');
+  var fileSizeError = document.getElementById('fileSizeError');
+  var MAX_TOTAL = 5 * 1024 * 1024; // Web3Forms free attachment ceiling (~5MB total)
+  var picked = []; // File[]
 
+  function fmtSize(b){
+    if(b < 1024) return b + ' B';
+    if(b < 1048576) return (b/1024).toFixed(0) + ' KB';
+    return (b/1048576).toFixed(1) + ' MB';
+  }
+  function totalSize(){ return picked.reduce(function(s,f){ return s + f.size; }, 0); }
+
+  // Re-sync the (read-only) file input with our picked[] array via DataTransfer
+  function syncInput(){
+    var dt = new DataTransfer();
+    picked.forEach(function(f){ dt.items.add(f); });
+    fileInput.files = dt.files;
+  }
+  function renderFiles(){
+    fileList.innerHTML = '';
+    picked.forEach(function(f, i){
+      var li = document.createElement('li');
+      li.innerHTML =
+        '<span class="f-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>'
+        + '<span class="f-name"></span><span class="f-size">' + fmtSize(f.size) + '</span>'
+        + '<button type="button" class="f-remove" aria-label="Remove file"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
+      li.querySelector('.f-name').textContent = f.name; // textContent = safe from odd filenames
+      li.querySelector('.f-remove').addEventListener('click', function(){
+        picked.splice(i, 1); syncInput(); renderFiles();
+      });
+      fileList.appendChild(li);
+    });
+    fileSizeError.style.display = totalSize() > MAX_TOTAL ? 'block' : 'none';
+  }
+  function addFiles(list){
+    Array.prototype.forEach.call(list, function(f){
+      // de-dupe by name+size
+      if(!picked.some(function(p){ return p.name === f.name && p.size === f.size; })) picked.push(f);
+    });
+    syncInput(); renderFiles();
+  }
+
+  fileInput.addEventListener('change', function(){ addFiles(fileInput.files); });
+  // Keyboard: Enter/Space on the zone opens the picker
+  dropzone.addEventListener('keydown', function(e){
+    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); fileInput.click(); }
+  });
+  ['dragenter','dragover'].forEach(function(ev){
+    dropzone.addEventListener(ev, function(e){ e.preventDefault(); dropzone.classList.add('dragover'); });
+  });
+  ['dragleave','drop'].forEach(function(ev){
+    dropzone.addEventListener(ev, function(e){ e.preventDefault(); if(ev==='drop'||e.target===dropzone) dropzone.classList.remove('dragover'); });
+  });
+  dropzone.addEventListener('drop', function(e){ if(e.dataTransfer && e.dataTransfer.files) addFiles(e.dataTransfer.files); });
+
+  /* ======================================================================
+     SUBMIT — validate consents, then email the application + bank statements
+     to ryanrodriguez@leverupliquidity.com via Web3Forms (multipart POST).
+
+     ⚠ This sends SSN/DOB/EIN + statements as plaintext email — chosen
+     deliberately and NOT GLBA-compliant. For a compliant build, replace the
+     fetch URL/payload with a call to an encrypted, GLBA-compliant backend.
+  ====================================================================== */
+  var submitBtn = document.getElementById('submitBtn');
+  var submitError = document.getElementById('submitError');
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    // Validate the three required authorization checkboxes
     var allOk = true, firstBad = null;
     var consents = form.querySelectorAll('input[type="checkbox"][required]');
     consents.forEach(function(cb){
@@ -985,8 +1122,11 @@
       if(err && err.classList.contains('consent-error')) err.classList.toggle('show', !ok);
       if(!ok){ allOk = false; if(!firstBad) firstBad = cb; }
     });
+    if(!allOk){ if(firstBad) firstBad.focus(); return; }
 
-    if(allOk){
+    submitError.classList.remove('show');
+
+    function showSuccess(){
       form.setAttribute('hidden','');
       document.getElementById('progress').setAttribute('hidden','');
       progressLabel.setAttribute('hidden','');
@@ -995,9 +1135,28 @@
       success.setAttribute('tabindex','-1');
       success.focus();
       document.getElementById('applyForm').scrollIntoView({behavior:'smooth', block:'center'});
-    } else if(firstBad){
-      firstBad.focus();
     }
+
+    // POST everything (incl. file attachments) to Web3Forms
+    submitBtn.disabled = true;
+    submitBtn.classList.add('is-loading');
+    var data = new FormData(form);
+
+    fetch('https://api.web3forms.com/submit', { method:'POST', body:data })
+      .then(function(r){ return r.json(); })
+      .then(function(res){
+        if(res && res.success){ showSuccess(); }
+        else { throw new Error(res && res.message ? res.message : 'Submission failed'); }
+      })
+      .catch(function(){
+        // Surface a recoverable error; the applicant can retry or call.
+        submitError.classList.add('show');
+        submitError.focus && submitError.focus();
+      })
+      .finally(function(){
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('is-loading');
+      });
   });
 
   showStep(0);
