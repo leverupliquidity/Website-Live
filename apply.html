@@ -432,12 +432,9 @@
               Applications (all fields) and the uploaded bank statements are emailed to
               ryanrodriguez@leverupliquidity.com via Web3Forms (https://web3forms.com).
 
-              ACTION REQUIRED before go-live:
-                1. Create a free Web3Forms access key registered to
-                   ryanrodriguez@leverupliquidity.com — that registration is what routes
-                   every submission to this inbox.
-                2. Paste it into the hidden "access_key" input below (replace
-                   YOUR_WEB3FORMS_ACCESS_KEY).
+              The hidden "access_key" below is the live Web3Forms key registered to
+              ryanrodriguez@leverupliquidity.com — that registration is what routes every
+              submission to this inbox.
 
               ⚠ COMPLIANCE WARNING (acknowledged): this form collects SSN, date of birth,
               and EIN, and bank statements. Sending these through a third-party form-to-email
@@ -447,8 +444,8 @@
             -->
             <form id="leadForm" action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data" novalidate>
 
-              <!-- Web3Forms hidden config — replace the access key with your real one -->
-              <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
+              <!-- Web3Forms hidden config — access key is registered to ryanrodriguez@leverupliquidity.com -->
+              <input type="hidden" name="access_key" value="8f4f3bf3-4384-4dea-a124-5051c3412137">
               <input type="hidden" name="subject" value="New funding application — Leverup Liquidity">
               <input type="hidden" name="from_name" value="Leverup Liquidity — Apply">
               <!-- Honeypot spam trap: leave empty; bots that fill it are rejected -->
