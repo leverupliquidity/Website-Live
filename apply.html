@@ -1139,16 +1139,29 @@
     submitBtn.classList.add('is-loading');
     var data = new FormData(form);
 
+    function fail(msg){
+      // DIAGNOSTIC: show the actual reason so issues are easy to pin down.
+      // (Swap back to the generic line once delivery is confirmed working.)
+      submitError.textContent = 'Couldn’t send your application: ' + msg +
+        ' — please try again, or call (947) 238-6272.';
+      submitError.classList.add('show');
+      submitError.setAttribute('tabindex','-1');
+      submitError.focus && submitError.focus();
+    }
+
     fetch('https://api.web3forms.com/submit', { method:'POST', body:data })
-      .then(function(r){ return r.json(); })
-      .then(function(res){
+      // Read as text first so we can see non-JSON error pages too
+      .then(function(r){ return r.text().then(function(t){ return { status:r.status, text:t }; }); })
+      .then(function(o){
+        var res = {};
+        try { res = JSON.parse(o.text); } catch(e) {}
+        console.log('[Web3Forms] HTTP ' + o.status, res, o.text); // inspect in DevTools console
         if(res && res.success){ showSuccess(); }
-        else { throw new Error(res && res.message ? res.message : 'Submission failed'); }
+        else { fail((res && res.message ? res.message : 'server returned HTTP ' + o.status)); }
       })
-      .catch(function(){
-        // Surface a recoverable error; the applicant can retry or call.
-        submitError.classList.add('show');
-        submitError.focus && submitError.focus();
+      .catch(function(err){
+        console.error('[Web3Forms] request failed', err);
+        fail('network error (' + (err && err.message ? err.message : 'request blocked') + ')');
       })
       .finally(function(){
         submitBtn.disabled = false;
