@@ -1139,6 +1139,12 @@
     submitBtn.classList.add('is-loading');
     var data = new FormData(form);
 
+    // An empty <input type="file"> still emits an empty part (filename="", size 0),
+    // which Web3Forms rejects. Rebuild the file field from only real, non-empty files.
+    data.delete('statements');
+    picked.filter(function(f){ return f && f.size > 0; })
+          .forEach(function(f){ data.append('statements', f); });
+
     function fail(msg){
       // DIAGNOSTIC: show the actual reason so issues are easy to pin down.
       // (Swap back to the generic line once delivery is confirmed working.)
