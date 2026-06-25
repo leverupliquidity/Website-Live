@@ -649,13 +649,13 @@
                 <!-- TCPA contact consent (required, UNCHECKED) -->
                 <div class="consent" data-consent>
                   <input type="checkbox" id="tcpaConsent" name="tcpaConsent" required aria-required="true">
-                  <label for="tcpaConsent">By submitting this form, I agree that Leverup Liquidity and its funding partners may contact me at the phone number and email I provided — including by automated dialing technology, prerecorded messages, and SMS text — about my funding request and related offers. Consent is not a condition of any purchase. Message and data rates may apply. I have read and agree to the <a href="#privacy">Privacy Policy</a> and <a href="#terms">Terms of Service</a>.</label>
+                  <label for="tcpaConsent" data-tf-element-role="consent-opt-in-text">By submitting this form, I agree that Leverup Liquidity and its funding partners may contact me at the phone number and email I provided — including by automated dialing technology, prerecorded messages, and SMS text — about my funding request and related offers. Consent is not a condition of any purchase. Message and data rates may apply. I have read and agree to the <a href="#privacy">Privacy Policy</a> and <a href="#terms">Terms of Service</a>.</label>
                 </div>
                 <p class="consent-error">You must agree to be contacted to continue.</p>
 
                 <div class="form-nav" style="margin-top:18px">
                   <button type="button" class="btn btn-secondary" data-back>Back</button>
-                  <button type="submit" class="btn btn-primary" id="submitBtn">Submit application</button>
+                  <button type="submit" class="btn btn-primary" id="submitBtn" data-tf-element-role="submit">Submit application</button>
                 </div>
 
                 <p class="submit-error" id="submitError" role="alert">Something went wrong sending your application. Please try again, or call (947) 238-6272.</p>
@@ -1162,5 +1162,30 @@
   showStep(0);
 })();
 </script>
+
+<!-- ============================================================================
+     TrustedForm Certify Web SDK (ActiveProspect)
+     Injects a hidden <input name="xxTrustedFormCertUrl"> into the page's form and
+     records a consent/interaction certificate. Because the application is sent via
+     FormData(#leadForm), the captured certificate URL is included automatically and
+     emailed with the lead. use_tagged_consent=true pairs with the
+     data-tf-element-role="consent-opt-in-text" (TCPA disclosure) and
+     data-tf-element-role="submit" (Submit application) tags above.
+============================================================================ -->
+<script type="text/javascript">
+  (function() {
+    var tf = document.createElement('script');
+    tf.type = 'text/javascript';
+    tf.async = true;
+    tf.src = ("https:" == document.location.protocol ? 'https' : 'http') +
+      '://api.trustedform.com/trustedform.js?field=xxTrustedFormCertUrl&use_tagged_consent=true&l=' +
+      new Date().getTime() + Math.random();
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(tf, s);
+  })();
+</script>
+<noscript>
+  <img src='https://api.trustedform.com/ns.gif' />
+</noscript>
+<!-- End TrustedForm -->
 </body>
 </html>
