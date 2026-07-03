@@ -3,43 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Apply — See Your Funding Options | Leverup Liquidity</title>
-<meta name="description" content="Apply for small-business funding with Leverup Liquidity. Tell us about your business and ownership — one application, reviewed by a real person. No obligation to accept.">
+<title>Funding Application — Leverup Liquidity</title>
+<meta name="description" content="Apply for small-business funding with Leverup Liquidity. One sectioned application covering your business, ownership, and authorization — reviewed by a real person.">
 
 <!-- ============================== GOOGLE FONTS ============================== -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- ============================================================================
-     STYLES — all CSS in one tag. Matches the shared Leverup Liquidity design
-     system (tokens, header, footer, buttons, inputs) used across the site.
-============================================================================ -->
+<!-- ============================== STYLES (shared site chrome + application form) ============================== -->
 <style>
   /* ---------- Brand tokens: change --purple here to re-skin the whole site ---------- */
   :root{
-    --purple:#7C5CD6;       /* primary brand accent */
-    --purple-600:#6A47C9;   /* links / hover */
-    --purple-700:#5836B0;   /* pressed / deep */
-    --ink:#15121C;          /* primary text + bold display */
-    --grape:#1E1633;        /* deep purple dark sections */
-    --footer:#15101F;       /* near-black footer */
-    --haze:#F4F0FC;         /* light lavender surface */
-    --haze-200:#E9E1FA;     /* slightly deeper lavender */
+    --purple:#7C5CD6;
+    --purple-700:#5836B0;
+    --ink:#15121C;
+    --grape:#1E1633;
+    --haze:#F4F0FC;
     --border:#E7E2F0;
     --muted:#6B6480;
     --white:#FFFFFF;
     --danger:#C0392B;
 
-    --radius:16px;
+    --radius:18px;
     --radius-sm:12px;
-    --radius-input:10px;
-    --radius-pill:100px;
+    --radius-pill:999px;
     --maxw:1180px;
     --shadow-sm:0 1px 2px rgba(21,18,28,.06), 0 4px 14px rgba(21,18,28,.05);
     --shadow-md:0 10px 30px rgba(40,24,90,.10);
     --shadow-lg:0 24px 60px rgba(40,24,90,.18);
-    --focus-ring:0 0 0 3px rgba(124,92,214,.16);
     --ease:cubic-bezier(.2,.7,.2,1);
   }
 
@@ -49,34 +41,48 @@
   body{
     margin:0;
     font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-    color:var(--ink);background:var(--white);
-    font-size:17px;line-height:1.6;
-    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    color:var(--ink);
+    background:var(--white);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
   }
   img{max-width:100%;display:block}
-  a{color:var(--purple-600);text-decoration:none}
+  a{color:var(--purple-700);text-decoration:none}
   a:hover{text-decoration:underline}
-  h1,h2,h3,h4{font-family:"Bricolage Grotesque","Inter",sans-serif;color:var(--ink);line-height:1.1;letter-spacing:-.01em;margin:0 0 .5em;font-weight:700}
-  h1{font-size:clamp(2rem,5vw,3rem);font-weight:800}
-  h2{font-size:clamp(1.5rem,3.5vw,2.2rem)}
-  h3{font-size:1.2rem}
+  h1,h2,h3,h4{
+    font-family:"Bricolage Grotesque","Inter",sans-serif;
+    color:var(--ink);
+    line-height:1.08;
+    letter-spacing:-.01em;
+    margin:0 0 .5em;
+    font-weight:700;
+  }
+  h1{font-size:clamp(2.1rem,6vw,3.6rem);font-weight:800}
+  h2{font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700}
+  h3{font-size:clamp(1.15rem,2.4vw,1.4rem);font-weight:700}
   p{margin:0 0 1rem}
 
   /* ---------- Layout helpers ---------- */
   .container{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:20px}
-  .section{padding:clamp(48px,8vw,88px) 0}
+  .section{padding:clamp(48px,8vw,96px) 0}
   .eyebrow{
-    display:inline-block;font-weight:700;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;
-    color:var(--purple-700);background:var(--haze);border:1px solid var(--border);
-    padding:6px 14px;border-radius:var(--radius-pill);margin-bottom:18px;
+    display:inline-block;
+    font-weight:700;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--purple-700);
+    background:var(--haze);
+    border:1px solid var(--border);
+    padding:6px 14px;border-radius:var(--radius-pill);
+    margin-bottom:18px;
   }
-  .lead{font-size:1.1rem;color:var(--muted)}
+  .lead{font-size:1.12rem;color:var(--muted)}
 
   /* ---------- Buttons ---------- */
   .btn{
     display:inline-flex;align-items:center;justify-content:center;gap:.5em;
     font-family:"Inter",sans-serif;font-weight:600;font-size:1rem;
-    padding:13px 26px;border-radius:var(--radius-pill);border:1.5px solid transparent;cursor:pointer;
+    padding:14px 26px;border-radius:var(--radius-pill);
+    border:1.5px solid transparent;cursor:pointer;
     transition:transform .18s var(--ease), box-shadow .18s var(--ease), background .18s var(--ease), color .18s var(--ease);
     text-decoration:none;white-space:nowrap;
   }
@@ -89,178 +95,11 @@
   .btn-ghost:hover{background:rgba(255,255,255,.12)}
   .btn-outline{background:transparent;color:var(--purple-700);border-color:var(--border)}
   .btn-outline:hover{border-color:var(--purple);background:var(--haze)}
-  .btn-sm{padding:9px 16px;font-size:.9rem}
+  .btn-lg{padding:17px 34px;font-size:1.06rem}
   .btn-block{width:100%}
   .btn[disabled]{opacity:.5;cursor:not-allowed;transform:none}
 
-  /* ---------- Logo mark (ascending bars + rising arrow = "lever up" lift) ---------- */
-  .logo{display:inline-flex;align-items:center;gap:10px;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.2rem;letter-spacing:-.02em}
-  .logo:hover{text-decoration:none}
-  .logo .mark{flex:0 0 auto}
-  .logo .mark .bar{fill:var(--purple)}
-  .logo .mark .bar3{fill:var(--purple-700)}
-  .logo .mark .arrow{stroke:var(--purple-700);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
-  .logo .w-lever{color:var(--ink)}     /* "Leverup" in near-black */
-  .logo .w-liquidity{color:var(--purple)} /* "Liquidity" in purple */
-
-  /* ---------- Header ---------- */
-  .site-header{
-    position:sticky;top:0;z-index:60;background:rgba(255,255,255,.85);
-    backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid transparent;
-    transition:box-shadow .2s var(--ease), border-color .2s var(--ease);
-  }
-  .site-header.is-stuck{box-shadow:var(--shadow-sm);border-bottom-color:var(--border)}
-  .header-inner{display:flex;align-items:center;gap:18px;height:70px}
-  .header-nav{display:flex;align-items:center;gap:6px;margin-left:auto}
-  .header-nav a.navlink{color:var(--ink);font-weight:600;padding:10px 14px;border-radius:var(--radius-sm)}
-  .header-nav a.navlink:hover{background:var(--haze);color:var(--purple-700);text-decoration:none}
-  .header-phone{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--ink);padding:10px 14px;border-radius:var(--radius-sm)}
-  .header-phone:hover{background:var(--haze);color:var(--purple-700);text-decoration:none}
-  .header-phone svg{flex:0 0 auto}
-
-  .hamburger{display:none;margin-left:auto;width:46px;height:46px;border:1px solid var(--border);background:var(--white);border-radius:var(--radius-sm);cursor:pointer;align-items:center;justify-content:center}
-  .hamburger:hover{border-color:var(--purple)}
-  .hamburger svg{display:block}
-
-  .mobile-menu{display:none;border-top:1px solid var(--border);background:var(--white)}
-  .mobile-menu.open{display:block}
-  .mobile-menu ul{list-style:none;margin:0;padding:12px 20px 22px}
-  .mobile-menu a{display:block;padding:14px 6px;font-weight:600;font-size:1.1rem;color:var(--ink);border-bottom:1px solid var(--border)}
-  .mobile-menu a:hover{color:var(--purple-700);text-decoration:none}
-  .mobile-menu .menu-cta{margin-top:18px}
-
-  /* ---------- Apply layout ---------- */
-  .apply-section{padding:clamp(36px,6vw,72px) 0 clamp(80px,10vw,110px)}
-  .apply-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:48px;align-items:start}
-
-  /* Left intro column */
-  .intro h1{margin-bottom:.35em}
-  .intro .lead{margin-bottom:26px}
-  .reassure{list-style:none;margin:0 0 26px;padding:0;display:grid;gap:14px}
-  .reassure li{display:flex;gap:12px;align-items:flex-start;color:var(--ink);font-weight:500}
-  .reassure svg{flex:0 0 auto;margin-top:3px;color:var(--purple-700)}
-  .intro-call{
-    display:inline-flex;align-items:center;gap:10px;background:var(--haze);border:1px solid var(--border);
-    border-radius:var(--radius-pill);padding:12px 22px;font-family:"Bricolage Grotesque",sans-serif;
-    font-weight:800;font-size:1.2rem;color:var(--ink);
-  }
-  .intro-call:hover{text-decoration:none;border-color:var(--purple);color:var(--purple-700)}
-  .intro-call svg{color:var(--purple-700)}
-  .intro-sticky{position:sticky;top:96px}
-
-  /* Right form card */
-  .form-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-md);padding:clamp(22px,3.5vw,38px)}
-
-  /* Progress indicator */
-  .progress{display:flex;gap:8px;margin-bottom:10px}
-  .progress .seg{height:7px;border-radius:999px;background:var(--haze-200);flex:1;transition:background .25s var(--ease)}
-  .progress .seg.active{background:var(--purple)}
-  .progress-label{color:var(--muted);font-weight:600;font-size:.9rem;margin-bottom:24px}
-
-  /* Fieldsets / steps */
-  .fieldset{border:0;padding:0;margin:0;min-width:0}
-  .fieldset > legend{font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.35rem;color:var(--ink);margin-bottom:6px;padding:0}
-  .step-intro{color:var(--muted);font-size:.95rem;margin:0 0 22px}
-  .step-pane{display:none}
-  .step-pane.active{display:block;animation:fade .35s var(--ease)}
-  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-
-  /* Field rows */
-  .field{margin-bottom:18px}
-  .field label,.legend-sm{display:block;font-weight:600;margin-bottom:7px;color:var(--ink);font-size:.95rem}
-  .field .req{color:var(--purple-700)}
-  .field input,.field select{
-    width:100%;font:inherit;font-size:1rem;color:var(--ink);background:var(--white);
-    border:1.5px solid var(--border);border-radius:var(--radius-input);padding:13px 14px;
-    transition:border-color .15s var(--ease), box-shadow .15s var(--ease);
-  }
-  .field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%235836B0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:42px}
-  .field input:focus,.field select:focus{outline:none;border-color:var(--purple);box-shadow:var(--focus-ring)}
-  .field .hint{color:var(--muted);font-size:.84rem;margin:6px 0 0}
-  .field.invalid input,.field.invalid select{border-color:var(--danger);box-shadow:0 0 0 3px rgba(192,57,43,.14)}
-  .field .error{display:none;color:var(--danger);font-size:.84rem;margin:6px 0 0;font-weight:600}
-  .field.invalid .error{display:block}
-
-  /* Multi-input rows */
-  .row{display:grid;gap:0 16px}
-  .row-2{grid-template-columns:1fr 1fr}
-  .row-3{grid-template-columns:2fr 1fr 1fr} /* city / state / zip */
-  .row-addr{grid-template-columns:1fr}
-
-  /* Owner blocks (repeatable) */
-  .owner-block{border:1px solid var(--border);border-radius:var(--radius-sm);padding:22px;margin-bottom:18px;background:var(--white)}
-  .owner-block.added{background:var(--haze);animation:fade .3s var(--ease)}
-  .owner-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
-  .owner-head h3{margin:0;font-size:1.1rem}
-  .owner-badge{display:inline-flex;align-items:center;gap:8px;color:var(--purple-700);font-family:"Bricolage Grotesque",sans-serif;font-weight:800}
-  .remove-owner{display:inline-flex;align-items:center;gap:6px;background:none;border:0;color:var(--danger);font:inherit;font-weight:600;font-size:.9rem;cursor:pointer;padding:6px 8px;border-radius:8px}
-  .remove-owner:hover{background:rgba(192,57,43,.08)}
-  .add-owner{margin:2px 0 6px}
-  .pct-warn{display:none;color:var(--danger);font-weight:600;font-size:.9rem;background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.25);border-radius:10px;padding:12px 14px;margin-bottom:16px}
-  .pct-warn.show{display:block}
-
-  /* SSN note */
-  .ssn-note{display:flex;gap:7px;align-items:flex-start;color:var(--muted);font-size:.84rem;margin:6px 0 0}
-  .ssn-note svg{flex:0 0 auto;margin-top:2px;color:var(--purple-700)}
-
-  /* Radio group (existing financing) */
-  .radio-group{display:flex;gap:12px;flex-wrap:wrap}
-  .radio-pill{flex:1;min-width:120px}
-  .radio-pill input{position:absolute;opacity:0;pointer-events:none}
-  .radio-pill label{
-    display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;
-    border:1.5px solid var(--border);border-radius:var(--radius-input);padding:14px;font-weight:600;margin:0;
-    transition:border-color .15s var(--ease), background .15s var(--ease), color .15s var(--ease);
-  }
-  .radio-pill input:checked + label{border-color:var(--purple);background:var(--haze);color:var(--purple-700)}
-  .radio-pill input:focus-visible + label{box-shadow:var(--focus-ring);border-color:var(--purple)}
-  .input-money{position:relative}
-  .input-money input{padding-left:28px}
-  .input-money::before{content:"$";position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
-  .conditional{display:none}
-  .conditional.show{display:block;animation:fade .3s var(--ease)}
-
-  /* Consent checkboxes */
-  .consent{display:flex;gap:12px;align-items:flex-start;background:var(--haze);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;margin-bottom:14px}
-  .consent input{flex:0 0 auto;width:20px;height:20px;margin-top:2px;accent-color:var(--purple)}
-  .consent label{font-weight:400;color:var(--ink);font-size:.9rem;line-height:1.55;margin:0}
-  .consent.invalid{border-color:var(--danger);box-shadow:0 0 0 3px rgba(192,57,43,.12)}
-  .consent-error{display:none;color:var(--danger);font-size:.86rem;margin:-6px 0 14px;font-weight:600}
-  .consent-error.show{display:block}
-
-  /* ---------- Bank-statements dropbox ---------- */
-  .hp-field{position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0;pointer-events:none}
-  .dropzone{
-    position:relative;border:2px dashed var(--border);border-radius:var(--radius-sm);
-    background:var(--haze);padding:26px 18px;text-align:center;cursor:pointer;
-    transition:border-color .15s var(--ease), background .15s var(--ease);
-  }
-  .dropzone:hover{border-color:var(--purple)}
-  .dropzone.dragover{border-color:var(--purple);background:var(--haze-200)}
-  .dropzone-input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
-  .dropzone-ico{color:var(--purple-700);margin-bottom:8px}
-  .dropzone-title{margin:0 0 4px;color:var(--ink);font-size:.98rem}
-  .dropzone-browse{color:var(--purple-700);text-decoration:underline;font-weight:600}
-  .dropzone-sub{margin:0;color:var(--muted);font-size:.84rem}
-  .dropzone:focus-visible{outline:3px solid var(--purple);outline-offset:2px}
-  .file-list{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:8px}
-  .file-list li{
-    display:flex;align-items:center;gap:10px;background:var(--white);border:1px solid var(--border);
-    border-radius:10px;padding:10px 12px;font-size:.9rem;
-  }
-  .file-list .f-ico{flex:0 0 auto;color:var(--purple-700)}
-  .file-list .f-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;color:var(--ink)}
-  .file-list .f-size{flex:0 0 auto;color:var(--muted);font-size:.82rem}
-  .file-list .f-remove{flex:0 0 auto;background:none;border:0;color:var(--danger);cursor:pointer;padding:4px;border-radius:6px;display:inline-flex}
-  .file-list .f-remove:hover{background:rgba(192,57,43,.08)}
-
-  /* Step nav + small print */
-  .form-nav{display:flex;gap:12px;justify-content:space-between;margin-top:10px}
-  .small-print{color:var(--muted);font-size:.85rem;margin:16px 0 0}
-
-  /* Submit feedback (sending / error) */
-  .submit-error{display:none;color:var(--danger);font-weight:600;font-size:.9rem;background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.25);border-radius:10px;padding:12px 14px;margin:14px 0 0}
-  .submit-error.show{display:block}
+  /* Submit loading spinner */
   .btn.is-loading{position:relative;color:transparent!important}
   .btn.is-loading::after{
     content:"";position:absolute;width:18px;height:18px;border-radius:50%;
@@ -268,15 +107,195 @@
   }
   @keyframes spin{to{transform:rotate(360deg)}}
 
-  /* Success state */
-  .success{text-align:center;padding:18px 6px}
+  /* ---------- Logo mark (ascending bars + rising arrow) ---------- */
+  .logo{display:inline-flex;align-items:center;gap:10px;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.2rem;color:var(--ink);letter-spacing:-.02em}
+  .logo:hover{text-decoration:none}
+  .logo .mark{flex:0 0 auto}
+  .logo .mark .bar{fill:var(--purple)}
+  .logo .mark .bar3{fill:var(--purple-700)}
+  .logo .mark .arrow{stroke:var(--purple-700);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+  /* ---------- Header ---------- */
+  .site-header{
+    position:sticky;top:0;z-index:60;
+    background:rgba(255,255,255,.85);
+    backdrop-filter:saturate(180%) blur(12px);
+    border-bottom:1px solid transparent;
+    transition:box-shadow .2s var(--ease), border-color .2s var(--ease), background .2s var(--ease);
+  }
+  .site-header.is-stuck{box-shadow:var(--shadow-sm);border-bottom-color:var(--border)}
+  .header-inner{display:flex;align-items:center;gap:18px;height:70px}
+  .header-nav{display:flex;align-items:center;gap:8px;margin-left:auto}
+  .header-nav a.navlink{
+    color:var(--ink);font-weight:600;padding:10px 14px;border-radius:var(--radius-sm);
+  }
+  .header-nav a.navlink:hover{background:var(--haze);color:var(--purple-700);text-decoration:none}
+  .header-phone{
+    display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--ink);
+    padding:10px 14px;border-radius:var(--radius-sm);
+  }
+  .header-phone:hover{background:var(--haze);color:var(--purple-700);text-decoration:none}
+  .header-phone svg{flex:0 0 auto}
+
+  /* Hamburger */
+  .hamburger{
+    display:none;margin-left:auto;width:46px;height:46px;border:1px solid var(--border);
+    background:var(--white);border-radius:var(--radius-sm);cursor:pointer;align-items:center;justify-content:center;
+  }
+  .hamburger:hover{border-color:var(--purple)}
+  .hamburger svg{display:block}
+
+  /* Mobile menu panel */
+  .mobile-menu{display:none;border-top:1px solid var(--border);background:var(--white)}
+  .mobile-menu.open{display:block}
+  .mobile-menu ul{list-style:none;margin:0;padding:12px 20px 22px}
+  .mobile-menu li{margin:0}
+  .mobile-menu a{
+    display:block;padding:14px 6px;font-weight:600;font-size:1.1rem;color:var(--ink);
+    border-bottom:1px solid var(--border);
+  }
+  .mobile-menu a:hover{color:var(--purple-700);text-decoration:none}
+  .mobile-menu .menu-cta{margin-top:18px;display:grid;gap:10px}
+
+  /* ---------- Page hero (compact, matches funding.html) ---------- */
+  .page-hero{
+    position:relative;color:var(--white);overflow:hidden;
+    background:linear-gradient(135deg,var(--grape) 0%, #3a2470 50%, var(--purple) 100%);
+  }
+  .page-hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(1000px 460px at 88% -20%, rgba(255,255,255,.16), transparent 60%)}
+  .page-hero-inner{position:relative;z-index:1;padding:clamp(48px,8vw,84px) 0;max-width:760px}
+  .page-hero .eyebrow{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25);color:#EAE2FB}
+  .page-hero h1{color:var(--white)}
+  .page-hero p{font-size:1.14rem;color:#E8E1F6;max-width:640px;margin-bottom:0}
+
+  /* ---------- Application form ---------- */
+  .apply-wrap{max-width:880px;margin-inline:auto}
+  .req-note{color:var(--muted);font-size:.92rem;margin:0 0 20px}
+  .req-note .req{color:var(--purple-700);font-weight:700}
+
+  .form-section{
+    border:1px solid var(--border);border-radius:var(--radius);background:var(--white);
+    box-shadow:var(--shadow-sm);padding:clamp(22px,3.5vw,34px);margin:0 0 22px;min-width:0;
+  }
+  .form-section>legend{
+    float:left;width:100%;padding:0;margin:0 0 4px;
+    display:flex;align-items:center;gap:14px;
+    font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.3rem;color:var(--ink);
+  }
+  .sec-num{
+    flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+    width:38px;height:38px;border-radius:11px;background:var(--haze);color:var(--purple-700);
+    font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.05rem;
+  }
+  .sec-sub{clear:both;color:var(--muted);font-size:.95rem;margin:0 0 22px}
+
+  /* Fields */
+  .field{margin-bottom:18px;min-width:0}
+  .field label{display:block;font-weight:600;margin-bottom:7px;color:var(--ink);font-size:.95rem}
+  .field .req{color:var(--purple-700)}
+  .field .opt{color:var(--muted);font-weight:400}
+  .field input,.field select{
+    width:100%;font:inherit;font-size:1rem;color:var(--ink);background:var(--white);
+    border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:13px 14px;
+    transition:border-color .15s var(--ease), box-shadow .15s var(--ease);
+  }
+  .field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%235836B0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:42px}
+  .field input:focus,.field select:focus{outline:none;border-color:var(--purple);box-shadow:0 0 0 3px rgba(124,92,214,.16)}
+  .field .hint{color:var(--muted);font-size:.84rem;margin:6px 0 0}
+  .field.invalid input,.field.invalid select{border-color:var(--danger);box-shadow:0 0 0 3px rgba(192,57,43,.14)}
+  .field .error{display:none;color:var(--danger);font-size:.84rem;margin:6px 0 0;font-weight:600}
+  .field.invalid .error{display:block}
+  .tib{display:none;color:var(--purple-700);font-weight:600;font-size:.9rem;margin:8px 0 0}
+  .tib.show{display:block}
+
+  .frow{display:grid;gap:0 16px;grid-template-columns:1fr 1fr}
+  .frow-3{grid-template-columns:2fr 1fr 1fr}
+
+  /* Radio pills (existing funding) */
+  .radio-group{display:flex;gap:12px;flex-wrap:wrap}
+  .radio-pill{flex:1;min-width:120px;position:relative}
+  .radio-pill input{position:absolute;opacity:0;pointer-events:none}
+  .radio-pill label{
+    display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;
+    border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:14px;font-weight:600;margin:0;
+    transition:border-color .15s var(--ease), background .15s var(--ease), color .15s var(--ease);
+  }
+  .radio-pill input:checked + label{border-color:var(--purple);background:var(--haze);color:var(--purple-700)}
+  .radio-pill input:focus-visible + label{box-shadow:0 0 0 3px rgba(124,92,214,.16);border-color:var(--purple)}
+
+  /* Smooth conditional reveal */
+  .conditional{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s var(--ease)}
+  .conditional>div{overflow:hidden}
+  .conditional.show{grid-template-rows:1fr}
+  .conditional>div>.frow{padding-top:4px}
+
+  /* Currency affordance */
+  .input-money{position:relative}
+  .input-money input{padding-left:28px}
+  .input-money::before{content:"$";position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600}
+
+  /* SSN show/hide */
+  .ssn-wrap{position:relative}
+  .ssn-wrap input{padding-right:48px}
+  .ssn-toggle{
+    position:absolute;right:6px;top:50%;transform:translateY(-50%);
+    background:none;border:0;padding:8px;border-radius:8px;color:var(--muted);cursor:pointer;display:inline-flex;
+  }
+  .ssn-toggle:hover{color:var(--purple-700);background:var(--haze)}
+
+  /* Owner blocks */
+  .owner-block{border:1px solid var(--border);border-radius:var(--radius-sm);padding:22px;margin-bottom:18px;background:var(--haze);animation:fadein .3s var(--ease)}
+  @keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .owner-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+  .owner-head h3{margin:0;font-size:1.08rem;display:inline-flex;align-items:center;gap:8px;color:var(--purple-700)}
+  .remove-owner{
+    display:inline-flex;align-items:center;gap:6px;background:none;border:0;color:var(--danger);
+    font:inherit;font-weight:600;font-size:.9rem;cursor:pointer;padding:6px 8px;border-radius:8px;text-decoration:underline;
+  }
+  .remove-owner:hover{background:rgba(192,57,43,.08)}
+  .owner-cap{display:none;color:var(--muted);font-size:.9rem;margin:8px 0 0}
+  .owner-cap.show{display:block}
+  .pct-warn{
+    display:none;color:var(--danger);font-weight:600;font-size:.9rem;
+    background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.25);border-radius:10px;padding:12px 14px;margin:0 0 16px;
+  }
+  .pct-warn.show{display:block}
+
+  /* Consent */
+  .consent{display:flex;gap:12px;align-items:flex-start;background:var(--haze);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;margin-bottom:14px}
+  .consent input{flex:0 0 auto;width:20px;height:20px;margin-top:2px;accent-color:var(--purple)}
+  .consent label{font-weight:400;color:var(--ink);font-size:.9rem;line-height:1.55;margin:0}
+  .consent label strong{display:block;margin-bottom:2px}
+  .consent.invalid{border-color:var(--danger);box-shadow:0 0 0 3px rgba(192,57,43,.12)}
+  .consent-error{display:none;color:var(--danger);font-size:.86rem;margin:-6px 0 14px;font-weight:600}
+  .consent-error.show{display:block}
+
+  /* Form alert (validation summary + submission errors), aria-live */
+  .form-alert{
+    display:none;color:var(--danger);font-weight:600;font-size:.92rem;
+    background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.25);border-radius:10px;padding:13px 15px;margin:0 0 16px;
+  }
+  .form-alert.show{display:block}
+  .form-alert .retry{
+    background:none;border:0;padding:0;font:inherit;font-weight:700;color:var(--danger);
+    text-decoration:underline;cursor:pointer;
+  }
+  .small-print{color:var(--muted);font-size:.85rem;margin:16px 0 0}
+
+  /* Success panel */
+  .success{
+    text-align:center;padding:clamp(34px,6vw,56px) clamp(20px,4vw,40px);
+    border:1px solid var(--border);border-radius:var(--radius);background:var(--white);box-shadow:var(--shadow-md);
+  }
   .success .check{width:74px;height:74px;border-radius:50%;background:var(--haze);color:var(--purple-700);display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
   .success h2{margin-bottom:.4em}
 
+  /* Honeypot (visually hidden, off-screen) */
+  .hp-field{position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0;pointer-events:none}
+
   /* ---------- Footer ---------- */
-  .site-footer{background:var(--footer);color:#CFC6E4;padding:60px 0 0}
-  .site-footer .logo .w-lever,.site-footer .logo .w-liquidity{color:#fff}
-  .site-footer .logo .w-liquidity{color:#cdbcf5}
+  .site-footer{background:var(--grape);color:#CFC6E4;padding:64px 0 0}
+  .site-footer .logo{color:#fff}
   .site-footer .logo .bar{fill:#cdbcf5}
   .site-footer .logo .bar3{fill:#fff}
   .site-footer .logo .arrow{stroke:#fff}
@@ -288,35 +307,47 @@
   .footer-col ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
   .footer-col a{color:#CFC6E4}
   .footer-col a:hover{color:#fff}
-  .footer-disclosure{border-top:1px solid rgba(255,255,255,.12);margin-top:46px;padding:28px 0;font-size:.85rem;color:#9F95BE;line-height:1.7}
+  .footer-disclosure{
+    border-top:1px solid rgba(255,255,255,.12);margin-top:48px;padding:28px 0;
+    font-size:.85rem;color:#9F95BE;line-height:1.7;
+  }
   .footer-bottom{
     border-top:1px solid rgba(255,255,255,.12);padding:22px 0 calc(28px + var(--mobilebar,0px));
     display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between;font-size:.85rem;color:#9F95BE;
   }
 
-  /* ---------- Sticky mobile CTA bar ---------- */
-  .mobile-bar{display:none;position:fixed;left:0;right:0;bottom:0;z-index:70;background:var(--white);border-top:1px solid var(--border);padding:10px 14px;gap:10px;box-shadow:0 -6px 20px rgba(21,18,28,.08)}
+  /* ---------- Sticky mobile bottom bar ---------- */
+  .mobile-bar{
+    display:none;position:fixed;left:0;right:0;bottom:0;z-index:70;
+    background:var(--white);border-top:1px solid var(--border);
+    padding:10px 14px;gap:10px;box-shadow:0 -6px 20px rgba(21,18,28,.08);
+  }
   .mobile-bar .btn{flex:1;padding:13px 10px}
 
   /* ---------- Fade-in on scroll ---------- */
-  .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s var(--ease), transform .6s var(--ease)}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s var(--ease), transform .6s var(--ease)}
   .reveal.is-visible{opacity:1;transform:none}
   @media (prefers-reduced-motion:reduce){
     .reveal{opacity:1;transform:none;transition:none}
     html{scroll-behavior:auto}
     .btn:hover{transform:none}
+    .conditional{transition:none}
+    .owner-block{animation:none}
   }
 
   /* Accessibility: visible focus everywhere */
-  a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,.btn:focus-visible{outline:3px solid var(--purple);outline-offset:2px;border-radius:8px}
-  .skip-link{position:absolute;left:-9999px;top:0;z-index:200;background:var(--white);color:var(--purple-700);padding:12px 18px;border-radius:0 0 12px 0;font-weight:700;box-shadow:var(--shadow-md)}
+  a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,.btn:focus-visible{
+    outline:3px solid var(--purple);outline-offset:2px;border-radius:8px;
+  }
+  .skip-link{
+    position:absolute;left:-9999px;top:0;z-index:200;background:var(--white);color:var(--purple-700);
+    padding:12px 18px;border-radius:0 0 12px 0;font-weight:700;box-shadow:var(--shadow-md);
+  }
   .skip-link:focus{left:0}
 
   /* ---------- Responsive ---------- */
   @media (max-width:980px){
     .footer-top{grid-template-columns:1fr 1fr}
-    .apply-grid{grid-template-columns:1fr;gap:30px}
-    .intro-sticky{position:static}
   }
   @media (max-width:820px){
     .header-nav{display:none}
@@ -325,48 +356,43 @@
     :root{--mobilebar:64px}
   }
   @media (max-width:560px){
-    body{font-size:16px}
+    .frow,.frow-3{grid-template-columns:1fr}
     .footer-top{grid-template-columns:1fr 1fr}
     .footer-bottom{justify-content:flex-start}
-    .row-2,.row-3{grid-template-columns:1fr}
-    .form-nav .btn{flex:1}
   }
   @media (max-width:400px){
     .footer-top{grid-template-columns:1fr}
   }
 </style>
 </head>
-<body id="top">
+<body>
 <a class="skip-link" href="#applyForm">Skip to application form</a>
 
-<!-- ============================================================================
-     HEADER (shared across site) — sticky, logo + nav + phone + Apply CTA
-============================================================================ -->
+<!-- ============================== HEADER (shared, duplicated on every page) ============================== -->
 <header class="site-header" id="siteHeader">
   <div class="container">
     <div class="header-inner">
-      <!-- Logo: ascending bars + rising arrow; two-tone wordmark -->
+      <!-- Logo: ascending bars + rising arrow -->
       <a class="logo" href="index.html" aria-label="Leverup Liquidity home">
         <svg class="mark" width="32" height="32" viewBox="0 0 32 32" role="img" aria-hidden="true">
-          <rect class="bar"  x="2"  y="19" width="6" height="11" rx="2"></rect>
-          <rect class="bar"  x="11" y="13" width="6" height="17" rx="2"></rect>
+          <rect class="bar" x="2"  y="19" width="6" height="11" rx="2"></rect>
+          <rect class="bar" x="11" y="13" width="6" height="17" rx="2"></rect>
           <rect class="bar3" x="20" y="7"  width="6" height="23" rx="2"></rect>
           <path class="arrow" d="M5 13 L15 9 L26 3"></path>
           <path class="arrow" d="M20 3 L26 3 L26 9"></path>
         </svg>
-        <span><span class="w-lever">Leverup</span> <span class="w-liquidity">Liquidity</span></span>
+        <span>Leverup&nbsp;Liquidity</span>
       </a>
 
       <!-- Desktop nav -->
       <nav class="header-nav" aria-label="Primary">
         <a class="navlink" href="index.html">Home</a>
         <a class="navlink" href="funding.html">Funding</a>
-        <a class="navlink" href="about.html">About</a>
         <a class="header-phone" href="tel:+19472386272">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
           (947) 238-6272
         </a>
-        <a class="btn btn-primary" href="#top">Apply now</a>
+        <a class="btn btn-primary" href="#applyForm">Apply now</a>
       </nav>
 
       <!-- Mobile hamburger -->
@@ -381,7 +407,6 @@
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="funding.html">Funding</a></li>
-      <li><a href="about.html">About</a></li>
       <li><a href="tel:+19472386272">Call (947) 238-6272</a></li>
     </ul>
     <div class="menu-cta container" style="padding-bottom:22px">
@@ -392,287 +417,318 @@
 
 <main id="main">
 
-  <!-- ==========================================================================
-       APPLY — the only content section: intro (left) + form card (right)
-  ========================================================================== -->
-  <section class="apply-section">
+  <!-- ============================== PAGE TITLE ============================== -->
+  <section class="page-hero">
     <div class="container">
-      <div class="apply-grid">
+      <div class="page-hero-inner">
+        <span class="eyebrow">Apply</span>
+        <h1>Funding application</h1>
+        <p>Tell us about your business and its owners — it takes about five minutes, and there's no obligation.</p>
+      </div>
+    </div>
+  </section>
 
-        <!-- ---------- Left: intro / reassurance ---------- -->
-        <div class="intro reveal">
-          <div class="intro-sticky">
-            <span class="eyebrow">Get started</span>
-            <h1>See your funding options</h1>
-            <p class="lead">Tell us about your business and ownership. It takes a few minutes, and there's no obligation to accept.</p>
-            <ul class="reassure">
-              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> One application, reviewed by a real person.</li>
-              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> We match your file across a network of funders.</li>
-              <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Plain-English answers on what funding will cost.</li>
-            </ul>
-            <a class="intro-call" href="tel:+19472386272">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-              (947) 238-6272
-            </a>
-          </div>
-        </div>
+  <!-- ============================== APPLICATION FORM ============================== -->
+  <section class="section" style="padding-top:clamp(36px,6vw,64px)">
+    <div class="container">
+      <div class="apply-wrap">
 
-        <!-- ---------- Right: multi-step application form ---------- -->
-        <div class="reveal">
-          <div class="form-card" id="applyForm">
+        <p class="req-note">Fields marked <span class="req">*</span> are required.</p>
 
-            <!-- Progress indicator (4 segments) -->
-            <div class="progress" id="progress" aria-hidden="true">
-              <span class="seg active"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span>
-            </div>
-            <p class="progress-label" id="progressLabel" role="status" aria-live="polite">Step 1 of 4 · Business information</p>
+        <!--
+          SENSITIVE DATA NOTICE: this form collects SSN, DOB, and EIN and emails them via
+          Web3Forms (a third-party form-to-email service) — that delivery is PLAINTEXT EMAIL
+          and NOT GLBA-compliant; this tradeoff was chosen deliberately by the site owner.
+          For a compliant setup, point the fetch() in the submit handler at an encrypted,
+          GLBA-compliant backend/CRM instead of Web3Forms.
+        -->
+        <form id="applyForm" action="https://api.web3forms.com/submit" method="POST" novalidate>
 
-            <!--
-              ============================ DELIVERY / DATA NOTICE ============================
-              Applications (all fields) and the uploaded bank statements are emailed to
-              ryanrodriguez@leverupliquidity.com via Web3Forms (https://web3forms.com).
+          <!-- Web3Forms hidden config (access key registered to the receiving inbox) -->
+          <input type="hidden" name="access_key" value="8f4f3bf3-4384-4dea-a124-5051c3412137">
+          <input type="hidden" name="from_name" value="Leverup Liquidity Website">
+          <!-- subject is set via JS at submit time: "New Funding Application — {Legal Business Name}" -->
+          <input type="hidden" name="subject" id="subjectField" value="New Funding Application — Leverup Liquidity">
+          <!-- computed from Business Start Date -->
+          <input type="hidden" name="time_in_business" id="tibHidden" value="">
+          <!-- Honeypot spam trap: visually hidden; bots that tick it are rejected by Web3Forms -->
+          <input type="checkbox" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-              The hidden "access_key" below is the live Web3Forms key registered to
-              ryanrodriguez@leverupliquidity.com — that registration is what routes every
-              submission to this inbox.
+          <!-- ===================== SECTION 1 — BUSINESS INFORMATION ===================== -->
+          <fieldset class="form-section">
+            <legend><span class="sec-num" aria-hidden="true">1</span>Business Information</legend>
+            <p class="sec-sub">The basics about the business applying for funding.</p>
 
-              ⚠ COMPLIANCE WARNING (acknowledged): this form collects SSN, date of birth,
-              and EIN, and bank statements. Sending these through a third-party form-to-email
-              service delivers them as PLAINTEXT EMAIL and is NOT GLBA-compliant. This was
-              chosen deliberately. For a compliant setup, point the fetch() in the submit
-              handler at an encrypted, GLBA-compliant backend instead and stop emailing PII.
-            -->
-            <form id="leadForm" action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data" novalidate>
-
-              <!-- Web3Forms hidden config — access key is registered to ryanrodriguez@leverupliquidity.com -->
-              <input type="hidden" name="access_key" value="8f4f3bf3-4384-4dea-a124-5051c3412137">
-              <input type="hidden" name="subject" value="New funding application — Leverup Liquidity">
-              <input type="hidden" name="from_name" value="Leverup Liquidity — Apply">
-              <!-- Honeypot spam trap: leave empty; bots that fill it are rejected -->
-              <input type="checkbox" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
-
-              <!-- ===================== STEP 1 — Business information ===================== -->
-              <fieldset class="fieldset step-pane active" data-step="1">
-                <legend>Business information</legend>
-                <p class="step-intro">Start with the basics about your business.</p>
-
-                <div class="field">
-                  <label for="dba">DBA / trade name <span class="req" aria-hidden="true">*</span></label>
-                  <input type="text" id="dba" name="dba" required aria-required="true" autocomplete="organization" placeholder="The name customers know you by">
-                  <p class="error">Please enter your DBA / trade name.</p>
-                </div>
-
-                <div class="field">
-                  <label for="legalName">Legal business name <span class="req" aria-hidden="true">*</span></label>
-                  <input type="text" id="legalName" name="legalName" required aria-required="true" autocomplete="organization" placeholder="e.g., Maple Street Diner LLC">
-                  <p class="error">Please enter your legal business name.</p>
-                </div>
-
-                <div class="field">
-                  <label for="entityType">Entity type <span class="req" aria-hidden="true">*</span></label>
-                  <select id="entityType" name="entityType" required aria-required="true">
-                    <option value="" selected disabled>Select entity type</option>
-                    <option>LLC</option>
-                    <option>S-Corporation</option>
-                    <option>C-Corporation</option>
-                    <option>Sole Proprietorship</option>
-                    <option>Partnership</option>
-                    <option>LLP</option>
-                    <option>Other</option>
-                  </select>
-                  <p class="error">Please select your entity type.</p>
-                </div>
-
-                <div class="field">
-                  <!-- EIN: sensitive — autocomplete off, numeric input mode -->
-                  <label for="ein">EIN / Federal Tax ID <span class="req" aria-hidden="true">*</span></label>
-                  <input type="text" id="ein" name="ein" required aria-required="true" autocomplete="off" inputmode="numeric" placeholder="XX-XXXXXXX">
-                  <p class="error">Please enter your EIN / Federal Tax ID.</p>
-                </div>
-
-                <div class="field">
-                  <label for="bizType">Type of business <span class="req" aria-hidden="true">*</span></label>
-                  <input type="text" id="bizType" name="bizType" required aria-required="true" placeholder="e.g., restaurant, trucking, retail">
-                  <p class="error">Please describe your type of business.</p>
-                </div>
-
-                <!-- Physical business address (no address stored/shown elsewhere on page) -->
-                <div class="field">
-                  <label for="bizStreet">Street address <span class="req" aria-hidden="true">*</span></label>
-                  <input type="text" id="bizStreet" name="bizStreet" required aria-required="true" autocomplete="address-line1" placeholder="123 Main St">
-                  <p class="error">Please enter your street address.</p>
-                </div>
-                <div class="row row-3">
-                  <div class="field">
-                    <label for="bizCity">City <span class="req" aria-hidden="true">*</span></label>
-                    <input type="text" id="bizCity" name="bizCity" required aria-required="true" autocomplete="address-level2">
-                    <p class="error">Required.</p>
-                  </div>
-                  <div class="field">
-                    <label for="bizState">State <span class="req" aria-hidden="true">*</span></label>
-                    <input type="text" id="bizState" name="bizState" required aria-required="true" autocomplete="address-level1" placeholder="MI">
-                    <p class="error">Required.</p>
-                  </div>
-                  <div class="field">
-                    <label for="bizZip">ZIP <span class="req" aria-hidden="true">*</span></label>
-                    <input type="text" id="bizZip" name="bizZip" required aria-required="true" autocomplete="postal-code" inputmode="numeric">
-                    <p class="error">Required.</p>
-                  </div>
-                </div>
-
-                <div class="row row-2">
-                  <div class="field">
-                    <label for="bizPhone">Business phone <span class="req" aria-hidden="true">*</span></label>
-                    <input type="tel" id="bizPhone" name="bizPhone" required aria-required="true" autocomplete="tel" placeholder="(555) 555-5555">
-                    <p class="error">Please enter a valid business phone.</p>
-                  </div>
-                  <div class="field">
-                    <label for="bizWeb">Business website or email <span class="req" aria-hidden="true">*</span></label>
-                    <input type="text" id="bizWeb" name="bizWeb" required aria-required="true" placeholder="example.com or you@example.com">
-                    <p class="error">Please enter a website or email.</p>
-                  </div>
-                </div>
-
-                <div class="field">
-                  <label for="started">Date business started (time in business) <span class="req" aria-hidden="true">*</span></label>
-                  <input type="date" id="started" name="started" required aria-required="true">
-                  <p class="error">Please enter the date your business started.</p>
-                </div>
-
-                <div class="form-nav">
-                  <span></span>
-                  <button type="button" class="btn btn-primary" data-next>Continue</button>
-                </div>
-              </fieldset>
-
-              <!-- ===================== STEP 2 — Ownership (repeatable) ===================== -->
-              <fieldset class="fieldset step-pane" data-step="2">
-                <legend>Ownership</legend>
-                <p class="step-intro">Add every owner with 20% or more ownership. You can add more than one.</p>
-
-                <!-- Percent-over-100 warning -->
-                <div class="pct-warn" id="pctWarn" role="alert">Total ownership across all owners can't exceed 100%. Please adjust.</div>
-
-                <!-- Owners are appended here; the first owner cannot be removed -->
-                <div id="ownersWrap"></div>
-
-                <button type="button" class="btn btn-outline btn-sm add-owner" id="addOwner">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                  Add another owner
-                </button>
-
-                <div class="form-nav" style="margin-top:18px">
-                  <button type="button" class="btn btn-secondary" data-back>Back</button>
-                  <button type="button" class="btn btn-primary" data-next>Continue</button>
-                </div>
-              </fieldset>
-
-              <!-- ===================== STEP 3 — Existing financing ===================== -->
-              <fieldset class="fieldset step-pane" data-step="3">
-                <legend>Existing financing</legend>
-                <p class="step-intro">This helps your specialist understand your current obligations.</p>
-
-                <div class="field">
-                  <span class="legend-sm" id="hasFinLabel">Do you currently have ACH funding or a merchant cash advance? <span class="req" aria-hidden="true">*</span></span>
-                  <div class="radio-group" role="radiogroup" aria-labelledby="hasFinLabel">
-                    <span class="radio-pill">
-                      <input type="radio" id="finYes" name="hasFinancing" value="Yes" required aria-required="true">
-                      <label for="finYes">Yes</label>
-                    </span>
-                    <span class="radio-pill">
-                      <input type="radio" id="finNo" name="hasFinancing" value="No">
-                      <label for="finNo">No</label>
-                    </span>
-                  </div>
-                  <p class="error" id="finError">Please choose Yes or No.</p>
-                </div>
-
-                <!-- Conditional fields: shown only when "Yes" is selected -->
-                <div class="conditional" id="financingFields">
-                  <div class="field">
-                    <label for="finWith">Who is it with? <span class="req" aria-hidden="true">*</span></label>
-                    <input type="text" id="finWith" name="finWith" placeholder="Funder / company name">
-                    <p class="error">Please tell us who your current funding is with.</p>
-                  </div>
-                  <div class="field">
-                    <label for="finBalance">Approximate balance <span class="req" aria-hidden="true">*</span></label>
-                    <div class="input-money">
-                      <input type="text" id="finBalance" name="finBalance" inputmode="numeric" placeholder="0">
-                    </div>
-                    <p class="error">Please enter an approximate balance.</p>
-                  </div>
-                </div>
-
-                <div class="form-nav">
-                  <button type="button" class="btn btn-secondary" data-back>Back</button>
-                  <button type="button" class="btn btn-primary" data-next>Continue</button>
-                </div>
-              </fieldset>
-
-              <!-- ===================== STEP 4 — Authorization ===================== -->
-              <fieldset class="fieldset step-pane" data-step="4">
-                <legend>Bank statements &amp; authorization</legend>
-                <p class="step-intro">Attach your statements, then review and agree to the three authorizations below.</p>
-
-                <!-- ===================== Bank statements dropbox ===================== -->
-                <!-- Files are attached to the Web3Forms submission and emailed with the application. -->
-                <div class="field">
-                  <span class="legend-sm" id="dropLabel">Upload last 3–4 months of bank statements</span>
-                  <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-describedby="dropHint" aria-label="Upload bank statements. Drag and drop files here or press Enter to browse.">
-                    <input type="file" id="statements" name="statements" multiple accept=".pdf,.jpg,.jpeg,.png,.csv,.xls,.xlsx" class="dropzone-input" aria-labelledby="dropLabel">
-                    <svg class="dropzone-ico" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 9 12 4 17 9"/><line x1="12" y1="4" x2="12" y2="16"/></svg>
-                    <p class="dropzone-title"><strong>Drag &amp; drop</strong> your statements here, or <span class="dropzone-browse">browse files</span></p>
-                    <p class="dropzone-sub" id="dropHint">PDF, JPG, PNG, CSV or XLSX · up to 5&nbsp;MB total</p>
-                  </div>
-                  <ul class="file-list" id="fileList" aria-live="polite"></ul>
-                  <p class="hint">You can also provide these after you apply.</p>
-                  <p class="error" id="fileSizeError" style="display:none">Those files exceed 5&nbsp;MB total. Please remove some, or send the rest after you apply.</p>
-                </div>
-
-                <!-- Credit / FICO consent (required, UNCHECKED) -->
-                <div class="consent" data-consent>
-                  <input type="checkbox" id="creditConsent" name="creditConsent" required aria-required="true">
-                  <label for="creditConsent">I authorize Leverup Liquidity and its funding partners to obtain consumer and business credit reports and related information on each owner identified in this application, for the purpose of evaluating this funding request and verifying identity. This authorization applies to each owner listed above.</label>
-                </div>
-                <p class="consent-error">You must authorize the credit review to continue.</p>
-
-                <!-- Personal guaranty acknowledgment (required, UNCHECKED) -->
-                <div class="consent" data-consent>
-                  <input type="checkbox" id="guarantyConsent" name="guarantyConsent" required aria-required="true">
-                  <label for="guarantyConsent">I understand that funding approval may require a personal guaranty, and that each owner identified above may be personally responsible for the obligations of any funding they accept.</label>
-                </div>
-                <p class="consent-error">You must acknowledge the personal guaranty to continue.</p>
-
-                <!-- TCPA contact consent (required, UNCHECKED) -->
-                <div class="consent" data-consent>
-                  <input type="checkbox" id="tcpaConsent" name="tcpaConsent" required aria-required="true">
-                  <label for="tcpaConsent" data-tf-element-role="consent-opt-in-text">By submitting this form, I agree that Leverup Liquidity and its funding partners may contact me at the phone number and email I provided — including by automated dialing technology, prerecorded messages, and SMS text — about my funding request and related offers. Consent is not a condition of any purchase. Message and data rates may apply. I have read and agree to the <a href="#privacy">Privacy Policy</a> and <a href="#terms">Terms of Service</a>.</label>
-                </div>
-                <p class="consent-error">You must agree to be contacted to continue.</p>
-
-                <div class="form-nav" style="margin-top:18px">
-                  <button type="button" class="btn btn-secondary" data-back>Back</button>
-                  <button type="submit" class="btn btn-primary" id="submitBtn" data-tf-element-role="submit">Submit application</button>
-                </div>
-
-                <p class="submit-error" id="submitError" role="alert">Something went wrong sending your application. Please try again, or call (947) 238-6272.</p>
-
-                <p class="small-print">Submitting this application is a request for funding, not an offer. All financing is subject to funder approval; rates and terms are set by the funder.</p>
-              </fieldset>
-
-            </form>
-
-            <!-- Inline success state (shown after the application emails successfully) -->
-            <div class="success" id="successState" hidden>
-              <div class="check" aria-hidden="true">
-                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <div class="frow">
+              <div class="field">
+                <label for="legal_business_name">Legal Business Name <span class="req" aria-hidden="true">*</span></label>
+                <input type="text" id="legal_business_name" name="legal_business_name" required aria-required="true" autocomplete="organization">
+                <p class="error">Enter the legal business name.</p>
               </div>
-              <h2>Thanks — your application is in.</h2>
-              <p class="lead">A funding specialist will review it and reach out about your options.</p>
-              <p>Prefer to talk now? <a href="tel:+19472386272"><strong>Call (947) 238-6272</strong></a>.</p>
+              <div class="field">
+                <label for="dba">DBA / Trade Name <span class="opt">(optional)</span></label>
+                <input type="text" id="dba" name="dba">
+              </div>
             </div>
 
+            <div class="frow">
+              <div class="field">
+                <label for="entity_type">Entity Type <span class="req" aria-hidden="true">*</span></label>
+                <select id="entity_type" name="entity_type" required aria-required="true">
+                  <option value="" selected disabled>Select entity type</option>
+                  <option>LLC</option>
+                  <option>Corporation (C-Corp)</option>
+                  <option>Corporation (S-Corp)</option>
+                  <option>Sole Proprietorship</option>
+                  <option>Partnership</option>
+                  <option>Other</option>
+                </select>
+                <p class="error">Select an entity type.</p>
+              </div>
+              <div class="field">
+                <label for="ein">EIN / Federal Tax ID <span class="req" aria-hidden="true">*</span></label>
+                <input type="text" id="ein" name="ein" required aria-required="true" inputmode="numeric" autocomplete="off" data-mask="ein" maxlength="10" placeholder="XX-XXXXXXX">
+                <p class="error">Enter your 9-digit EIN (XX-XXXXXXX).</p>
+              </div>
+            </div>
+
+            <div class="frow">
+              <div class="field">
+                <label for="industry">Type of Business / Industry <span class="req" aria-hidden="true">*</span></label>
+                <input type="text" id="industry" name="industry" required aria-required="true" autocomplete="off" placeholder="e.g., restaurant, trucking, retail">
+                <p class="error">Describe your type of business.</p>
+              </div>
+              <div class="field">
+                <label for="business_start">Business Start Date <span class="req" aria-hidden="true">*</span></label>
+                <input type="month" id="business_start" name="business_start" required aria-required="true">
+                <p class="tib" id="tibDisplay" aria-live="polite"></p>
+                <p class="error">Enter the month and year the business started (not in the future).</p>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="biz_street">Street Address <span class="req" aria-hidden="true">*</span></label>
+              <input type="text" id="biz_street" name="biz_street" required aria-required="true" autocomplete="section-business address-line1">
+              <p class="error">Enter the business street address.</p>
+            </div>
+
+            <div class="frow frow-3">
+              <div class="field">
+                <label for="biz_city">City <span class="req" aria-hidden="true">*</span></label>
+                <input type="text" id="biz_city" name="biz_city" required aria-required="true" autocomplete="section-business address-level2">
+                <p class="error">Required.</p>
+              </div>
+              <div class="field">
+                <label for="biz_state">State <span class="req" aria-hidden="true">*</span></label>
+                <select id="biz_state" name="biz_state" required aria-required="true" autocomplete="section-business address-level1" data-states>
+                  <option value="" selected disabled>Select</option>
+                </select>
+                <p class="error">Required.</p>
+              </div>
+              <div class="field">
+                <label for="biz_zip">ZIP <span class="req" aria-hidden="true">*</span></label>
+                <input type="text" id="biz_zip" name="biz_zip" required aria-required="true" inputmode="numeric" autocomplete="section-business postal-code" data-validate="zip" maxlength="10">
+                <p class="error">Enter a valid ZIP code.</p>
+              </div>
+            </div>
+
+            <div class="frow">
+              <div class="field">
+                <label for="business_phone">Business Phone <span class="req" aria-hidden="true">*</span></label>
+                <input type="tel" id="business_phone" name="business_phone" required aria-required="true" inputmode="tel" autocomplete="tel" data-mask="phone" maxlength="14" placeholder="(XXX) XXX-XXXX">
+                <p class="error">Enter a valid 10-digit phone number.</p>
+              </div>
+              <div class="field">
+                <label for="business_email">Business Email <span class="req" aria-hidden="true">*</span></label>
+                <input type="email" id="business_email" name="business_email" required aria-required="true" inputmode="email" autocomplete="email">
+                <p class="error">Enter a valid email address.</p>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="website">Website <span class="opt">(optional)</span></label>
+              <input type="text" id="website" name="website" inputmode="url" autocomplete="url" placeholder="example.com">
+            </div>
+          </fieldset>
+
+          <!-- ===================== SECTION 2 — EXISTING FUNDING ===================== -->
+          <fieldset class="form-section">
+            <legend><span class="sec-num" aria-hidden="true">2</span>Existing Funding</legend>
+            <p class="sec-sub">This helps us understand the business's current obligations.</p>
+
+            <div class="field">
+              <span id="fundingQ" style="display:block;font-weight:600;margin-bottom:7px;font-size:.95rem">Does the business currently have an outstanding merchant cash advance or ACH-based funding? <span class="req" aria-hidden="true">*</span></span>
+              <div class="radio-group" role="radiogroup" aria-labelledby="fundingQ">
+                <span class="radio-pill">
+                  <input type="radio" id="fundingYes" name="has_existing_funding" value="Yes" required aria-required="true">
+                  <label for="fundingYes">Yes</label>
+                </span>
+                <span class="radio-pill">
+                  <input type="radio" id="fundingNo" name="has_existing_funding" value="No">
+                  <label for="fundingNo">No</label>
+                </span>
+              </div>
+              <p class="error">Choose Yes or No.</p>
+            </div>
+
+            <!-- Revealed only when "Yes"; fields are disabled (excluded from submission) when hidden -->
+            <div class="conditional" id="fundingFields" aria-hidden="true">
+              <div>
+                <div class="frow">
+                  <div class="field">
+                    <label for="funding_providers">Current funding provider(s) <span class="req" aria-hidden="true">*</span></label>
+                    <input type="text" id="funding_providers" name="funding_providers" disabled autocomplete="off">
+                    <p class="error">Enter your current funding provider(s).</p>
+                  </div>
+                  <div class="field">
+                    <label for="remaining_balance">Approximate remaining balance <span class="req" aria-hidden="true">*</span></label>
+                    <div class="input-money">
+                      <input type="text" id="remaining_balance" name="remaining_balance" disabled inputmode="numeric" autocomplete="off" data-mask="money" placeholder="0">
+                    </div>
+                    <p class="error">Enter the approximate remaining balance.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- ===================== SECTION 3 — OWNER 1 (PRIMARY) ===================== -->
+          <fieldset class="form-section">
+            <legend><span class="sec-num" aria-hidden="true">3</span>Owner Information</legend>
+            <p class="sec-sub">Owner 1 — Primary. Personal details are used for identity verification and credit review.</p>
+
+            <div class="owner-block" data-owner="1" style="background:var(--white)">
+              <div class="owner-head">
+                <h3>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  Owner 1 <span style="color:var(--muted);font-weight:600">· Primary</span>
+                </h3>
+              </div>
+
+              <div class="frow">
+                <div class="field">
+                  <label for="owner1_name">Full Legal Name <span class="req" aria-hidden="true">*</span></label>
+                  <input type="text" id="owner1_name" name="owner1_name" required aria-required="true" autocomplete="section-owner1 name">
+                  <p class="error">Enter the owner's full legal name.</p>
+                </div>
+                <div class="field">
+                  <label for="owner1_ownership_pct">Ownership Percentage <span class="req" aria-hidden="true">*</span></label>
+                  <input type="number" id="owner1_ownership_pct" name="owner1_ownership_pct" required aria-required="true" min="1" max="100" step="0.1" inputmode="decimal" data-mask="pct">
+                  <p class="error">Enter a percentage from 1 to 100.</p>
+                </div>
+              </div>
+
+              <div class="frow">
+                <div class="field">
+                  <label for="owner1_phone">Personal Phone <span class="req" aria-hidden="true">*</span></label>
+                  <input type="tel" id="owner1_phone" name="owner1_phone" required aria-required="true" inputmode="tel" autocomplete="section-owner1 tel" data-mask="phone" maxlength="14" placeholder="(XXX) XXX-XXXX">
+                  <p class="error">Enter a valid 10-digit phone number.</p>
+                </div>
+                <div class="field">
+                  <label for="owner1_email">Personal Email <span class="req" aria-hidden="true">*</span></label>
+                  <input type="email" id="owner1_email" name="owner1_email" required aria-required="true" inputmode="email" autocomplete="section-owner1 email">
+                  <p class="error">Enter a valid email address.</p>
+                </div>
+              </div>
+
+              <div class="frow">
+                <div class="field">
+                  <label for="owner1_dob">Date of Birth <span class="req" aria-hidden="true">*</span></label>
+                  <input type="date" id="owner1_dob" name="owner1_dob" required aria-required="true" autocomplete="section-owner1 bday" data-validate="dob">
+                  <p class="error">Enter a valid date of birth.</p>
+                </div>
+                <div class="field">
+                  <label for="owner1_ssn">Social Security Number <span class="req" aria-hidden="true">*</span></label>
+                  <div class="ssn-wrap">
+                    <input type="password" id="owner1_ssn" name="owner1_ssn" required aria-required="true" inputmode="numeric" autocomplete="off" data-mask="ssn" maxlength="11" placeholder="XXX-XX-XXXX">
+                    <button type="button" class="ssn-toggle" aria-label="Show SSN" aria-pressed="false">
+                      <svg class="eye-show" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                      <svg class="eye-hide" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><path d="M14.12 14.12A3 3 0 1 1 9.88 9.88"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                    </button>
+                  </div>
+                  <p class="hint">Used for identity verification and credit review.</p>
+                  <p class="error">Enter a 9-digit SSN (XXX-XX-XXXX).</p>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="owner1_street">Home Street Address <span class="req" aria-hidden="true">*</span></label>
+                <input type="text" id="owner1_street" name="owner1_street" required aria-required="true" autocomplete="section-owner1 address-line1">
+                <p class="error">Enter the owner's home street address.</p>
+              </div>
+
+              <div class="frow frow-3">
+                <div class="field">
+                  <label for="owner1_city">City <span class="req" aria-hidden="true">*</span></label>
+                  <input type="text" id="owner1_city" name="owner1_city" required aria-required="true" autocomplete="section-owner1 address-level2">
+                  <p class="error">Required.</p>
+                </div>
+                <div class="field">
+                  <label for="owner1_state">State <span class="req" aria-hidden="true">*</span></label>
+                  <select id="owner1_state" name="owner1_state" required aria-required="true" autocomplete="section-owner1 address-level1" data-states>
+                    <option value="" selected disabled>Select</option>
+                  </select>
+                  <p class="error">Required.</p>
+                </div>
+                <div class="field">
+                  <label for="owner1_zip">ZIP <span class="req" aria-hidden="true">*</span></label>
+                  <input type="text" id="owner1_zip" name="owner1_zip" required aria-required="true" inputmode="numeric" autocomplete="section-owner1 postal-code" data-validate="zip" maxlength="10">
+                  <p class="error">Enter a valid ZIP code.</p>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- ===================== SECTION 4 — ADDITIONAL OWNERS (OPTIONAL) ===================== -->
+          <fieldset class="form-section">
+            <legend><span class="sec-num" aria-hidden="true">4</span>Additional Owners <span class="opt" style="font-family:Inter,sans-serif;font-size:.95rem;font-weight:400;color:var(--muted)">(optional)</span></legend>
+            <p class="sec-sub">Add any other owners of the business — up to 4 owners total. The form submits with Owner 1 alone.</p>
+
+            <div class="pct-warn" id="pctWarn" role="alert">Combined ownership across all owners can't exceed 100%. Please adjust the percentages.</div>
+
+            <div id="extraOwners"></div>
+
+            <button type="button" class="btn btn-outline" id="addOwnerBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add Another Owner
+            </button>
+            <p class="owner-cap" id="ownerCap">Maximum of 4 owners reached.</p>
+          </fieldset>
+
+          <!-- ===================== SECTION 5 — AUTHORIZATION & CONSENT ===================== -->
+          <fieldset class="form-section">
+            <legend><span class="sec-num" aria-hidden="true">5</span>Authorization &amp; Consent</legend>
+            <p class="sec-sub">Please review and agree to both authorizations. <!-- [ATTORNEY REVIEW: replace/extend the language below with counsel-approved wording before launch] --></p>
+
+            <div class="consent" data-consent>
+              <input type="checkbox" id="creditAuth" name="credit_authorization" value="Agreed" required aria-required="true">
+              <label for="creditAuth"><strong>Credit Authorization</strong> Each owner listed above authorizes Leverup Liquidity and its funding partners to obtain consumer credit reports and credit scores for the purpose of evaluating this application, in accordance with the Fair Credit Reporting Act.</label>
+            </div>
+            <p class="consent-error">You must authorize the credit review to submit.</p>
+
+            <div class="consent" data-consent>
+              <input type="checkbox" id="guarantyAck" name="personal_guaranty_acknowledgment" value="Agreed" required aria-required="true">
+              <label for="guarantyAck"><strong>Personal Guaranty Acknowledgment</strong> Each owner acknowledges that any funding obtained may require a personal guaranty, and certifies that all information provided in this application is true, accurate, and complete.</label>
+            </div>
+            <p class="consent-error">You must acknowledge the personal guaranty to submit.</p>
+
+            <!-- aria-live region: validation summary + submission errors (with retry) -->
+            <p class="form-alert" id="formAlert" role="alert" aria-live="assertive"></p>
+
+            <button type="submit" class="btn btn-primary btn-lg" id="submitBtn" data-tf-element-role="submit">Submit application</button>
+
+            <p class="small-print">By submitting this application, you certify that the information provided is true and complete.</p>
+          </fieldset>
+
+        </form>
+
+        <!-- Success panel (replaces the form after a successful submission) -->
+        <div class="success" id="successPanel" hidden>
+          <div class="check" aria-hidden="true">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
+          <h2>Application received.</h2>
+          <p class="lead">We&rsquo;ll review your information and be in touch shortly.</p>
         </div>
 
       </div>
@@ -681,22 +737,20 @@
 
 </main>
 
-<!-- ============================================================================
-     FOOTER (shared across site)
-============================================================================ -->
+<!-- ============================== FOOTER (shared, duplicated on every page) ============================== -->
 <footer class="site-footer">
   <div class="container">
     <div class="footer-top">
       <div class="footer-brand">
         <a class="logo" href="index.html" aria-label="Leverup Liquidity home">
           <svg class="mark" width="32" height="32" viewBox="0 0 32 32" role="img" aria-hidden="true">
-            <rect class="bar"  x="2"  y="19" width="6" height="11" rx="2"></rect>
-            <rect class="bar"  x="11" y="13" width="6" height="17" rx="2"></rect>
+            <rect class="bar" x="2"  y="19" width="6" height="11" rx="2"></rect>
+            <rect class="bar" x="11" y="13" width="6" height="17" rx="2"></rect>
             <rect class="bar3" x="20" y="7"  width="6" height="23" rx="2"></rect>
             <path class="arrow" d="M5 13 L15 9 L26 3" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
             <path class="arrow" d="M20 3 L26 3 L26 9" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
-          <span><span class="w-lever">Leverup</span> <span class="w-liquidity">Liquidity</span></span>
+          <span>Leverup&nbsp;Liquidity</span>
         </a>
         <p class="footer-blurb">A small-business funding marketplace and ISO brokerage. One application, multiple funding paths — matched to your business.</p>
         <div class="footer-contact">
@@ -715,8 +769,8 @@
         <h4>Funding</h4>
         <ul>
           <li><a href="funding.html">Merchant Cash Advance</a></li>
-          <li><a href="funding.html">Term Loan</a></li>
-          <li><a href="funding.html">Line of Credit</a></li>
+          <li><a href="funding.html">Business Term Loan</a></li>
+          <li><a href="funding.html">Business Line of Credit</a></li>
           <li><a href="funding.html">Equipment Financing</a></li>
           <li><a href="funding.html">Invoice Factoring</a></li>
         </ul>
@@ -725,7 +779,6 @@
       <div class="footer-col">
         <h4>Company</h4>
         <ul>
-          <li><a href="about.html">About</a></li>
           <li><a href="apply.html">Apply</a></li>
           <li><a href="tel:+19472386272">Contact</a></li>
         </ul>
@@ -734,14 +787,14 @@
       <div class="footer-col">
         <h4>Legal</h4>
         <ul>
-          <li><a href="#privacy">Privacy Policy</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
           <li><a href="#terms">Terms of Service</a></li>
           <li><a href="#disclosures">Disclosures</a></li>
         </ul>
       </div>
     </div>
 
-    <!-- Broker / ISO disclosure (verbatim) -->
+    <!-- Broker disclosure (verbatim, every page) -->
     <div class="footer-disclosure">
       Leverup Liquidity is an Independent Sales Organization (ISO) and broker, not a direct lender. We connect businesses with financing from third-party funders and lenders. Products, rates, amounts, and terms are determined by the funder and are subject to approval. Submitting an application is a request for funding, not an offer of financing. A merchant cash advance is a purchase of future receivables, not a loan.
     </div>
@@ -753,9 +806,7 @@
   </div>
 </footer>
 
-<!-- ============================================================================
-     STICKY MOBILE CTA BAR
-============================================================================ -->
+<!-- ============================== STICKY MOBILE BOTTOM BAR ============================== -->
 <div class="mobile-bar" aria-label="Quick actions">
   <a class="btn btn-secondary" href="tel:+19472386272">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -764,20 +815,25 @@
   <a class="btn btn-primary" href="#applyForm">Apply now</a>
 </div>
 
-<!-- ============================================================================
-     SCRIPTS — all JS in one tag. Vanilla, no dependencies.
-============================================================================ -->
+<!-- ============================== SHARED + FORM JS ============================== -->
 <script>
 (function(){
   "use strict";
 
-  /* ---------- Sticky header shadow on scroll ---------- */
+  /* ================================================================
+     SHARED SITE CHROME (identical behavior to the rest of the site)
+  ================================================================ */
+
+  /* ---- Sticky header shadow on scroll ---- */
   var header = document.getElementById('siteHeader');
-  function onScroll(){ header.classList.toggle('is-stuck', window.scrollY > 8); }
+  function onScroll(){
+    if(window.scrollY > 8){ header.classList.add('is-stuck'); }
+    else { header.classList.remove('is-stuck'); }
+  }
   window.addEventListener('scroll', onScroll, {passive:true});
   onScroll();
 
-  /* ---------- Mobile hamburger menu (keyboard operable) ---------- */
+  /* ---- Mobile hamburger menu (keyboard operable) ---- */
   var ham = document.getElementById('hamburger');
   var menu = document.getElementById('mobileMenu');
   var hamIcon = document.getElementById('hamIcon');
@@ -797,377 +853,404 @@
     });
   }
 
-  /* ---------- Smooth-scroll for in-page anchor links ---------- */
+  /* ---- Smooth-scroll for in-page anchor links ---- */
   document.querySelectorAll('a[href^="#"]').forEach(function(link){
     link.addEventListener('click', function(e){
       var id = link.getAttribute('href');
       if(id.length < 2) return;
-      var target = id === '#top' ? document.body : document.querySelector(id);
-      if(target){ e.preventDefault(); window.scrollTo({top: id === '#top' ? 0 : target.getBoundingClientRect().top + window.scrollY - 84, behavior:'smooth'}); }
+      var target = document.querySelector(id);
+      if(target){
+        e.preventDefault();
+        target.scrollIntoView({behavior:'smooth', block:'start'});
+      }
     });
   });
 
-  /* ---------- Reveal-on-scroll via IntersectionObserver ---------- */
-  var reveals = document.querySelectorAll('.reveal');
-  if('IntersectionObserver' in window){
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('is-visible'); io.unobserve(en.target); } });
-    }, {threshold:0.08, rootMargin:'0px 0px -40px 0px'});
-    reveals.forEach(function(el){ io.observe(el); });
-  } else { reveals.forEach(function(el){ el.classList.add('is-visible'); }); }
-
-  /* ======================================================================
-     MULTI-STEP APPLICATION FORM (client-side only — never posts anywhere)
-  ====================================================================== */
-  var form = document.getElementById('leadForm');
+  /* ================================================================
+     APPLICATION FORM
+  ================================================================ */
+  var form = document.getElementById('applyForm');
   if(!form) return;
 
-  var panes = Array.prototype.slice.call(form.querySelectorAll('.step-pane'));
-  var segs = Array.prototype.slice.call(document.querySelectorAll('#progress .seg'));
-  var progressLabel = document.getElementById('progressLabel');
-  var stepNames = ['Business information','Ownership','Existing financing','Authorization'];
-  var current = 0;
+  var alertBox = document.getElementById('formAlert');
+  var submitBtn = document.getElementById('submitBtn');
 
-  function showStep(i){
-    current = i;
-    panes.forEach(function(p, idx){ p.classList.toggle('active', idx === i); });
-    segs.forEach(function(s, idx){ s.classList.toggle('active', idx <= i); });
-    progressLabel.textContent = 'Step ' + (i + 1) + ' of 4 · ' + stepNames[i];
-    var legend = panes[i].querySelector('legend');
-    if(legend){ legend.setAttribute('tabindex','-1'); legend.focus(); }
-    document.getElementById('applyForm').scrollIntoView({behavior:'smooth', block:'start'});
+  /* ---------- 50-state select (single source of truth) ---------- */
+  var US_STATES = [
+    ['AL','Alabama'],['AK','Alaska'],['AZ','Arizona'],['AR','Arkansas'],['CA','California'],
+    ['CO','Colorado'],['CT','Connecticut'],['DE','Delaware'],['DC','District of Columbia'],['FL','Florida'],
+    ['GA','Georgia'],['HI','Hawaii'],['ID','Idaho'],['IL','Illinois'],['IN','Indiana'],
+    ['IA','Iowa'],['KS','Kansas'],['KY','Kentucky'],['LA','Louisiana'],['ME','Maine'],
+    ['MD','Maryland'],['MA','Massachusetts'],['MI','Michigan'],['MN','Minnesota'],['MS','Mississippi'],
+    ['MO','Missouri'],['MT','Montana'],['NE','Nebraska'],['NV','Nevada'],['NH','New Hampshire'],
+    ['NJ','New Jersey'],['NM','New Mexico'],['NY','New York'],['NC','North Carolina'],['ND','North Dakota'],
+    ['OH','Ohio'],['OK','Oklahoma'],['OR','Oregon'],['PA','Pennsylvania'],['RI','Rhode Island'],
+    ['SC','South Carolina'],['SD','South Dakota'],['TN','Tennessee'],['TX','Texas'],['UT','Utah'],
+    ['VT','Vermont'],['VA','Virginia'],['WA','Washington'],['WV','West Virginia'],['WI','Wisconsin'],['WY','Wyoming']
+  ];
+  function fillStates(sel){
+    US_STATES.forEach(function(s){
+      var o = document.createElement('option');
+      o.value = s[0]; o.textContent = s[1];
+      sel.appendChild(o);
+    });
+  }
+  form.querySelectorAll('select[data-states]').forEach(fillStates);
+
+  /* ---------- Input masks ---------- */
+  function digits(v){ return v.replace(/\D/g,''); }
+  function maskEIN(v){
+    var d = digits(v).slice(0,9);
+    return d.length > 2 ? d.slice(0,2) + '-' + d.slice(2) : d;
+  }
+  function maskSSN(v){
+    var d = digits(v).slice(0,9);
+    if(d.length > 5) return d.slice(0,3) + '-' + d.slice(3,5) + '-' + d.slice(5);
+    if(d.length > 3) return d.slice(0,3) + '-' + d.slice(3);
+    return d;
+  }
+  function maskPhone(v){
+    var d = digits(v).slice(0,10);
+    if(d.length > 6) return '(' + d.slice(0,3) + ') ' + d.slice(3,6) + '-' + d.slice(6);
+    if(d.length > 3) return '(' + d.slice(0,3) + ') ' + d.slice(3);
+    return d;
+  }
+  function maskMoney(v){
+    var d = digits(v).slice(0,12);
+    return d ? Number(d).toLocaleString('en-US') : '';
   }
 
-  /* ---------- Field-level validation ---------- */
-  function validateField(el){
-    if(!el || el.disabled) return true;
-    var wrap = el.closest('.field');
-    var val = (el.value || '').trim();
-    var ok = true;
-    if(el.hasAttribute('required') && !val) ok = false;
-    if(ok && el.type === 'email' && val) ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
-    if(ok && el.type === 'tel' && val) ok = val.replace(/\D/g,'').length >= 10;
-    if(ok && el.type === 'number' && val){
-      var n = parseFloat(val);
-      if(el.min !== '' && n < parseFloat(el.min)) ok = false;
-      if(el.max !== '' && n > parseFloat(el.max)) ok = false;
+  /* ---------- Time in business (computed from month input) ---------- */
+  var startInput = document.getElementById('business_start');
+  var tibDisplay = document.getElementById('tibDisplay');
+  var tibHidden = document.getElementById('tibHidden');
+  // Cap the month picker at the current month
+  var now = new Date();
+  startInput.max = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
+
+  function plural(n, word){ return n + ' ' + word + (n === 1 ? '' : 's'); }
+  function updateTIB(){
+    var v = startInput.value;
+    if(!/^\d{4}-\d{2}$/.test(v)){
+      tibDisplay.classList.remove('show'); tibDisplay.textContent=''; tibHidden.value='';
+      return;
     }
-    if(wrap) wrap.classList.toggle('invalid', !ok);
-    return ok;
+    var y = parseInt(v.slice(0,4),10), m = parseInt(v.slice(5,7),10);
+    var t = new Date();
+    var months = (t.getFullYear() - y) * 12 + (t.getMonth() + 1 - m);
+    if(months < 0){ tibDisplay.classList.remove('show'); tibDisplay.textContent=''; tibHidden.value=''; return; }
+    var text = 'Time in business: ' + plural(Math.floor(months/12),'year') + ', ' + plural(months%12,'month');
+    tibDisplay.textContent = text;
+    tibDisplay.classList.add('show');
+    tibHidden.value = text.replace('Time in business: ','');
+  }
+  startInput.addEventListener('change', updateTIB);
+
+  /* ---------- Delegated input handling: masks + live error clearing ---------- */
+  form.addEventListener('input', function(e){
+    var el = e.target;
+    var mask = el.getAttribute('data-mask');
+    if(mask === 'ein') el.value = maskEIN(el.value);
+    if(mask === 'ssn') el.value = maskSSN(el.value);
+    if(mask === 'phone') el.value = maskPhone(el.value);
+    if(mask === 'money') el.value = maskMoney(el.value);
+    if(mask === 'pct') checkOwnershipTotal();
+    if(el === startInput) updateTIB();
+
+    var field = el.closest('.field');
+    if(field && field.classList.contains('invalid')) validateField(el);
+    if(el.type === 'checkbox'){
+      var c = el.closest('[data-consent]');
+      if(c){
+        c.classList.remove('invalid');
+        var err = c.nextElementSibling;
+        if(err && err.classList.contains('consent-error')) err.classList.remove('show');
+      }
+    }
+  });
+
+  /* ---------- SSN show/hide toggle (works for added owners too) ---------- */
+  form.addEventListener('click', function(e){
+    var btn = e.target.closest('.ssn-toggle');
+    if(!btn) return;
+    var input = btn.closest('.ssn-wrap').querySelector('input');
+    var showing = input.type === 'text';
+    input.type = showing ? 'password' : 'text';
+    btn.setAttribute('aria-pressed', showing ? 'false' : 'true');
+    btn.setAttribute('aria-label', showing ? 'Show SSN' : 'Hide SSN');
+    btn.querySelector('.eye-show').style.display = showing ? '' : 'none';
+    btn.querySelector('.eye-hide').style.display = showing ? 'none' : '';
+  });
+
+  /* ---------- Section 2: conditional existing-funding fields ---------- */
+  var fundingPanel = document.getElementById('fundingFields');
+  function syncFunding(){
+    var yes = document.getElementById('fundingYes').checked;
+    fundingPanel.classList.toggle('show', yes);
+    fundingPanel.setAttribute('aria-hidden', yes ? 'false' : 'true');
+    ['funding_providers','remaining_balance'].forEach(function(id){
+      var el = document.getElementById(id);
+      if(yes){
+        el.disabled = false; el.required = true; el.setAttribute('aria-required','true');
+      } else {
+        // Hide, clear, and exclude from submission (disabled fields are omitted from FormData)
+        el.value = ''; el.disabled = true; el.required = false; el.removeAttribute('aria-required');
+        el.closest('.field').classList.remove('invalid');
+      }
+    });
+    // Clear the radio-group error once a choice is made
+    var radioField = document.getElementById('fundingYes').closest('.field');
+    if(form.querySelector('input[name="has_existing_funding"]:checked')) radioField.classList.remove('invalid');
+  }
+  document.getElementById('fundingYes').addEventListener('change', syncFunding);
+  document.getElementById('fundingNo').addEventListener('change', syncFunding);
+
+  /* ---------- Section 4: additional owners (owner2_ … owner4_) ---------- */
+  var MAX_OWNERS = 4;
+  var extraOwners = document.getElementById('extraOwners');
+  var addOwnerBtn = document.getElementById('addOwnerBtn');
+  var ownerCap = document.getElementById('ownerCap');
+  var todayISO = new Date().toISOString().slice(0,10);
+  // Set DOB max for Owner 1
+  document.getElementById('owner1_dob').max = todayISO;
+
+  function ownerBlockHTML(n){
+    var p = 'owner' + n + '_';
+    return '' +
+    '<div class="owner-block" data-owner="' + n + '">' +
+      '<div class="owner-head">' +
+        '<h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> <span class="owner-num">Owner ' + n + '</span></h3>' +
+        '<button type="button" class="remove-owner" data-remove-owner>Remove owner</button>' +
+      '</div>' +
+      '<div class="frow">' +
+        '<div class="field"><label for="' + p + 'name">Full Legal Name <span class="req" aria-hidden="true">*</span></label>' +
+          '<input type="text" id="' + p + 'name" name="' + p + 'name" required aria-required="true" autocomplete="section-owner' + n + ' name">' +
+          '<p class="error">Enter the owner\'s full legal name.</p></div>' +
+        '<div class="field"><label for="' + p + 'ownership_pct">Ownership Percentage <span class="req" aria-hidden="true">*</span></label>' +
+          '<input type="number" id="' + p + 'ownership_pct" name="' + p + 'ownership_pct" required aria-required="true" min="1" max="100" step="0.1" inputmode="decimal" data-mask="pct">' +
+          '<p class="error">Enter a percentage from 1 to 100.</p></div>' +
+      '</div>' +
+      '<div class="frow">' +
+        '<div class="field"><label for="' + p + 'phone">Personal Phone <span class="req" aria-hidden="true">*</span></label>' +
+          '<input type="tel" id="' + p + 'phone" name="' + p + 'phone" required aria-required="true" inputmode="tel" autocomplete="section-owner' + n + ' tel" data-mask="phone" maxlength="14" placeholder="(XXX) XXX-XXXX">' +
+          '<p class="error">Enter a valid 10-digit phone number.</p></div>' +
+        '<div class="field"><label for="' + p + 'email">Personal Email <span class="req" aria-hidden="true">*</span></label>' +
+          '<input type="email" id="' + p + 'email" name="' + p + 'email" required aria-required="true" inputmode="email" autocomplete="section-owner' + n + ' email">' +
+          '<p class="error">Enter a valid email address.</p></div>' +
+      '</div>' +
+      '<div class="frow">' +
+        '<div class="field"><label for="' + p + 'dob">Date of Birth <span class="req" aria-hidden="true">*</span></label>' +
+          '<input type="date" id="' + p + 'dob" name="' + p + 'dob" required aria-required="true" autocomplete="section-owner' + n + ' bday" data-validate="dob" max="' + todayISO + '">' +
+          '<p class="error">Enter a valid date of birth.</p></div>' +
+        '<div class="field"><label for="' + p + 'ssn">Social Security Number <span class="req" aria-hidden="true">*</span></label>' +
+          '<div class="ssn-wrap">' +
+            '<input type="password" id="' + p + 'ssn" name="' + p + 'ssn" required aria-required="true" inputmode="numeric" autocomplete="off" data-mask="ssn" maxlength="11" placeholder="XXX-XX-XXXX">' +
+            '<button type="button" class="ssn-toggle" aria-label="Show SSN" aria-pressed="false">' +
+              '<svg class="eye-show" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>' +
+              '<svg class="eye-hide" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><path d="M14.12 14.12A3 3 0 1 1 9.88 9.88"/><line x1="1" y1="1" x2="23" y2="23"/></svg>' +
+            '</button>' +
+          '</div>' +
+          '<p class="hint">Used for identity verification and credit review.</p>' +
+          '<p class="error">Enter a 9-digit SSN (XXX-XX-XXXX).</p></div>' +
+      '</div>' +
+      '<div class="field"><label for="' + p + 'street">Home Street Address <span class="req" aria-hidden="true">*</span></label>' +
+        '<input type="text" id="' + p + 'street" name="' + p + 'street" required aria-required="true" autocomplete="section-owner' + n + ' address-line1">' +
+        '<p class="error">Enter the owner\'s home street address.</p></div>' +
+      '<div class="frow frow-3">' +
+        '<div class="field"><label for="' + p + 'city">City <span class="req" aria-hidden="true">*</span></label>' +
+          '<input type="text" id="' + p + 'city" name="' + p + 'city" required aria-required="true" autocomplete="section-owner' + n + ' address-level2">' +
+          '<p class="error">Required.</p></div>' +
+        '<div class="field"><label for="' + p + 'state">State <span class="req" aria-hidden="true">*</span></label>' +
+          '<select id="' + p + 'state" name="' + p + 'state" required aria-required="true" autocomplete="section-owner' + n + ' address-level1" data-states>' +
+            '<option value="" selected disabled>Select</option>' +
+          '</select>' +
+          '<p class="error">Required.</p></div>' +
+        '<div class="field"><label for="' + p + 'zip">ZIP <span class="req" aria-hidden="true">*</span></label>' +
+          '<input type="text" id="' + p + 'zip" name="' + p + 'zip" required aria-required="true" inputmode="numeric" autocomplete="section-owner' + n + ' postal-code" data-validate="zip" maxlength="10">' +
+          '<p class="error">Enter a valid ZIP code.</p></div>' +
+      '</div>' +
+    '</div>';
   }
 
-  /* ---------- Ownership: total % cannot exceed 100 ---------- */
-  function checkOwnershipTotal(){
-    var pcts = form.querySelectorAll('input[data-pct]');
+  function ownerCount(){ return 1 + extraOwners.querySelectorAll('[data-owner]').length; }
+  function syncAddBtn(){
+    var full = ownerCount() >= MAX_OWNERS;
+    addOwnerBtn.style.display = full ? 'none' : '';
+    ownerCap.classList.toggle('show', full);
+  }
+  function renumberOwners(){
+    // Keep names sequential (owner2_, owner3_, owner4_) after removals, preserving values
+    extraOwners.querySelectorAll('[data-owner]').forEach(function(block, i){
+      var n = i + 2;
+      block.setAttribute('data-owner', n);
+      block.querySelector('.owner-num').textContent = 'Owner ' + n;
+      block.querySelectorAll('[id],[name],[for],[autocomplete]').forEach(function(el){
+        ['id','name','for'].forEach(function(attr){
+          var v = el.getAttribute(attr);
+          if(v && /owner\d+_/.test(v)) el.setAttribute(attr, v.replace(/owner\d+_/, 'owner' + n + '_'));
+        });
+        var ac = el.getAttribute('autocomplete');
+        if(ac && /section-owner\d+/.test(ac)) el.setAttribute('autocomplete', ac.replace(/section-owner\d+/, 'section-owner' + n));
+      });
+    });
+  }
+
+  addOwnerBtn.addEventListener('click', function(){
+    if(ownerCount() >= MAX_OWNERS) return;
+    var n = ownerCount() + 1;
+    extraOwners.insertAdjacentHTML('beforeend', ownerBlockHTML(n));
+    var block = extraOwners.lastElementChild;
+    fillStates(block.querySelector('select[data-states]'));
+    syncAddBtn();
+    var first = block.querySelector('input');
+    block.scrollIntoView({behavior:'smooth', block:'center'});
+    if(first) first.focus({preventScroll:true});
+  });
+
+  extraOwners.addEventListener('click', function(e){
+    var btn = e.target.closest('[data-remove-owner]');
+    if(!btn) return;
+    btn.closest('[data-owner]').remove();
+    renumberOwners();
+    checkOwnershipTotal();
+    syncAddBtn();
+    addOwnerBtn.focus();
+  });
+
+  /* ---------- Combined ownership ≤ 100% ---------- */
+  var pctWarn = document.getElementById('pctWarn');
+  function ownershipTotal(){
     var total = 0;
-    pcts.forEach(function(p){ total += parseFloat(p.value) || 0; });
-    var warn = document.getElementById('pctWarn');
-    var over = total > 100;
-    warn.classList.toggle('show', over);
+    form.querySelectorAll('input[data-mask="pct"]').forEach(function(el){
+      total += parseFloat(el.value) || 0;
+    });
+    return total;
+  }
+  function checkOwnershipTotal(){
+    var over = ownershipTotal() > 100;
+    pctWarn.classList.toggle('show', over);
     return !over;
   }
 
-  /* ---------- Step validation ---------- */
-  function validateStep(i){
-    var pane = panes[i];
-    var fields = Array.prototype.slice.call(pane.querySelectorAll('input, select'));
-    var firstInvalid = null, allOk = true;
+  /* ---------- Validation ---------- */
+  function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
 
-    // Step 3: radio + conditional handling
-    if(i === 2){
-      var chosen = form.querySelector('input[name="hasFinancing"]:checked');
-      var finField = document.getElementById('finError').closest('.field');
-      if(!chosen){
-        finField.classList.add('invalid'); allOk = false;
-        if(!firstInvalid) firstInvalid = document.getElementById('finYes');
-      } else {
-        finField.classList.remove('invalid');
-        if(chosen.value === 'Yes'){
-          ['finWith','finBalance'].forEach(function(id){
-            var el = document.getElementById(id);
-            if(!validateField(el)){ allOk = false; if(!firstInvalid) firstInvalid = el; }
-          });
-        }
+  function validateField(el){
+    if(el.disabled || el.type === 'hidden' || el.classList.contains('hp-field')) return true;
+    var field = el.closest('.field');
+    if(!field) return true;
+    var val = (el.value || '').trim();
+    var ok = true;
+
+    if(el.required && !val) ok = false;
+    if(ok && val){
+      var mask = el.getAttribute('data-mask');
+      var check = el.getAttribute('data-validate');
+      if(el.type === 'email' && !validEmail(val)) ok = false;
+      if(mask === 'phone' && digits(val).length !== 10) ok = false;
+      if(mask === 'ein' && digits(val).length !== 9) ok = false;
+      if(mask === 'ssn' && digits(val).length !== 9) ok = false;
+      if(mask === 'pct'){
+        var n = parseFloat(val);
+        if(isNaN(n) || n < 1 || n > 100) ok = false;
       }
-      if(firstInvalid) firstInvalid.focus();
-      return allOk;
+      if(check === 'zip' && !/^\d{5}(-\d{4})?$/.test(val)) ok = false;
+      if(check === 'dob' && val > todayISO) ok = false;
+      if(el === startInput && (!/^\d{4}-\d{2}$/.test(val) || val > startInput.max)) ok = false;
     }
-
-    fields.forEach(function(el){
-      if(el.type === 'radio' || el.type === 'checkbox') return;
-      // skip hidden conditional fields
-      if(el.closest('.conditional') && !el.closest('.conditional').classList.contains('show')) return;
-      if(!validateField(el)){ allOk = false; if(!firstInvalid) firstInvalid = el; }
-    });
-
-    // Step 2: also enforce ownership total
-    if(i === 1){ if(!checkOwnershipTotal()){ allOk = false; if(!firstInvalid) firstInvalid = form.querySelector('input[data-pct]'); } }
-
-    if(firstInvalid) firstInvalid.focus();
-    return allOk;
+    field.classList.toggle('invalid', !ok);
+    return ok;
   }
 
-  /* ---------- Live error clearing ---------- */
-  form.addEventListener('input', function(e){
+  // Inline validation on blur
+  form.addEventListener('focusout', function(e){
     var el = e.target;
-    if(el.closest('.field') && el.closest('.field').classList.contains('invalid')) validateField(el);
-    if(el.hasAttribute('data-pct')) checkOwnershipTotal();
-    if(el.type === 'checkbox'){
-      var c = el.closest('[data-consent]');
-      if(c) c.classList.remove('invalid');
-      var ce = c && c.nextElementSibling;
-      if(ce && ce.classList.contains('consent-error')) ce.classList.remove('show');
-    }
+    if(el.matches('input:not([type="radio"]):not([type="checkbox"]), select')) validateField(el);
   });
 
-  /* ---------- Next / Back ---------- */
-  form.addEventListener('click', function(e){
-    if(e.target.closest('[data-next]')){
-      if(validateStep(current) && current < panes.length - 1) showStep(current + 1);
-    }
-    if(e.target.closest('[data-back]')){
-      if(current > 0) showStep(current - 1);
-    }
-  });
-
-  /* ======================================================================
-     STEP 2 — Repeatable owner blocks
-  ====================================================================== */
-  var ownersWrap = document.getElementById('ownersWrap');
-  var ownerCount = 0; // total owners created (used for unique ids)
-
-  function ownerTemplate(idx, removable){
-    var n = idx; // unique numeric suffix
-    return ''
-    + '<div class="owner-block' + (removable ? ' added' : '') + '" data-owner>'
-    +   '<div class="owner-head">'
-    +     '<span class="owner-badge">'
-    +       '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'
-    +       '<h3>Owner ' + (document.querySelectorAll('[data-owner]').length + 1) + '</h3>'
-    +     '</span>'
-    +     (removable ? '<button type="button" class="remove-owner" data-remove><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Remove</button>' : '')
-    +   '</div>'
-
-    +   '<div class="field"><label for="o_name_'+n+'">Full legal name <span class="req" aria-hidden="true">*</span></label>'
-    +     '<input type="text" id="o_name_'+n+'" name="owner_name_'+n+'" required aria-required="true" autocomplete="name"><p class="error">Please enter the owner\'s full legal name.</p></div>'
-
-    +   '<div class="row row-2">'
-    +     '<div class="field"><label for="o_pct_'+n+'">Ownership % <span class="req" aria-hidden="true">*</span></label>'
-    +       '<input type="number" id="o_pct_'+n+'" name="owner_pct_'+n+'" min="0" max="100" data-pct required aria-required="true" placeholder="0–100"><p class="error">Enter 0–100.</p></div>'
-    +     '<div class="field"><label for="o_phone_'+n+'">Personal phone <span class="req" aria-hidden="true">*</span></label>'
-    +       '<input type="tel" id="o_phone_'+n+'" name="owner_phone_'+n+'" required aria-required="true" autocomplete="tel"><p class="error">Enter a valid phone.</p></div>'
-    +   '</div>'
-
-    +   '<div class="field"><label for="o_email_'+n+'">Personal email <span class="req" aria-hidden="true">*</span></label>'
-    +     '<input type="email" id="o_email_'+n+'" name="owner_email_'+n+'" required aria-required="true" autocomplete="email"><p class="error">Enter a valid email.</p></div>'
-
-    +   '<div class="row row-2">'
-    +     '<div class="field"><label for="o_ssn_'+n+'">SSN <span class="req" aria-hidden="true">*</span></label>'
-    /* SSN: masked (password), numeric, autocomplete OFF — sensitive data */
-    +       '<input type="password" id="o_ssn_'+n+'" name="owner_ssn_'+n+'" inputmode="numeric" autocomplete="off" required aria-required="true" placeholder="•••••••••">'
-    +       '<p class="ssn-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Used for identity verification and credit review.</p>'
-    +       '<p class="error">Please enter the owner\'s SSN.</p></div>'
-    +     '<div class="field"><label for="o_dob_'+n+'">Date of birth <span class="req" aria-hidden="true">*</span></label>'
-    +       '<input type="date" id="o_dob_'+n+'" name="owner_dob_'+n+'" autocomplete="off" required aria-required="true"><p class="error">Please enter a date of birth.</p></div>'
-    +   '</div>'
-
-    +   '<div class="field"><label for="o_street_'+n+'">Home street address <span class="req" aria-hidden="true">*</span></label>'
-    +     '<input type="text" id="o_street_'+n+'" name="owner_street_'+n+'" required aria-required="true" autocomplete="address-line1"><p class="error">Required.</p></div>'
-    +   '<div class="row row-3">'
-    +     '<div class="field"><label for="o_city_'+n+'">City <span class="req" aria-hidden="true">*</span></label>'
-    +       '<input type="text" id="o_city_'+n+'" name="owner_city_'+n+'" required aria-required="true" autocomplete="address-level2"><p class="error">Required.</p></div>'
-    +     '<div class="field"><label for="o_state_'+n+'">State <span class="req" aria-hidden="true">*</span></label>'
-    +       '<input type="text" id="o_state_'+n+'" name="owner_state_'+n+'" required aria-required="true" autocomplete="address-level1"><p class="error">Required.</p></div>'
-    +     '<div class="field"><label for="o_zip_'+n+'">ZIP <span class="req" aria-hidden="true">*</span></label>'
-    +       '<input type="text" id="o_zip_'+n+'" name="owner_zip_'+n+'" inputmode="numeric" required aria-required="true" autocomplete="postal-code"><p class="error">Required.</p></div>'
-    +   '</div>'
-    + '</div>';
+  /* ---------- Submit ---------- */
+  function showAlert(node){
+    alertBox.innerHTML = '';
+    alertBox.appendChild(node);
+    alertBox.classList.add('show');
   }
-
-  function renumberOwners(){
-    document.querySelectorAll('[data-owner] .owner-head h3').forEach(function(h, i){ h.textContent = 'Owner ' + (i + 1); });
-  }
-
-  function addOwner(removable){
-    var div = document.createElement('div');
-    div.innerHTML = ownerTemplate(ownerCount++, removable);
-    var block = div.firstChild;
-    ownersWrap.appendChild(block);
-    renumberOwners();
-    return block;
-  }
-
-  // First owner (cannot be removed)
-  addOwner(false);
-
-  document.getElementById('addOwner').addEventListener('click', function(){
-    var block = addOwner(true);
-    block.scrollIntoView({behavior:'smooth', block:'center'});
-    var firstInput = block.querySelector('input');
-    if(firstInput) firstInput.focus();
-  });
-
-  // Remove (event delegation)
-  ownersWrap.addEventListener('click', function(e){
-    var btn = e.target.closest('[data-remove]');
-    if(btn){ btn.closest('[data-owner]').remove(); renumberOwners(); checkOwnershipTotal(); }
-  });
-
-  /* ======================================================================
-     STEP 3 — Conditional existing-financing fields
-  ====================================================================== */
-  var financingFields = document.getElementById('financingFields');
-  function syncFinancing(){
-    var yes = document.getElementById('finYes').checked;
-    financingFields.classList.toggle('show', yes);
-    ['finWith','finBalance'].forEach(function(id){
-      var el = document.getElementById(id);
-      if(yes){ el.setAttribute('required','required'); el.setAttribute('aria-required','true'); }
-      else { el.removeAttribute('required'); el.removeAttribute('aria-required'); el.closest('.field').classList.remove('invalid'); el.value=''; }
-    });
-  }
-  document.getElementById('finYes').addEventListener('change', syncFinancing);
-  document.getElementById('finNo').addEventListener('change', function(){
-    syncFinancing();
-    document.getElementById('finError').closest('.field').classList.remove('invalid');
-  });
-
-  /* ======================================================================
-     BANK-STATEMENTS DROPBOX — drag & drop + browse, with a running file list.
-     Files live on the #statements input, so they ride along with the
-     Web3Forms submission as email attachments.
-  ====================================================================== */
-  var dropzone = document.getElementById('dropzone');
-  var fileInput = document.getElementById('statements');
-  var fileList = document.getElementById('fileList');
-  var fileSizeError = document.getElementById('fileSizeError');
-  var MAX_TOTAL = 5 * 1024 * 1024; // Web3Forms free attachment ceiling (~5MB total)
-  var picked = []; // File[]
-
-  function fmtSize(b){
-    if(b < 1024) return b + ' B';
-    if(b < 1048576) return (b/1024).toFixed(0) + ' KB';
-    return (b/1048576).toFixed(1) + ' MB';
-  }
-  function totalSize(){ return picked.reduce(function(s,f){ return s + f.size; }, 0); }
-
-  // Re-sync the (read-only) file input with our picked[] array via DataTransfer
-  function syncInput(){
-    var dt = new DataTransfer();
-    picked.forEach(function(f){ dt.items.add(f); });
-    fileInput.files = dt.files;
-  }
-  function renderFiles(){
-    fileList.innerHTML = '';
-    picked.forEach(function(f, i){
-      var li = document.createElement('li');
-      li.innerHTML =
-        '<span class="f-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>'
-        + '<span class="f-name"></span><span class="f-size">' + fmtSize(f.size) + '</span>'
-        + '<button type="button" class="f-remove" aria-label="Remove file"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
-      li.querySelector('.f-name').textContent = f.name; // textContent = safe from odd filenames
-      li.querySelector('.f-remove').addEventListener('click', function(){
-        picked.splice(i, 1); syncInput(); renderFiles();
-      });
-      fileList.appendChild(li);
-    });
-    fileSizeError.style.display = totalSize() > MAX_TOTAL ? 'block' : 'none';
-  }
-  function addFiles(list){
-    Array.prototype.forEach.call(list, function(f){
-      // de-dupe by name+size
-      if(!picked.some(function(p){ return p.name === f.name && p.size === f.size; })) picked.push(f);
-    });
-    syncInput(); renderFiles();
-  }
-
-  fileInput.addEventListener('change', function(){ addFiles(fileInput.files); });
-  // Keyboard: Enter/Space on the zone opens the picker
-  dropzone.addEventListener('keydown', function(e){
-    if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); fileInput.click(); }
-  });
-  ['dragenter','dragover'].forEach(function(ev){
-    dropzone.addEventListener(ev, function(e){ e.preventDefault(); dropzone.classList.add('dragover'); });
-  });
-  ['dragleave','drop'].forEach(function(ev){
-    dropzone.addEventListener(ev, function(e){ e.preventDefault(); if(ev==='drop'||e.target===dropzone) dropzone.classList.remove('dragover'); });
-  });
-  dropzone.addEventListener('drop', function(e){ if(e.dataTransfer && e.dataTransfer.files) addFiles(e.dataTransfer.files); });
-
-  /* ======================================================================
-     SUBMIT — validate consents, then email the application + bank statements
-     to ryanrodriguez@leverupliquidity.com via Web3Forms (multipart POST).
-
-     ⚠ This sends SSN/DOB/EIN + statements as plaintext email — chosen
-     deliberately and NOT GLBA-compliant. For a compliant build, replace the
-     fetch URL/payload with a call to an encrypted, GLBA-compliant backend.
-  ====================================================================== */
-  var submitBtn = document.getElementById('submitBtn');
-  var submitError = document.getElementById('submitError');
+  function hideAlert(){ alertBox.classList.remove('show'); alertBox.innerHTML=''; }
+  function textNode(t){ return document.createTextNode(t); }
 
   form.addEventListener('submit', function(e){
     e.preventDefault();
 
-    // Validate the three required authorization checkboxes
-    var allOk = true, firstBad = null;
-    var consents = form.querySelectorAll('input[type="checkbox"][required]');
-    consents.forEach(function(cb){
+    var invalid = 0, firstBad = null;
+
+    // Fields (skip hidden/disabled; conditional fields validate only when enabled)
+    form.querySelectorAll('input:not([type="hidden"]):not([type="radio"]):not([type="checkbox"]):not(.hp-field), select').forEach(function(el){
+      if(el.disabled) return;
+      if(!validateField(el)){ invalid++; if(!firstBad) firstBad = el; }
+    });
+
+    // Radio group (Section 2)
+    var radioField = document.getElementById('fundingYes').closest('.field');
+    if(!form.querySelector('input[name="has_existing_funding"]:checked')){
+      radioField.classList.add('invalid'); invalid++;
+      if(!firstBad) firstBad = document.getElementById('fundingYes');
+    } else {
+      radioField.classList.remove('invalid');
+    }
+
+    // Ownership total
+    if(!checkOwnershipTotal()){
+      invalid++;
+      if(!firstBad) firstBad = form.querySelector('input[data-mask="pct"]');
+    }
+
+    // Consents
+    form.querySelectorAll('.consent input[type="checkbox"][required]').forEach(function(cb){
       var wrap = cb.closest('[data-consent]');
       var err = wrap.nextElementSibling;
       var ok = cb.checked;
       wrap.classList.toggle('invalid', !ok);
       if(err && err.classList.contains('consent-error')) err.classList.toggle('show', !ok);
-      if(!ok){ allOk = false; if(!firstBad) firstBad = cb; }
+      if(!ok){ invalid++; if(!firstBad) firstBad = cb; }
     });
-    if(!allOk){ if(firstBad) firstBad.focus(); return; }
 
-    submitError.classList.remove('show');
-
-    function showSuccess(){
-      form.setAttribute('hidden','');
-      document.getElementById('progress').setAttribute('hidden','');
-      progressLabel.setAttribute('hidden','');
-      var success = document.getElementById('successState');
-      success.removeAttribute('hidden');
-      success.setAttribute('tabindex','-1');
-      success.focus();
-      document.getElementById('applyForm').scrollIntoView({behavior:'smooth', block:'center'});
+    if(invalid > 0){
+      var msg = document.createElement('span');
+      msg.textContent = 'Please fix the ' + invalid + ' highlighted field' + (invalid === 1 ? '' : 's') + ' and resubmit.';
+      showAlert(msg);
+      if(firstBad){ firstBad.focus(); firstBad.scrollIntoView({behavior:'smooth', block:'center'}); }
+      return;
     }
+    hideAlert();
 
-    // POST everything (incl. file attachments) to Web3Forms
+    // Subject set at submit time from the legal business name
+    var legalName = document.getElementById('legal_business_name').value.trim();
+    document.getElementById('subjectField').value = 'New Funding Application — ' + legalName;
+
+    // Send via Web3Forms (disabled conditional fields are automatically excluded)
     submitBtn.disabled = true;
     submitBtn.classList.add('is-loading');
     var data = new FormData(form);
 
-    // An empty <input type="file"> still emits an empty part (filename="", size 0),
-    // which Web3Forms rejects. Rebuild the file field from only real, non-empty files.
-    data.delete('statements');
-    picked.filter(function(f){ return f && f.size > 0; })
-          .forEach(function(f){ data.append('statements', f); });
-
-    function fail(msg){
-      // DIAGNOSTIC: show the actual reason so issues are easy to pin down.
-      // (Swap back to the generic line once delivery is confirmed working.)
-      submitError.textContent = 'Couldn’t send your application: ' + msg +
-        ' — please try again, or call (947) 238-6272.';
-      submitError.classList.add('show');
-      submitError.setAttribute('tabindex','-1');
-      submitError.focus && submitError.focus();
-    }
-
     fetch('https://api.web3forms.com/submit', { method:'POST', body:data })
-      // Read as text first so we can see non-JSON error pages too
       .then(function(r){ return r.text().then(function(t){ return { status:r.status, text:t }; }); })
       .then(function(o){
         var res = {};
-        try { res = JSON.parse(o.text); } catch(e) {}
-        console.log('[Web3Forms] HTTP ' + o.status, res, o.text); // inspect in DevTools console
-        if(res && res.success){ showSuccess(); }
-        else { fail((res && res.message ? res.message : 'server returned HTTP ' + o.status)); }
+        try { res = JSON.parse(o.text); } catch(err) {}
+        if(res && res.success){
+          // Replace the form with the confirmation panel
+          form.hidden = true;
+          document.querySelector('.req-note').hidden = true;
+          var panel = document.getElementById('successPanel');
+          panel.hidden = false;
+          panel.setAttribute('tabindex','-1');
+          panel.focus();
+          panel.scrollIntoView({behavior:'smooth', block:'center'});
+        } else {
+          submitFail((res && res.message) ? res.message : ('server returned HTTP ' + o.status));
+        }
       })
-      .catch(function(err){
-        console.error('[Web3Forms] request failed', err);
-        fail('network error (' + (err && err.message ? err.message : 'request blocked') + ')');
+      .catch(function(){
+        submitFail('network error — check your connection');
       })
       .finally(function(){
         submitBtn.disabled = false;
@@ -1175,18 +1258,30 @@
       });
   });
 
-  showStep(0);
+  // Inline error above the button, with retry; user data is never cleared
+  function submitFail(reason){
+    var frag = document.createDocumentFragment();
+    frag.appendChild(textNode('We couldn’t send your application (' + reason + '). '));
+    var retry = document.createElement('button');
+    retry.type = 'button';
+    retry.className = 'retry';
+    retry.textContent = 'Try again';
+    retry.addEventListener('click', function(){ form.requestSubmit(); });
+    frag.appendChild(retry);
+    frag.appendChild(textNode(' or call (947) 238-6272.'));
+    showAlert(frag);
+    alertBox.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+
+  syncAddBtn();
 })();
 </script>
 
 <!-- ============================================================================
-     TrustedForm Certify Web SDK (ActiveProspect)
-     Injects a hidden <input name="xxTrustedFormCertUrl"> into the page's form and
-     records a consent/interaction certificate. Because the application is sent via
-     FormData(#leadForm), the captured certificate URL is included automatically and
-     emailed with the lead. use_tagged_consent=true pairs with the
-     data-tf-element-role="consent-opt-in-text" (TCPA disclosure) and
-     data-tf-element-role="submit" (Submit application) tags above.
+     TrustedForm Certify Web SDK (ActiveProspect) — injects a hidden
+     xxTrustedFormCertUrl input into the form; the cert URL is included in the
+     Web3Forms submission automatically. Submit button is tagged
+     data-tf-element-role="submit".
 ============================================================================ -->
 <script type="text/javascript">
   (function() {
