@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Leverup Liquidity">
+  <title>Leverup Liquidity</title>
+  <!--
+    Two interlocking "L" forms with exact 180° rotational symmetry.
+    Grid (512): arm thickness 136 · foot/bar length 308 · negative-space gap 68.
+    Rotating any vertex by (x,y) -> (512-x, 512-y) maps one L onto the other.
+  -->
+  <path class="l-dark"  fill="#212641" d="M0 0H136V376H308V512H0Z"/>
+  <path class="l-light" fill="#665ED9" d="M512 512H376V136H204V0H512Z"/>
+</svg>
