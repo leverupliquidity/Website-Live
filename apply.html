@@ -633,6 +633,18 @@
               </div>
             </div>
 
+            <!-- Single child in the 2-col .frow = half width on desktop, full width under 560px -->
+            <div class="frow">
+              <div class="field">
+                <label for="funding_amount_requested">Funding Amount Requested <span class="req" aria-hidden="true">*</span></label>
+                <div class="input-money">
+                  <input type="text" id="funding_amount_requested" name="funding_amount_requested" required aria-required="true" inputmode="numeric" autocomplete="off" data-mask="money" data-validate="amount" placeholder="0">
+                </div>
+                <p class="hint">How much you're looking for. Most requests fall between $5,000 and $250,000.</p>
+                <p class="error">Enter the amount you're requesting.</p>
+              </div>
+            </div>
+
             <div class="field">
               <label for="website">Website <span class="opt">(optional)</span></label>
               <input type="text" id="website" name="website" inputmode="url" autocomplete="url" placeholder="example.com">
@@ -1359,6 +1371,10 @@
       }
       if(check === 'zip' && !/^\d{5}(-\d{4})?$/.test(val)) ok = false;
       if(check === 'dob' && val > todayISO) ok = false;
+      if(check === 'amount'){
+        var amt = parseFloat(val.replace(/[$,\s]/g, ''));
+        if(isNaN(amt) || amt <= 0) ok = false;
+      }
       if(el === startInput && (!/^\d{4}-\d{2}$/.test(val) || val > startInput.max)) ok = false;
     }
     field.classList.toggle('invalid', !ok);
@@ -1743,9 +1759,14 @@
     }
     hideAlert();
 
-    // Subject set at submit time from the legal business name
+    // Subject set at submit time from the legal business name, plus the amount requested
     var legalName = document.getElementById('legal_business_name').value.trim();
-    document.getElementById('subjectField').value = 'New Funding Application — ' + legalName;
+    var subjectLine = 'New Funding Application — ' + legalName;
+    var amountRaw = document.getElementById('funding_amount_requested').value.replace(/[$,\s]/g, '');
+    if(amountRaw && !isNaN(parseFloat(amountRaw)) && parseFloat(amountRaw) > 0){
+      subjectLine += ' — $' + Number(amountRaw).toLocaleString('en-US');
+    }
+    document.getElementById('subjectField').value = subjectLine;
 
     submitting = true;
     submitBtn.disabled = true;
