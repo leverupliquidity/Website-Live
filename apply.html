@@ -657,7 +657,7 @@
             <p class="sec-sub">This helps us understand the business's current obligations.</p>
 
             <div class="field">
-              <span id="fundingQ" style="display:block;font-weight:600;margin-bottom:7px;font-size:.95rem">Does the business currently have an outstanding merchant cash advance or ACH-based funding? <span class="req" aria-hidden="true">*</span></span>
+              <span id="fundingQ" style="display:block;font-weight:600;margin-bottom:7px;font-size:.95rem">Does the business currently have an outstanding merchant cash advance, ACH-based funding, commercial financing, or commercial mortgage? <span class="req" aria-hidden="true">*</span></span>
               <div class="radio-group" role="radiogroup" aria-labelledby="fundingQ">
                 <span class="radio-pill">
                   <input type="radio" id="fundingYes" name="has_existing_funding" value="Yes" required aria-required="true">
@@ -676,16 +676,43 @@
               <div>
                 <div class="frow">
                   <div class="field">
-                    <label for="funding_providers">Current funding provider(s) <span class="req" aria-hidden="true">*</span></label>
-                    <input type="text" id="funding_providers" name="funding_providers" disabled autocomplete="off">
-                    <p class="error">Enter your current funding provider(s).</p>
+                    <label for="funding_open_positions">Number of open positions / advances <span class="req" aria-hidden="true">*</span></label>
+                    <input type="number" id="funding_open_positions" name="funding_open_positions" disabled min="1" step="1" inputmode="numeric" autocomplete="off">
+                    <p class="error">Enter the number of open positions.</p>
                   </div>
                   <div class="field">
-                    <label for="remaining_balance">Approximate remaining balance <span class="req" aria-hidden="true">*</span></label>
+                    <label for="funding_providers">Current funder / lender name(s) <span class="req" aria-hidden="true">*</span></label>
+                    <input type="text" id="funding_providers" name="funding_providers" disabled autocomplete="off">
+                    <p class="error">Enter your current funder / lender name(s).</p>
+                  </div>
+                </div>
+                <div class="frow">
+                  <div class="field">
+                    <label for="remaining_balance">Approximate remaining balance(s) <span class="req" aria-hidden="true">*</span></label>
                     <div class="input-money">
                       <input type="text" id="remaining_balance" name="remaining_balance" disabled inputmode="numeric" autocomplete="off" data-mask="money" placeholder="0">
                     </div>
-                    <p class="error">Enter the approximate remaining balance.</p>
+                    <p class="error">Enter the approximate remaining balance(s).</p>
+                  </div>
+                  <div class="field">
+                    <label for="funding_payment_frequency">Payment frequency <span class="req" aria-hidden="true">*</span></label>
+                    <select id="funding_payment_frequency" name="funding_payment_frequency" disabled>
+                      <option value="" selected disabled>Select frequency</option>
+                      <option>Daily</option>
+                      <option>Weekly</option>
+                      <option>Bi-monthly</option>
+                      <option>Monthly</option>
+                    </select>
+                    <p class="error">Select a payment frequency.</p>
+                  </div>
+                </div>
+                <div class="frow">
+                  <div class="field">
+                    <label for="funding_payment_amount">Payment amount <span class="req" aria-hidden="true">*</span></label>
+                    <div class="input-money">
+                      <input type="text" id="funding_payment_amount" name="funding_payment_amount" disabled inputmode="numeric" autocomplete="off" data-mask="money" placeholder="0">
+                    </div>
+                    <p class="error">Enter the payment amount.</p>
                   </div>
                 </div>
               </div>
@@ -1185,8 +1212,7 @@
     var yes = document.getElementById('fundingYes').checked;
     fundingPanel.classList.toggle('show', yes);
     fundingPanel.setAttribute('aria-hidden', yes ? 'false' : 'true');
-    ['funding_providers','remaining_balance'].forEach(function(id){
-      var el = document.getElementById(id);
+    fundingPanel.querySelectorAll('input, select').forEach(function(el){
       if(yes){
         el.disabled = false; el.required = true; el.setAttribute('aria-required','true');
       } else {
@@ -1201,6 +1227,7 @@
   }
   document.getElementById('fundingYes').addEventListener('change', syncFunding);
   document.getElementById('fundingNo').addEventListener('change', syncFunding);
+  syncFunding();
 
   /* ---------- Section 4: additional owners (owner2_ … owner4_) ---------- */
   var MAX_OWNERS = 4;
