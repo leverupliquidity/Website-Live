@@ -1,0 +1,17 @@
+# Leverup Liquidity — static site (no build step).
+# Netlify publishes the repo root as-is.
+
+[build]
+  publish = "."
+  command = ""
+
+# Serve the separate mobile landing page at "/" for mobile user-agents.
+# The function itself also declares `export const config = { path: "/" }`;
+# declaring it here keeps the routing visible in config and pins the file path.
+[[edge_functions]]
+  path = "/"
+  function = "mobile-rewrite"
+
+# Bank-statement upload endpoint used by apply.html (Mode B transport).
+[functions]
+  directory = "netlify/functions"

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leverup Liquidity — Fund Your Business</title>
+<meta name="description" content="Leverup Liquidity matches your business with the right funding from a network of trusted funders. One application, multiple funding paths.">
+
+<!-- Canonical points at the DESKTOP url: / and /index-mobile.html are the same
+     page for indexing purposes, so search engines consolidate on /. -->
+<link rel="canonical" href="https://leverupliquidity.com/">
+
+<!-- ============================== FAVICONS / APP ICONS ============================== -->
+<link rel="icon" href="assets/brand/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="assets/brand/logo.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/brand/logo-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/brand/logo-16.png">
+<link rel="apple-touch-icon" href="assets/brand/logo-180.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#7C5CD6">
+
+<!-- ============================== GOOGLE FONTS ============================== -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- ============================== STYLES ============================== -->
+<style>
+  :root{
+    --purple:#7C5CD6;
+    --purple-700:#5836B0;
+    --ink:#15121C;
+    --grape:#1E1633;
+    --haze:#F4F0FC;
+    --border:#E7E2F0;
+    --muted:#6B6480;
+    --white:#FFFFFF;
+    --radius:18px;
+    --radius-sm:12px;
+    --radius-pill:999px;
+    --maxw:1180px;
+    --shadow-sm:0 1px 2px rgba(21,18,28,.06), 0 4px 14px rgba(21,18,28,.05);
+    --shadow-md:0 10px 30px rgba(40,24,90,.10);
+    --ease:cubic-bezier(.2,.7,.2,1);
+
+    /* ---- Landing redesign tokens (shared with index.html) ---- */
+    --brand-purple:var(--purple);
+    --cta-purple:#7C5CD6;                    /* primary CTA fill (adjustable) */
+    --ink-navy:#0B1020;
+    --slate:#3A4051;
+    --line:#D6D9E0;
+    --bubble-bg:color-mix(in srgb, var(--brand-purple) 12%, white);
+    --shadow-float:0 10px 30px rgba(11,16,32,.10);
+
+    /* Mobile type scale */
+    --fs-hero-m:clamp(40px,12vw,52px);
+    --fs-sub-m:20px;
+
+    /* === APPLY BUTTON DIMENSIONS (mobile) — user-specified ===
+       width 52px (implemented as min-width) x height 64px
+       NOTE: 52px min-width is narrow for a text label; height is fixed,
+       width grows to fit the label. Change these two values to adjust. */
+    --apply-mobile-h:64px;
+    --apply-mobile-minw:52px;
+  }
+
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:'Poppins','Montserrat',system-ui,sans-serif;
+    color:var(--ink-navy);background:var(--white);
+    line-height:1.6;-webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block}
+  a{color:var(--purple-700);text-decoration:none}
+  .container{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:22px}
+
+  /* ---------- Slim header ---------- */
+  .m-header{
+    position:sticky;top:0;z-index:60;background:rgba(255,255,255,.9);
+    backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid transparent;
+  }
+  .m-header.is-stuck{border-bottom-color:var(--border)}
+  .m-header-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{display:inline-flex;align-items:center;gap:10px;font-weight:800;font-size:1.1rem;color:var(--ink-navy);letter-spacing:-.02em}
+  .logo .mark{flex:0 0 auto;width:28px;height:28px;aspect-ratio:1}
+  .logo .mark .l-dark{fill:#212641}
+  .logo .mark .l-light{fill:#665ED9}
+  .m-header .call{font-weight:600;font-size:.95rem;color:var(--ink-navy)}
+
+  /* ---------- Mobile hero: single column, CENTERED ---------- */
+  .m-hero{text-align:center;padding:clamp(64px,14vw,88px) 0 0}
+  /* Casing is adjustable — swap to title case ("Fund Your Business") if preferred. */
+  .m-hero h1{
+    font-size:var(--fs-hero-m);line-height:1.05;letter-spacing:-.02em;
+    font-weight:300;color:var(--ink-navy);margin:0 0 18px;
+  }
+  .m-hero h1 .hl-bold{font-weight:700;display:block}
+  .m-hero .m-sub{font-size:var(--fs-sub-m);color:var(--slate);margin:0 0 36px;font-weight:400}
+
+  /* Full-capsule primary CTA */
+  .btn-capsule{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:70%;min-width:var(--apply-mobile-minw);   /* ~62% of viewport once container padding is accounted for */height:var(--apply-mobile-h);
+    padding:0 26px;border-radius:999px;
+    background:var(--cta-purple);color:var(--white);
+    font-size:18px;font-weight:700;text-decoration:none;
+    box-shadow:var(--shadow-float);
+    transition:background .18s var(--ease), transform .18s var(--ease);
+  }
+  .btn-capsule:hover,.btn-capsule:focus-visible{background:var(--purple-700)}
+  .btn-capsule:active{transform:translateY(1px)}
+
+  /* ---------- Photo + floating chat bubbles ---------- */
+  .m-photo-wrap{margin-top:clamp(56px,16vw,96px);position:relative}
+  .m-card{
+    position:relative;border-radius:36px;overflow:hidden;aspect-ratio:3/4;
+    background:linear-gradient(160deg,#F7F7FA 0%, #EFEFF4 60%, #E9E9F1 100%);
+    box-shadow:var(--shadow-float);
+  }
+  .m-card img{width:100%;height:100%;object-fit:cover}
+  /* Optional brand duotone — add class="duotone" to .m-card to enable */
+  .m-card.duotone img{filter:grayscale(1) contrast(1.05)}
+  .m-card.duotone::after{content:"";position:absolute;inset:0;background:var(--brand-purple);mix-blend-mode:color;pointer-events:none}
+  .m-bubbles{position:absolute;left:14px;bottom:20px;display:grid;gap:12px;max-width:78%;z-index:2}
+  .m-bubble{
+    background:var(--bubble-bg);color:var(--ink-navy);
+    border-radius:24px 24px 24px 8px;padding:14px 18px;
+    font-size:16px;line-height:1.4;font-weight:400;margin:0;
+    box-shadow:var(--shadow-float);text-align:left;
+  }
+  .m-bubble strong{font-weight:700}
+
+  /* ---------- Funding options (shared minimalist styling) ---------- */
+  .fo-section{background:var(--white);padding:clamp(56px,14vw,88px) 0}
+  .fo-head{margin:0 0 32px;text-align:center}
+  .fo-head h2{font-size:clamp(28px,7vw,36px);line-height:1.12;letter-spacing:-.02em;font-weight:300;color:var(--ink-navy);margin:0 0 12px}
+  .fo-head h2 .hl-bold{font-weight:700}
+  .fo-head p{font-size:17px;color:var(--slate);margin:0}
+  .fo-grid{display:grid;grid-template-columns:1fr;gap:16px}
+  .fo-card{
+    display:flex;flex-direction:column;background:var(--white);
+    border:1px solid var(--line);border-radius:16px;padding:24px 22px;
+    color:inherit;text-decoration:none;
+  }
+  .fo-card h3{font-size:19px;font-weight:700;color:var(--ink-navy);margin:0 0 8px;letter-spacing:-.01em}
+  .fo-card p{font-size:15px;color:var(--slate);margin:0}
+  .fo-card p strong{color:var(--ink-navy);font-weight:600}
+  .fo-card .fo-go{margin-top:auto;padding-top:18px;color:var(--cta-purple);font-weight:600;font-size:15px}
+  .fo-card--accent{background:var(--bubble-bg);border-color:transparent}
+
+  /* ---------- Footer (shared chrome) ---------- */
+  .site-footer{background:var(--grape);color:#CFC6E4;padding:56px 0 0;margin-top:clamp(56px,14vw,88px)}
+  .site-footer .logo{color:#fff}
+  .site-footer .logo .l-dark,.site-footer .logo .l-light{fill:#FFFFFF}
+  .footer-top{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+  .footer-top>*{min-width:0}                       /* prevent grid blowout */
+  @media (max-width:430px){ .footer-top{grid-template-columns:1fr} }
+  .footer-blurb{max-width:320px;color:#B7ACD4;margin-top:16px}
+  .footer-contact{margin-top:18px;display:grid;gap:8px}
+  .footer-contact a{color:#fff;font-weight:600;display:inline-flex;align-items:center;gap:8px}
+  .footer-col h4{color:#fff;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+  .footer-col ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .footer-col a{color:#CFC6E4}
+  .footer-disclosure{border-top:1px solid rgba(255,255,255,.12);margin-top:40px;padding:24px 0;font-size:.82rem;color:#9F95BE;line-height:1.7}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,.12);padding:20px 0 96px;display:grid;gap:8px;font-size:.82rem;color:#9F95BE}
+
+  /* ---------- Sticky bottom bar ---------- */
+  .mobile-bar{
+    position:fixed;left:0;right:0;bottom:0;z-index:70;display:flex;gap:10px;
+    background:var(--white);border-top:1px solid var(--border);padding:10px 14px;
+    box-shadow:0 -6px 20px rgba(11,16,32,.08);
+  }
+  .mobile-bar a{
+    flex:1;display:inline-flex;align-items:center;justify-content:center;gap:.5em;
+    height:48px;border-radius:999px;font-weight:600;font-size:1rem;text-decoration:none;
+  }
+  .mobile-bar .call{background:var(--white);color:var(--ink-navy);border:1.5px solid var(--line)}
+  .mobile-bar .apply{background:var(--cta-purple);color:#fff;font-weight:700}
+
+  /* Accessibility: visible focus everywhere */
+  a:focus-visible,button:focus-visible{outline:3px solid var(--purple);outline-offset:3px;border-radius:8px}
+  .skip-link{position:absolute;left:-9999px;top:0;z-index:200;background:#fff;color:var(--purple-700);padding:12px 18px;font-weight:700}
+  .skip-link:focus{left:0}
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .btn-capsule{transition:none}
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<!-- ============================== SLIM HEADER ============================== -->
+<header class="m-header" id="mHeader">
+  <div class="container">
+    <div class="m-header-inner">
+      <a class="logo" href="index-mobile.html" aria-label="Leverup Liquidity home">
+        <svg class="mark" viewBox="0 0 512 512" aria-hidden="true" focusable="false">
+          <path class="l-dark" d="M0 0H136V376H308V512H0Z"/>
+          <path class="l-light" d="M512 512H376V136H204V0H512Z"/>
+        </svg>
+        <span>Leverup&nbsp;Liquidity</span>
+      </a>
+      <a class="call" href="tel:+19472386272">(947)&nbsp;238-6272</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============================== MOBILE HERO ============================== -->
+  <section class="m-hero">
+    <div class="container">
+      <!-- Casing adjustable: lowercase per spec; title case is a one-line change. -->
+      <h1>fund your <span class="hl-bold">business</span></h1>
+      <p class="m-sub">funding within 24 hours</p>
+      <a class="btn-capsule" href="funding.html">See how it works</a>
+
+      <!--
+        ART DIRECTION (see README-ART.md):
+        Use a DIFFERENT model than the reference. Woman in three-quarter profile,
+        phone to ear, high-key white studio/loft, soft window daylight, desaturated.
+        Button-down shirt shaded in the brand purple #7C5CD6. Gaze directed
+        DOWN-LEFT toward the chat bubbles so her eyeline lands on the problem copy.
+        Drop the file at assets/brand/hero-mobile.jpg (portrait, ~900x1200, 3:4).
+        Until then the card shows a neutral placeholder — layout never breaks.
+      -->
+      <div class="m-photo-wrap">
+        <div class="m-card">
+          <img src="assets/brand/hero-mobile.jpg" width="900" height="1200"
+               alt="Business owner on her phone arranging funding"
+               onerror="this.style.display='none'">
+        </div>
+        <div class="m-bubbles">
+          <p class="m-bubble">Hey Kevin!</p>
+          <p class="m-bubble">I need <strong>$20,000</strong> for marketing this week</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== FUNDING OPTIONS (minimalist) ============================== -->
+  <section class="fo-section">
+    <div class="container">
+      <div class="fo-head">
+        <h2>One application. <span class="hl-bold">Multiple funding options.</span></h2>
+        <p>We match your business to the financing that actually fits.</p>
+      </div>
+      <div class="fo-grid">
+        <a class="fo-card" href="funding.html">
+          <h3>Merchant Cash Advance</h3>
+          <p><strong>Best for:</strong> fast capital from strong sales</p>
+          <span class="fo-go">Learn more &rarr;</span>
+        </a>
+        <a class="fo-card" href="funding.html">
+          <h3>Business Term Loan</h3>
+          <p><strong>Best for:</strong> planned, predictable payments</p>
+          <span class="fo-go">Learn more &rarr;</span>
+        </a>
+        <a class="fo-card" href="funding.html">
+          <h3>Business Line of Credit</h3>
+          <p><strong>Best for:</strong> flexible, ongoing access</p>
+          <span class="fo-go">Learn more &rarr;</span>
+        </a>
+        <a class="fo-card" href="funding.html">
+          <h3>Equipment Financing</h3>
+          <p><strong>Best for:</strong> buying or upgrading equipment</p>
+          <span class="fo-go">Learn more &rarr;</span>
+        </a>
+        <a class="fo-card" href="funding.html">
+          <h3>Invoice Factoring</h3>
+          <p><strong>Best for:</strong> cash tied up in invoices</p>
+          <span class="fo-go">Learn more &rarr;</span>
+        </a>
+        <a class="fo-card fo-card--accent" href="apply.html">
+          <h3>Not sure which fits?</h3>
+          <p>Apply once and we&rsquo;ll match you to the funding that fits your business.</p>
+          <span class="fo-go">Start my application &rarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================== FOOTER (shared, duplicated on every page) ============================== -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="logo" href="index.html" aria-label="Leverup Liquidity home">
+          <svg class="mark" width="30" height="30" viewBox="0 0 512 512" aria-hidden="true" focusable="false">
+            <path class="l-dark" d="M0 0H136V376H308V512H0Z"/>
+            <path class="l-light" d="M512 512H376V136H204V0H512Z"/>
+          </svg>
+          <span>Leverup&nbsp;Liquidity</span>
+        </a>
+        <p class="footer-blurb">A small-business funding marketplace and ISO brokerage. One application, multiple funding paths — matched to your business.</p>
+        <div class="footer-contact">
+          <a href="tel:+19472386272">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            (947) 238-6272
+          </a>
+          <a href="mailto:info@leverupliquidity.com">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+            info@leverupliquidity.com
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Funding</h4>
+        <ul>
+          <li><a href="funding.html">Merchant Cash Advance</a></li>
+          <li><a href="funding.html">Business Term Loan</a></li>
+          <li><a href="funding.html">Business Line of Credit</a></li>
+          <li><a href="funding.html">Equipment Financing</a></li>
+          <li><a href="funding.html">Invoice Factoring</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="apply.html">Apply</a></li>
+          <li><a href="tel:+19472386272">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="#terms">Terms of Service</a></li>
+          <li><a href="#disclosures">Disclosures</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Broker disclosure (verbatim, every page) -->
+    <div class="footer-disclosure">
+      Leverup Liquidity is an Independent Sales Organization (ISO) and broker, not a direct lender. We connect businesses with financing from third-party funders and lenders. Products, rates, amounts, and terms are determined by the funder and are subject to approval. Submitting an application is a request for funding, not an offer of financing. A merchant cash advance is a purchase of future receivables, not a loan.
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 Leverup Liquidity, LLC. All rights reserved.</span>
+      <span>Leverup Liquidity is a Michigan limited liability company.</span>
+    </div>
+  </div>
+</footer>
+<!-- ============================== STICKY BOTTOM BAR ============================== -->
+<div class="mobile-bar" aria-label="Quick actions">
+  <a class="call" href="tel:+19472386272">Call</a>
+  <a class="apply" href="apply.html">Apply now</a>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var header = document.getElementById('mHeader');
+  function onScroll(){ header.classList.toggle('is-stuck', window.scrollY > 8); }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+})();
+</script>
+</body>
+</html>
