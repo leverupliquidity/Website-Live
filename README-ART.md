@@ -45,18 +45,25 @@ close to `--ink-navy`.
   bubble sits lower-left beside her phone hand and reads as the call itself
   rather than as something she is looking at. Move `.hero-bubble` if you prefer.
 
-## Before reuse — check the rights
+## Licensing
 
-The desktop source arrived with a rounded corner and page text baked in, i.e. it
-looks like a **screen capture of another site's template**. Confirm you hold a
-licence and model release for commercial financial-services advertising before
-this goes live. If not, re-shoot or license a substitute — the brief below still
-applies.
+**Confirmed licensed by the site owner (Aug 2026)** for commercial
+financial-services advertising, covering both hero images. No further clearance
+is needed to ship these.
+
+## Brief for replacement art
+
+If either hero is ever re-shot or swapped, match this so the layout and the
+eyeline logic still work:
 
 > Woman in three-quarter profile, phone to ear, high-key white studio/loft, soft
 > window daylight, desaturated. Button-down shirt in brand purple `#7C5CD6`.
 > Gaze directed down-left so her eyeline lands on the chat bubbles. Leave clean
 > negative space in the lower-left for the bubble overlay.
+
+Deliver desktop at 4:5 and mobile at 3:4. A mobile subject cut out on white
+keeps `.m-card` chrome-free; a subject with a real background needs the card
+styling restored (see Layout notes).
 
 ## Optional brand duotone
 
