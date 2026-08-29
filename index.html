@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Leverup Liquidity — Small-Business Funding Marketplace</title>
-<meta name="description" content="Leverup Liquidity matches your business with the right funding — merchant cash advances, term loans, lines of credit, equipment financing, and invoice factoring — from a network of trusted funders.">
+<title>Leverup Liquidity — Small-Business Funding</title>
+<meta name="description" content="Leverup Liquidity matches your business with the right funding — merchant cash advances, term loans, lines of credit, equipment financing, and invoice factoring.">
 
 <!-- ============================== FAVICONS / APP ICONS ============================== -->
 <link rel="icon" href="assets/brand/favicon.ico" sizes="any">
@@ -22,15 +22,15 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Leverup Liquidity">
 <meta property="og:url" content="https://leverupliquidity.com/">
-<meta property="og:title" content="Leverup Liquidity — Small-Business Funding Marketplace">
-<meta property="og:description" content="Leverup Liquidity matches your business with the right funding — merchant cash advances, term loans, lines of credit, equipment financing, and invoice factoring — from a network of trusted funders.">
+<meta property="og:title" content="Leverup Liquidity — Small-Business Funding">
+<meta property="og:description" content="Leverup Liquidity matches your business with the right funding — merchant cash advances, term loans, lines of credit, equipment financing, and invoice factoring.">
 <meta property="og:image" content="https://leverupliquidity.com/assets/brand/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Leverup Liquidity logo">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Leverup Liquidity — Small-Business Funding Marketplace">
-<meta name="twitter:description" content="Leverup Liquidity matches your business with the right funding — merchant cash advances, term loans, lines of credit, equipment financing, and invoice factoring — from a network of trusted funders.">
+<meta name="twitter:title" content="Leverup Liquidity — Small-Business Funding">
+<meta name="twitter:description" content="Leverup Liquidity matches your business with the right funding — merchant cash advances, term loans, lines of credit, equipment financing, and invoice factoring.">
 <meta name="twitter:image" content="https://leverupliquidity.com/assets/brand/og-image.png">
 
 <!-- ============================== GOOGLE FONTS ============================== -->
@@ -254,14 +254,22 @@
     mix-blend-mode:color;pointer-events:none;
   }
 
-  /* USER PROBLEM chat bubble — sits on the model's eyeline (down-left) */
+  /* USER PROBLEM chat thread — two bubbles on the model's eyeline (down-left).
+     Positioning lives on the group so .hero-bubble keeps only the bubble
+     treatment (fill, radius/tail, shadow) shared with the mobile page. */
+  .hero-bubbles{
+    position:absolute;left:-28px;bottom:16%;z-index:2;
+    display:grid;gap:12px;justify-items:start;
+  }
   .hero-bubble{
-    position:absolute;left:-28px;bottom:16%;max-width:290px;z-index:2;
+    max-width:290px;margin:0;
     background:var(--bubble-bg);color:var(--ink-navy);
     border-radius:24px 24px 24px 8px;               /* tighter "tail" corner */
     padding:16px 20px;font-size:16px;line-height:1.45;font-weight:400;
     box-shadow:var(--shadow-float);
   }
+  /* Staggered like a real thread: the follow-up sits inboard of the opener. */
+  .hero-bubble + .hero-bubble{margin-left:22px}
   .hero-bubble strong{font-weight:700}
 
   /* ---------- Cards / grids ---------- */
@@ -486,7 +494,8 @@
     /* Hero collapses to one column; the desktop page still reads well narrow,
        but /index-mobile.html is what phones actually get (edge rewrite). */
     .hero-grid{grid-template-columns:1fr;gap:44px}
-    .hero-bubble{left:12px;bottom:12px;max-width:70%}
+    .hero-bubbles{left:12px;bottom:12px;max-width:70%}
+    .hero-bubbles .hero-bubble{max-width:min(290px,100%)}   /* keep thread-width, never exceed the group */
   }
   @media (max-width:820px){
     .header-nav{display:none}
@@ -564,7 +573,7 @@
         <!-- Left column: headline / sub-copy / two CTAs -->
         <div class="hero-copy">
           <!-- Weight split is adjustable: move the <span class="hl-bold"> boundary. -->
-          <h1>Turn your past revenue into <span class="hl-bold">the capital your business needs today</span></h1>
+          <h1>Turn your revenue into <span class="hl-bold">the capital your business needs today</span></h1>
           <p class="hero-sub">Our team works hard to keep your business growing. We get rid of the hoops banks make businesses jump through</p>
           <div class="hero-actions">
             <a class="btn-rect btn-rect--secondary" href="funding.html">How it works</a>
@@ -589,8 +598,11 @@
                  alt="Business owner reviewing funding options on her phone"
                  onerror="this.style.display='none'">
           </div>
-          <!-- Copy adjustable -->
-          <p class="hero-bubble">I need capital but the <strong>bank keeps stalling</strong></p>
+          <!-- Copy adjustable — two-line thread, stacked and staggered -->
+          <div class="hero-bubbles">
+            <p class="hero-bubble">Hey Mark</p>
+            <p class="hero-bubble">picked up a new vendor, need <strong>$40,000</strong> for inventory this week</p>
+          </div>
         </div>
 
       </div>
@@ -663,7 +675,7 @@
       </div>
       <div class="steps grid grid-4">
         <div class="step reveal"><div class="num">1</div><h3>Apply</h3><p>Tell us about your business and share your last 3–4 months of bank statements.</p></div>
-        <div class="step reveal"><div class="num">2</div><h3>Get matched</h3><p>We match your file to the funders most likely to approve you.</p></div>
+        <div class="step reveal"><div class="num">2</div><h3>Get matched</h3><p>We review your file and match it to the funding options you&rsquo;re most likely to qualify for.</p></div>
         <div class="step reveal"><div class="num">3</div><h3>Compare offers</h3><p>Review amount, cost, and remittance with no obligation.</p></div>
         <div class="step reveal"><div class="num">4</div><h3>Get funded</h3><p>Choose the offer that fits and receive funds, often within a few business days.</p></div>
       </div>
@@ -676,12 +688,12 @@
       <div class="section-head reveal">
         <span class="eyebrow">Why Leverup</span>
         <h2>A funding partner that works for you — not the other way around.</h2>
-        <p class="lead">We're a broker built for real small businesses. We shop your file to multiple funders and tell you plainly what each option costs.</p>
+        <p class="lead">Built for real small businesses. We tell you plainly what each option costs.</p>
       </div>
       <div class="grid grid-4">
         <div class="card reveal">
           <h3>Options, not pressure</h3>
-          <p class="best">We compare multiple products and funders to find your best fit.</p>
+          <p class="best">We compare multiple products to find your best fit.</p>
         </div>
         <div class="card reveal">
           <h3>Built for real businesses</h3>
@@ -693,7 +705,7 @@
         </div>
         <div class="card reveal">
           <h3>Straight talk on cost</h3>
-          <p class="best">We're a broker, and we tell you plainly what funding costs.</p>
+          <p class="best">We tell you plainly what funding costs.</p>
         </div>
       </div>
     </div>
@@ -748,7 +760,7 @@
             </button>
           </h3>
           <div class="faq-a" id="faq-h2" role="region" aria-labelledby="faq-hb2">
-            <p>Yes. We work with a wide range of revenue and credit profiles, including business owners the banks turn away. Because we shop multiple funders, we can often find a fit where a single bank can't.</p>
+            <p>Yes. We work with a wide range of revenue and credit profiles, including business owners the banks turn away. Because we look at more than one option, we can often find a fit where a single bank can't.</p>
           </div>
         </div>
         <div class="faq-item reveal">
@@ -759,7 +771,7 @@
             </button>
           </h3>
           <div class="faq-a" id="faq-h3" role="region" aria-labelledby="faq-hb3">
-            <p>Many businesses receive offers within a day or two and funding within a few business days of approval. Timing depends on the product and the funder.</p>
+            <p>Many businesses receive offers within a day or two and funding within a few business days of approval. Timing depends on the product.</p>
           </div>
         </div>
       </div>
@@ -780,7 +792,7 @@
           </svg>
           <span>Leverup&nbsp;Liquidity</span>
         </a>
-        <p class="footer-blurb">A small-business funding marketplace and ISO brokerage. One application, multiple funding paths — matched to your business.</p>
+        <p class="footer-blurb">Small-business funding. One application, multiple funding paths — matched to your business.</p>
         <div class="footer-contact">
           <a href="tel:+19472386272">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -822,9 +834,9 @@
       </div>
     </div>
 
-    <!-- Broker disclosure (verbatim, every page) -->
+    <!-- Funding disclosure (verbatim, every page) -->
     <div class="footer-disclosure">
-      Leverup Liquidity is an Independent Sales Organization (ISO) and broker, not a direct lender. We connect businesses with financing from third-party funders and lenders. Products, rates, amounts, and terms are determined by the funder and are subject to approval. Submitting an application is a request for funding, not an offer of financing. A merchant cash advance is a purchase of future receivables, not a loan.
+      Products, rates, amounts, and terms are subject to approval. Submitting an application is a request for funding, not an offer of financing. A merchant cash advance is a purchase of future receivables, not a loan.
     </div>
 
     <div class="footer-bottom">

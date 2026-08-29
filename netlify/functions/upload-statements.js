@@ -30,7 +30,7 @@
  *   capability-URL security: anyone holding the link can read the file, and the
  *   link travels through email. That is weaker than an authenticated document
  *   portal. Treat this as a stopgap. For production, prefer either the Pro
- *   Web3Forms attach path (files go straight into the broker's inbox and are
+ *   Web3Forms attach path (files go straight into the team's inbox and are
  *   never stored here) or a real portal with per-user auth, encryption at rest
  *   with a managed key, and a documented retention/deletion schedule.
  */
