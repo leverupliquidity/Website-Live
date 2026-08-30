@@ -1,7 +1,9 @@
 # Hero photography
 
-Both hero images are **in place**. The CSS placeholder + `onerror` fallback are
-retained so the layout still holds if an asset is ever removed.
+Both hero slots are filled by the **previous** shoot. A replacement pair has been
+supplied but not yet committed — see *PENDING: hero photo replacement* below. The
+CSS placeholder + `onerror` fallback are retained so the layout still holds if an
+asset is ever removed.
 
 | Slot | File | Output | Subject |
 |---|---|---|---|
@@ -44,6 +46,72 @@ close to `--ink-navy`.
   exactly the intended reading order. Desktop: she looks right/forward, so the
   bubble sits lower-left beside her phone hand and reads as the call itself
   rather than as something she is looking at. Move `.hero-bubble` if you prefer.
+
+## PENDING: hero photo replacement (desktop + mobile)
+
+New actor photography was supplied for both heroes, but **the image files were
+not committed** — they arrived as chat attachments, not as files, so the two
+`.jpg` assets below are still the previous shoot. Everything else on the landing
+page (copy, bubbles, spacing) has been updated for the new direction.
+
+To finish the swap, drop the two supplied source files in and run the recipe
+below. No markup change is needed: both `<img>` tags keep their current `src`,
+dimensions, `object-fit`, positioning, and z-index.
+
+### The background hex is `#FFFFFF` — sampled, not eyeballed
+
+Both heroes sit on the site's white ground, so the subject must be composited
+onto **exactly `#FFFFFF`**:
+
+| Surface | Rule | Value |
+|---|---|---|
+| Desktop hero | `.hero{background:var(--white)}` on `index.html` | `#FFFFFF` |
+| Desktop card | `.hero-card` gradient placeholder, fully covered by the photo | n/a |
+| Mobile hero | `body{background:var(--white)}` on `index-mobile.html` | `#FFFFFF` |
+| Mobile card | `.m-card{background:#FFFFFF}` | `#FFFFFF` |
+
+`--white` is `#FFFFFF` in the `:root` block of both files. Nothing tints the
+hero area — no overlay, no `--haze`, no duotone (the `.duotone` utility is off).
+
+### Recipe
+
+```bash
+# 1. Cut the subject out of the supplied source. Keep a real alpha channel —
+#    do NOT flatten to white here, or hair edges pick up a grey fringe.
+#    Any matting tool works; feather 0, then a 1px inward contract on the mask.
+
+# 2. Composite onto the exact site background, un-premultiplied, so the
+#    anti-aliased edge pixels blend against #FFFFFF instead of black.
+magick subject-rgba.png -background '#FFFFFF' -alpha remove -alpha off out.png
+
+# 3. Resize to the slot's native box (the <img> width/height attributes):
+#      desktop  1200x1500  (4:5)
+#      mobile    900x1200  (3:4)
+
+# 4. Export WebP. The repo uses plain <img> with no <picture>/srcset fallback
+#    pattern anywhere, so a single .webp per slot is the correct output —
+#    do not introduce a <picture> element for these two images alone.
+cwebp -q 82 -sharp_yuv out.png -o assets/brand/hero-desktop.webp
+```
+
+Current file sizes to stay under: `hero-desktop.jpg` 123,002 bytes,
+`hero-mobile.jpg` 80,576 bytes. Then point the two `src` attributes at the
+`.webp` files and delete the `.jpg`s.
+
+### Verification checklist
+
+- Sample the four corners of the exported file: every one must read `#FFFFFF`,
+  not `#FEFEFE`. A one-step-off white is the seam people see.
+- Zoom the hair and shoulder line to 400%: no grey halo, no hard jaggies.
+- Check on the **rendered page**, not the file — load `/` and
+  `/index-mobile.html` at 1x and 2x (`deviceScaleFactor: 2`) and confirm no
+  rectangle edge is visible where the photo meets the page.
+- Desktop only: the photo sits inside `.hero-card`, which has
+  `border-radius:36px` and `box-shadow:var(--shadow-float)`. That soft shadow is
+  intentional card chrome, not a halo — leave it.
+- Keep the alt text accurate to the new subject. Current values:
+  - `index.html` — `alt="Business owner reviewing funding options on her phone"`
+  - `index-mobile.html` — `alt="Business owner on her phone arranging funding"`
 
 ## Licensing
 

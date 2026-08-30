@@ -1,7 +1,7 @@
 {
   "name": "Leverup Liquidity",
   "short_name": "Leverup",
-  "description": "A small-business funding marketplace and ISO brokerage. One application, multiple funding paths.",
+  "description": "Small-business funding. One application, multiple funding paths.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FFFFFF",
