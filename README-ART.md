@@ -1,139 +1,131 @@
 # Hero photography
 
-Both hero slots are filled by the **previous** shoot. A replacement pair has been
-supplied but not yet committed — see *PENDING: hero photo replacement* below. The
-CSS placeholder + `onerror` fallback are retained so the layout still holds if an
-asset is ever removed.
+Both hero slots carry the current shoot, cut out and composited onto the exact
+page background so the figure floats with no card edge. The `onerror` fallback is
+retained so the layout still holds if an asset is ever removed.
 
 | Slot | File | Output | Subject |
 |---|---|---|---|
-| Desktop hero | `assets/brand/hero-desktop.jpg` | 1200 × 1500 (4:5) | Woman on phone, brand-purple shirt |
-| Mobile hero | `assets/brand/hero-mobile.jpg` | 900 × 1200 (3:4) | Woman reading phone, cut out on white |
+| Desktop hero | `assets/brand/hero-desktop.webp` | 1200 × 1500 (4:5) | Man on phone, white tee, cut out on `#FFFFFF` |
+| Mobile hero | `assets/brand/hero-mobile.webp` | 900 × 1200 (3:4) | Man reading phone, cut out on `#FFFFFF` |
 
 ## Processing applied
 
 Both were derived from client-supplied sources. Originals are **not** committed;
-re-derive from the originals if you need to change the treatment.
+re-derive from the originals if you need to change the treatment. The full
+recipe — matting model, compositing, framing rules and the edge checks — is in
+*Background matching* below.
 
-**Desktop —**
-1. **Cropped** to remove two artifacts in the supplied file: a stray glyph in the
-   leftmost 7px, and a baked-in rounded white corner in the top-right 124px.
-   Crop box `x:10 y:58 w:423 h:529`, scaled to 1200 × 1500.
-2. **Shirt shaded to the brand purple.** Worked in HSL so fabric folds survive:
-   pixels in the violet-blue band were rotated to **hue 258°** (the hue of
-   `--purple #7C5CD6`) with a light saturation lift, and **lightness left
-   untouched**.
-   - Before: `#8C8EA7` → HSL(236°, 13%, 60%)
-   - After: HSL(**258°**, 22%, …) — same hue as the brand token, still soft.
-   - Gate: hue 200–270 + saturation > 5% + mid lightness. This is why **skin
-     (hue 20°), hair (hue 25°), the grey trousers (1% saturation) and the white
-     backdrop (0% saturation) are untouched** — verified by sampling after the fact.
-   - Tuning knobs live in the processing script: `TARGET_H`, `TARGET_S`,
-     `STRENGTH`. A first pass at `TARGET_S 0.38 / STRENGTH 0.62` read as a full
-     recolour; the shipped values are `0.26 / 0.55`.
-
-**Mobile —** tightened to the subject's bounding box with 10% padding (the source
-had heavy dead space top and bottom), centred horizontally on the subject, and
-cropped to 3:4 on a white ground. No colour change: the navy blazer already sits
-close to `--ink-navy`.
+Neither image was colour-graded. The desktop subject's tee is a pale blue that
+already separates from the `#FFFFFF` ground; the mobile subject's sweater is warm
+beige. The `--purple` shirt recolour applied to the previous shoot was dropped
+with it.
 
 ## Layout notes
 
-- The mobile subject is a **cut-out on white**, so `.m-card` has no card chrome —
-  she floats on the page (matching the supplied reference). The desktop subject
-  has a studio background, so it keeps the 36px rounded card and soft shadow.
-- **Eyelines.** Mobile: her gaze runs down-left onto the two chat bubbles —
-  exactly the intended reading order. Desktop: she looks right/forward, so the
-  bubble sits lower-left beside her phone hand and reads as the call itself
-  rather than as something she is looking at. Move `.hero-bubble` if you prefer.
+- **Both** subjects are cut-outs on white, so neither frame carries card chrome:
+  `.m-card` never had any, and `.hero-card` had its radius, shadow and gradient
+  placeholder removed (see *Card chrome was removed on desktop*). The figures
+  float directly on the page.
+- **Eyelines.** Mobile: his gaze runs down onto his phone, and the two chat
+  bubbles sit at lower-left directly under that eyeline. Desktop: he looks
+  up-right, away from the bubbles, which sit over his chest and read as the call
+  he is on rather than as something he is looking at. Move `.hero-bubbles` if you
+  prefer a different reading order.
 
-## PENDING: hero photo replacement (desktop + mobile)
-
-New actor photography was supplied for both heroes, but **the image files were
-not committed** — they arrived as chat attachments, not as files, so the two
-`.jpg` assets below are still the previous shoot. Everything else on the landing
-page (copy, bubbles, spacing) has been updated for the new direction.
-
-To finish the swap, drop the two supplied source files in and run the recipe
-below. No markup change is needed: both `<img>` tags keep their current `src`,
-dimensions, `object-fit`, positioning, and z-index.
+## Background matching — how the current pair was made
 
 ### The background hex is `#FFFFFF` — sampled, not eyeballed
 
-Both heroes sit on the site's white ground, so the subject must be composited
-onto **exactly `#FFFFFF`**:
-
 | Surface | Rule | Value |
 |---|---|---|
-| Desktop hero | `.hero{background:var(--white)}` on `index.html` | `#FFFFFF` |
-| Desktop card | `.hero-card` gradient placeholder, fully covered by the photo | n/a |
-| Mobile hero | `body{background:var(--white)}` on `index-mobile.html` | `#FFFFFF` |
-| Mobile card | `.m-card{background:#FFFFFF}` | `#FFFFFF` |
+| Desktop hero | `.hero{background:var(--white)}` + `.hero-card{background:var(--white)}` | `#FFFFFF` |
+| Mobile hero | `body{background:var(--white)}` + `.m-card{background:#FFFFFF}` | `#FFFFFF` |
 
-`--white` is `#FFFFFF` in the `:root` block of both files. Nothing tints the
-hero area — no overlay, no `--haze`, no duotone (the `.duotone` utility is off).
+`--white` is `#FFFFFF` in the `:root` block of both pages. Nothing tints the hero
+area — no overlay, no `--haze`, no duotone (the `.duotone` utility is off).
 
-### Recipe
+### Pipeline
 
-```bash
-# 1. Cut the subject out of the supplied source. Keep a real alpha channel —
-#    do NOT flatten to white here, or hair edges pick up a grey fringe.
-#    Any matting tool works; feather 0, then a 1px inward contract on the mask.
+1. **Matte.** `rembg` with the **`birefnet-portrait`** model, `post_process_mask=False`
+   so the alpha stays soft. Model choice mattered: `u2net_human_seg` erased the
+   phone from the desktop subject's hand, and `isnet-general-use` left a speck by
+   the mobile subject's ear. `birefnet-portrait` kept both subjects intact with
+   the cleanest hair edge.
+2. **Composite.** `alpha_composite` onto an opaque `#FFFFFF` canvas — un-premultiplied,
+   so anti-aliased edge pixels blend against white rather than black (blending
+   against black is what produces the classic grey fringe).
+3. **Supersample.** Built at 2× the output size, then downsampled with LANCZOS,
+   so the silhouette edge is anti-aliased rather than resampled twice.
+4. **Frame.** Subject bottom-anchored (body bleeds off the bottom edge, which reads
+   as a normal waist crop) and kept clear of the top/left/right edges — a limb
+   touching a side edge would read as a slice, since the frame itself is invisible.
+   Both subjects are near-square in silhouette inside a taller frame, so ~20–23%
+   headroom above the head is inherent to the geometry, not a framing slip.
+5. **Encode.** WebP, method 6. The repo uses plain `<img>` with no `<picture>` or
+   `srcset` anywhere, so a single `.webp` per slot is the right output — no
+   `<picture>` element was introduced for these two images.
 
-# 2. Composite onto the exact site background, un-premultiplied, so the
-#    anti-aliased edge pixels blend against #FFFFFF instead of black.
-magick subject-rgba.png -background '#FFFFFF' -alpha remove -alpha off out.png
+### Verified
 
-# 3. Resize to the slot's native box (the <img> width/height attributes):
-#      desktop  1200x1500  (4:5)
-#      mobile    900x1200  (3:4)
+- Top, left and right edges of both encoded files are **byte-exact `#FFFFFF`**
+  (`min()` over each edge = 255), not `#FEFEFE`. The bottom edge carries subject
+  by design.
+- On the **rendered pages** at both 1× and 2×, a 40px band straddling the image
+  boundary on the left, top and right contains **zero non-white pixels** — the
+  boundary is undetectable, which is the actual requirement.
+- Hair and shoulder lines inspected at 3× zoom off the 2× render: no halo, no
+  fringe, no jaggies.
+- Desktop encoding quality is capped by the border, not by taste: at a 10px
+  subject margin, WebP q82 bled a 2/255 deviation into the left edge. Widening
+  the margin to ~19px restores a byte-exact border. **If you re-frame the desktop
+  image, re-run the edge check** — a tight margin plus lossy compression is what
+  reintroduces a seam.
+- Sizes: desktop 115,990 B (was 123,002, −6%), mobile 52,674 B (was 80,576, −35%).
 
-# 4. Export WebP. The repo uses plain <img> with no <picture>/srcset fallback
-#    pattern anywhere, so a single .webp per slot is the correct output —
-#    do not introduce a <picture> element for these two images alone.
-cwebp -q 82 -sharp_yuv out.png -o assets/brand/hero-desktop.webp
-```
+### Card chrome was removed on desktop
 
-Current file sizes to stay under: `hero-desktop.jpg` 123,002 bytes,
-`hero-mobile.jpg` 80,576 bytes. Then point the two `src` attributes at the
-`.webp` files and delete the `.jpg`s.
-
-### Verification checklist
-
-- Sample the four corners of the exported file: every one must read `#FFFFFF`,
-  not `#FEFEFE`. A one-step-off white is the seam people see.
-- Zoom the hair and shoulder line to 400%: no grey halo, no hard jaggies.
-- Check on the **rendered page**, not the file — load `/` and
-  `/index-mobile.html` at 1x and 2x (`deviceScaleFactor: 2`) and confirm no
-  rectangle edge is visible where the photo meets the page.
-- Desktop only: the photo sits inside `.hero-card`, which has
-  `border-radius:36px` and `box-shadow:var(--shadow-float)`. That soft shadow is
-  intentional card chrome, not a halo — leave it.
-- Keep the alt text accurate to the new subject. Current values:
-  - `index.html` — `alt="Business owner reviewing funding options on her phone"`
-  - `index-mobile.html` — `alt="Business owner on her phone arranging funding"`
+`.hero-card` previously had `border-radius:36px`, `box-shadow:var(--shadow-float)`
+and a grey gradient placeholder. Against a white-on-white cut-out those draw a
+visible rounded rectangle around the subject, so they were dropped; the frame now
+matches `.m-card` on the mobile page ("no card chrome, the subject floats on the
+page"). `aspect-ratio:4/5` still reserves the box, so the layout holds if the
+asset 404s. To restore the card look, put those three declarations back — but the
+photo would then need a non-white studio background again.
 
 ## Licensing
 
-**Confirmed licensed by the site owner (Aug 2026)** for commercial
-financial-services advertising, covering both hero images. No further clearance
-is needed to ship these.
+> **Unconfirmed for the current pair.** The previous shoot was confirmed licensed
+> by the site owner (Aug 2026) for commercial financial-services advertising, but
+> that clearance covered *those* files. The images now in `assets/brand/` are a
+> different, later-supplied pair and are **not** covered by it. Confirm rights for
+> commercial use before this goes live.
+
+Also note, on the desktop image: the subject wears a crossbody strap with a
+legible third-party wordmark. It survives the cut-out because it is on the
+subject, not in the background. On a commercial finance page a readable luxury
+brand mark can imply an association that does not exist — worth a look before
+launch. Removing it means retouching the strap in the source and re-running the
+pipeline.
 
 ## Brief for replacement art
 
 If either hero is ever re-shot or swapped, match this so the layout and the
 eyeline logic still work:
 
-> Woman in three-quarter profile, phone to ear, high-key white studio/loft, soft
-> window daylight, desaturated. Button-down shirt in brand purple `#7C5CD6`.
-> Gaze directed down-left so her eyeline lands on the chat bubbles. Leave clean
-> negative space in the lower-left for the bubble overlay.
+> Business owner with a phone — to the ear or in hand. Any background is fine:
+> the subject gets cut out and composited onto `#FFFFFF`, so what matters is a
+> clean separable silhouette, even lighting, and no motion blur at the hair line.
+> Avoid pure-white clothing, which loses its edge against the ground. Leave the
+> lower-left of the frame uncluttered for the bubble overlay.
 
-Deliver desktop at 4:5 and mobile at 3:4. A mobile subject cut out on white
-keeps `.m-card` chrome-free; a subject with a real background needs the card
-styling restored (see Layout notes).
+Deliver a source at any aspect — the pipeline reframes to 4:5 (desktop) and 3:4
+(mobile). Both frames are chrome-free, so the subject must not touch the top or
+side edges of the output; only the bottom edge may carry the subject.
 
 ## Optional brand duotone
 
-Add `class="duotone"` to `.hero-card` (desktop) to greyscale the photo and lay a
-`mix-blend-mode: color` wash of `--brand-purple` over it. Off by default.
+Add `class="duotone"` to `.hero-card` (desktop) or `.m-card` (mobile) to greyscale
+the photo and lay a `mix-blend-mode: color` wash of `--brand-purple` over it. Off
+by default — and note it would tint the composited `#FFFFFF` ground too, which
+would reintroduce a visible rectangle. Leave it off while the heroes are cut-outs.
