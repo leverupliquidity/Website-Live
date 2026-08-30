@@ -238,13 +238,15 @@
   .btn-rect--primary:hover{background:var(--purple-700);border-color:var(--purple-700)}
   .btn-rect .arrow{font-size:1.05em;line-height:1}
 
-  /* Hero photo card — portrait 4:5, 36px radius */
+  /* Hero photo — portrait 4:5. The subject is a cut-out composited onto the
+     page background, so the frame carries NO chrome (no radius, no shadow, no
+     tinted placeholder): any of those would draw a visible rectangle around a
+     white-on-white image. Same treatment as .m-card on index-mobile.html.
+     aspect-ratio still reserves the box, so the layout holds if the asset 404s. */
   .hero-media{position:relative}
   .hero-card{
-    position:relative;border-radius:36px;overflow:hidden;aspect-ratio:4/5;
-    /* Placeholder so the layout never breaks before the real photo is dropped in */
-    background:linear-gradient(160deg,#F7F7FA 0%, #EFEFF4 60%, #E9E9F1 100%);
-    box-shadow:var(--shadow-float);
+    position:relative;overflow:hidden;aspect-ratio:4/5;
+    background:var(--white);
   }
   .hero-card img{width:100%;height:100%;object-fit:cover;display:block}
   /* Optional brand duotone utility — add class="duotone" to .hero-card to enable */
@@ -585,17 +587,16 @@
         <div class="hero-media">
           <!--
             ART DIRECTION (see README-ART.md):
-            Use a DIFFERENT model than the reference. Woman in three-quarter profile,
-            phone to ear, high-key white studio/loft, soft window daylight, desaturated.
-            She wears a button-down shirt shaded in the brand purple #7C5CD6.
-            Her gaze is directed DOWN-LEFT toward the chat bubble (USER PROBLEM element)
-            so her eyeline lands on the client-problem copy.
-            Drop the file at assets/brand/hero-desktop.jpg (portrait, ~1200x1500, 4:5).
-            Until then the card shows a neutral placeholder — layout never breaks.
+            Subject cut out and composited onto the exact page background (#FFFFFF)
+            so the figure floats on the page with no card edge. Portrait 4:5,
+            1200x1500, bottom-anchored with headroom above the subject.
+            File: assets/brand/hero-desktop.webp.
+            aspect-ratio on .hero-card reserves the box and the onerror fallback
+            hides a broken img, so the layout holds if the asset goes missing.
           -->
           <div class="hero-card">
-            <img src="assets/brand/hero-desktop.jpg" width="1200" height="1500"
-                 alt="Business owner reviewing funding options on her phone"
+            <img src="assets/brand/hero-desktop.webp" width="1200" height="1500"
+                 alt="Business owner smiling while talking on his phone"
                  onerror="this.style.display='none'">
           </div>
           <!-- Copy adjustable — two-line thread, stacked and staggered -->
