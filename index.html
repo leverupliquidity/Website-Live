@@ -13,7 +13,7 @@
 <link rel="icon" type="image/png" sizes="16x16" href="assets/brand/logo-16.png">
 <link rel="apple-touch-icon" href="assets/brand/logo-180.png">
 <link rel="manifest" href="site.webmanifest">
-<meta name="theme-color" content="#7C5CD6">
+<meta name="theme-color" content="#341539">
 
 <!-- Separate mobile landing page (served at / by netlify/edge-functions/mobile-rewrite.js) -->
 <link rel="alternate" media="only screen and (max-width: 640px)" href="/index-mobile.html">
@@ -42,8 +42,8 @@
 <style>
   /* ---------- Brand tokens: change --purple here to re-skin the whole site ---------- */
   :root{
-    --purple:#7C5CD6;
-    --purple-700:#5836B0;
+    --purple:#341539;
+    --purple-700:#341539;
     --ink:#15121C;
     --grape:#1E1633;
     --haze:#F4F0FC;
@@ -61,8 +61,8 @@
     --ease:cubic-bezier(.2,.7,.2,1);
 
     /* ---- Landing redesign tokens ---- */
-    --brand-purple:var(--purple);            /* #7C5CD6 — model's shirt tint + accents */
-    --cta-purple:#7C5CD6;                    /* primary CTA fill (template value — adjustable) */
+    --brand-purple:var(--purple);            /* #341539 — model's shirt tint + accents */
+    --cta-purple:#341539;                    /* primary CTA fill (template value — adjustable) */
     --ink-navy:#0B1020;                      /* primary text, near-black navy */
     --slate:#3A4051;                         /* secondary text */
     --line:#D6D9E0;                          /* borders */
@@ -152,7 +152,7 @@
   /* Square 1:1 mark — two interlocking L forms */
   .logo .mark{flex:0 0 auto;width:30px;height:30px;aspect-ratio:1}
   .logo .mark .l-dark{fill:#212641}
-  .logo .mark .l-light{fill:#665ED9}
+  .logo .mark .l-light{fill:#341539}
 
   /* ---------- Header ---------- */
   .site-header{
@@ -366,7 +366,7 @@
   /* ---------- Final CTA band ---------- */
   .cta-band{
     color:var(--white);border-radius:28px;overflow:hidden;position:relative;
-    background:linear-gradient(135deg,var(--grape) 0%, #3a2470 50%, var(--purple) 100%);
+    background:linear-gradient(135deg,var(--grape) 0%, #341539 50%, var(--purple) 100%);
     padding:clamp(40px,7vw,72px) clamp(24px,5vw,64px);text-align:center;
   }
   .cta-band::after{content:"";position:absolute;inset:0;background:radial-gradient(800px 360px at 80% -20%, rgba(255,255,255,.16), transparent 60%)}
@@ -431,7 +431,7 @@
     border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:13px 14px;
     transition:border-color .15s var(--ease), box-shadow .15s var(--ease);
   }
-  .field input:focus,.field select:focus{outline:none;border-color:var(--purple);box-shadow:0 0 0 4px rgba(124,92,214,.15)}
+  .field input:focus,.field select:focus{outline:none;border-color:var(--purple);box-shadow:0 0 0 4px rgba(52,21,57,.15)}
   .field input[type="file"]{padding:11px 12px;background:var(--haze)}
   .field .hint{color:var(--muted);font-size:.88rem;margin:6px 0 0}
   .field.invalid input,.field.invalid select{border-color:#C0392B;box-shadow:0 0 0 4px rgba(192,57,43,.12)}
