@@ -1,0 +1,38 @@
+---
+// Icon + title + one-line body. Bordered cards in a 3-up grid from 768px; a plain icon list on phones.
+// Used by "What owners use it for" (industry pages) and "How we work" (About).
+import Icon from '../shared/Icon.astro';
+interface Item { icon: string; title: string; body: string }
+interface Props { items: Item[]; headingLevel?: 'h3' | 'h4' }
+const { items, headingLevel = 'h3' } = Astro.props;
+const H = headingLevel;
+---
+<ul role="list" class="icon-cards">
+  {items.map((it) => (
+    <li class="icon-card">
+      <Icon name={it.icon} size={20} class="icon-card__icon" />
+      <H class="icon-card__title">{it.title}</H>
+      <p class="icon-card__body">{it.body}</p>
+    </li>
+  ))}
+</ul>
+<style>
+  .icon-cards { display: grid; gap: 24px; list-style: none; margin: 0; padding: 0; }
+  .icon-card { display: grid; grid-template-columns: 24px 1fr; column-gap: 16px; row-gap: 4px; align-items: start; }
+  .icon-card :global(.icon-card__icon) { grid-row: 1 / span 2; width: 24px; height: 24px; margin-top: 2px; color: var(--brand-teal-600); }
+  .icon-card__title { font-size: 17px; line-height: 28px; font-weight: 600; color: var(--text-heading); }
+  .icon-card__body { font-size: 15px; line-height: 24px; color: var(--text-primary); }
+  @media (min-width: 768px) {
+    .icon-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .icon-card {
+      display: block; background: var(--bg-surface); border: 1px solid var(--border-default);
+      border-radius: var(--radius); padding: 24px 24px 28px;
+    }
+    .icon-card :global(.icon-card__icon) { width: 20px; height: 20px; margin: 0 0 12px; }
+    .icon-card__title { font-size: 20px; line-height: 32px; }
+    .icon-card__body { margin-top: 8px; }
+  }
+  @media (min-width: 1024px) {
+    .icon-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+  }
+</style>

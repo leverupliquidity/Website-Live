@@ -1,0 +1,216 @@
+---
+// /faq — Frames "FAQ — Desktop 1440 / Mobile 390".
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/shared/Breadcrumb.astro';
+import Icon from '../components/shared/Icon.astro';
+import FaqList from '../components/shared/FaqList.astro';
+import ContactChannels from '../components/shared/ContactChannels.astro';
+import { faqPage } from '../data/faq';
+import { site } from '../data/site';
+
+const all = faqPage.flatMap((c) => c.items);
+const ld = {
+  '@context': 'https://schema.org', '@type': 'FAQPage',
+  mainEntity: all.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a.replace(/\n\n+/g, ' ') } })),
+};
+---
+<BaseLayout jsonLd={[ld]}>
+  <Breadcrumb items={[{ label: 'FAQ' }]} />
+
+  <section class="faq-intro" aria-labelledby="faq-h1">
+    <div class="container">
+      <h1 class="h1 h1--48" id="faq-h1">Straight answers to fair questions</h1>
+      <p class="lede faq-intro__lede">The things every operator asks before applying.</p>
+      <div class="faq-search" role="search">
+        <label for="faq-search" class="visually-hidden">Search questions</label>
+        <Icon name="search" size={20} class="faq-search__icon" />
+        <input id="faq-search" class="input faq-search__input" type="search" placeholder="Search questions" autocomplete="off" aria-describedby="faq-search-status" data-faq-search />
+      </div>
+      <p id="faq-search-status" class="visually-hidden" aria-live="polite" data-faq-status></p>
+      <nav class="faq-chips" aria-label="FAQ categories">
+        <ul role="list">
+          {faqPage.map((c, i) => <li><a class:list={['faq-chip', { 'is-active': i === 0 }]} href={`#${c.id}`} data-cat-link={c.id}>{c.category}</a></li>)}
+        </ul>
+      </nav>
+    </div>
+  </section>
+
+  <section class="faq-body" aria-label="Questions by category">
+    <div class="container faq-body__grid">
+      <nav class="faq-cats" aria-labelledby="faq-cats-h">
+        <p class="label" id="faq-cats-h">Categories</p>
+        <ul role="list">
+          {faqPage.map((c, i) => (
+            <li>
+              <a class:list={['faq-cat', { 'is-active': i === 0 }]} href={`#${c.id}`} data-cat-link={c.id}>
+                <span>{c.category}</span>
+                <span class="faq-cat__count mono" data-cat-count={c.id}><span class="visually-hidden">(</span>{c.items.length}<span class="visually-hidden"> questions)</span></span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="faq-sections">
+        {faqPage.map((c) => (
+          <section class="faq-cat-section" id={c.id} aria-labelledby={`${c.id}-h`} data-cat-section={c.id}>
+            <h2 class="faq-cat-section__h" id={`${c.id}-h`}>{c.category}</h2>
+            <FaqList id={`faq-${c.id}`} items={c.items} />
+          </section>
+        ))}
+        <div class="faq-empty" hidden data-faq-empty>
+          <p class="faq-empty__title">No questions match. Ask us instead.</p>
+          <ul role="list" class="faq-empty__links">
+            <li><a class="link link-icon" href={site.phone.tel} data-track="tel_click"><Icon name="phone" size={20} />Call {site.phone.display}</a></li>
+            <li><a class="link link-icon" href={site.phone.sms} data-track="sms_click"><Icon name="message" size={20} />Text {site.phone.display}</a></li>
+            <li><a class="link link-icon" href={`mailto:${site.email}`} data-track="email_click"><Icon name="mail" size={20} />{site.email}</a></li>
+            <li><a class="link link-icon" href="/contact"><Icon name="user" size={20} />Send us a message</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--brand faq-band" aria-labelledby="faq-band-h">
+    <div class="container faq-band__grid">
+      <div class="faq-band__text">
+        <h2 class="h2 faq-band__h" id="faq-band-h">Still have a question?</h2>
+        <p class="lede">Ask us. We'll give you a straight answer.</p>
+        <div class="btn-row btn-row--stack">
+          <a href="/apply" class="btn btn--primary-on-brand" data-track="cta_see_options" data-track-location="faq_band">See my options</a>
+          <a href={site.bookingsUrl} target="_blank" rel="noopener" class="btn btn--secondary-on-brand" data-track="book_call_click">Book a call</a>
+        </div>
+      </div>
+      <ContactChannels ground="brand" />
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const input = document.querySelector<HTMLInputElement>('[data-faq-search]');
+  const status = document.querySelector<HTMLElement>('[data-faq-status]');
+  const empty = document.querySelector<HTMLElement>('[data-faq-empty]');
+  const sections = [...document.querySelectorAll<HTMLElement>('[data-cat-section]')];
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-cat-link]')];
+  const norm = (s: string) => s.toLowerCase().normalize('NFKD').replace(/[‘’]/g, "'").replace(/\s+/g, ' ').trim();
+
+  type Item = { el: HTMLElement; btn: HTMLButtonElement; panel: HTMLElement; text: string; initOpen: boolean };
+  const items: Item[] = [];
+  sections.forEach((sec) => sec.querySelectorAll<HTMLElement>('.faq__item').forEach((el) => {
+    const btn = el.querySelector<HTMLButtonElement>('.faq__btn')!;
+    const panel = el.querySelector<HTMLElement>('.faq__a')!;
+    items.push({ el, btn, panel, text: norm(el.textContent || ''), initOpen: btn.getAttribute('aria-expanded') === 'true' });
+  }));
+  const setOpen = (it: Item, open: boolean) => { it.btn.setAttribute('aria-expanded', String(open)); it.panel.hidden = !open; };
+
+  let timer: number | undefined;
+  function apply() {
+    const q = norm(input?.value || '');
+    const words = q.split(' ').filter(Boolean);
+    let total = 0;
+    sections.forEach((sec) => {
+      let n = 0;
+      items.filter((it) => sec.contains(it.el)).forEach((it) => {
+        const match = !words.length || words.every((w) => it.text.includes(w));
+        it.el.hidden = !match;
+        if (match) n++;
+        // While searching, open matches so the answer is visible; restore the default when cleared.
+        setOpen(it, words.length ? match : it.initOpen);
+      });
+      sec.hidden = n === 0;
+      total += n;
+      const id = sec.dataset.catSection;
+      document.querySelectorAll<HTMLElement>(`[data-cat-link="${id}"]`).forEach((a) => {
+        a.closest('li')!.hidden = n === 0;
+      });
+    });
+    if (empty) empty.hidden = total > 0;
+    if (status) {
+      status.textContent = !words.length ? '' : total === 0
+        ? 'No questions match. Ask us instead.'
+        : `${total} ${total === 1 ? 'question matches' : 'questions match'}.`;
+    }
+    window.clearTimeout(timer);
+    if (q.length >= 2) timer = window.setTimeout(() => window.lvTrack?.('faq_search', { q }), 800);
+  }
+  input?.addEventListener('input', apply);
+  input?.addEventListener('keydown', (e) => { if (e.key === 'Escape' && input.value) { input.value = ''; apply(); } });
+
+  // Highlight the category in view.
+  const setActive = (id: string) => links.forEach((a) => {
+    const on = a.dataset.catLink === id;
+    a.classList.toggle('is-active', on);
+    if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+  });
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      const vis = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+      if (vis) setActive((vis.target as HTMLElement).dataset.catSection!);
+    }, { rootMargin: '-120px 0px -60% 0px' });
+    sections.forEach((s) => io.observe(s));
+  }
+  links.forEach((a) => a.addEventListener('click', () => setActive(a.dataset.catLink!)));
+</script>
+
+<style>
+  @media (min-width: 1024px) { .faq-sections :global(.faq__a) { max-width: 760px; } }
+  .faq-intro { background: var(--bg-canvas); padding-block: 40px 24px; }
+  .faq-intro__lede { margin-top: 12px; }
+  .faq-search { position: relative; margin-top: 24px; max-width: 624px; }
+  .faq-search :global(.faq-search__icon) { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); pointer-events: none; }
+  .faq-search__input { padding-left: 48px; border-color: var(--border-strong); }
+  .faq-search__input::-webkit-search-cancel-button { cursor: pointer; }
+
+  .faq-chips { margin: 24px calc(-1 * var(--gutter)) 0; }
+  .faq-chips ul { display: flex; gap: 8px; list-style: none; margin: 0; padding: 0 var(--gutter) 4px; overflow-x: auto; scrollbar-width: none; }
+  .faq-chips ul::-webkit-scrollbar { display: none; }
+  .faq-chips li { flex: none; }
+  .faq-chip {
+    display: inline-flex; align-items: center; min-height: 40px; padding: 6px 16px; border-radius: 999px;
+    border: 1px solid var(--border-strong); background: var(--bg-surface); color: var(--text-primary);
+    font-size: 15px; line-height: 24px; font-weight: 500; text-decoration: none; white-space: nowrap;
+  }
+  .faq-chip.is-active { background: var(--bg-brand); border-color: var(--bg-brand); color: #fff; font-weight: 600; }
+
+  .faq-body { background: var(--bg-surface); padding-block: 40px 64px; }
+  .faq-cats { display: none; }
+  .faq-sections { display: grid; gap: 48px; }
+  .faq-cat-section { scroll-margin-top: calc(var(--header-h) + 16px); }
+  .faq-cat-section__h { font-family: var(--font-serif); font-size: 28px; line-height: 36px; font-weight: 600; color: var(--text-heading); margin-bottom: 16px; }
+  .faq-empty { padding: 24px; border: 1px solid var(--border-default); border-radius: var(--radius); background: var(--bg-raised); }
+  .faq-empty__title { font-size: 20px; line-height: 32px; font-weight: 600; color: var(--text-heading); }
+  .faq-empty__links { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 12px; }
+  .faq-empty__links .link { min-height: 32px; }
+
+  .faq-band { padding-block: 64px; }
+  .faq-band__grid { display: grid; gap: 40px; }
+  .faq-band__text { display: grid; gap: 16px; align-content: center; }
+  .faq-band__text .btn-row { margin-top: 24px; }
+  .faq-band__h { font-weight: 700; }
+
+  @media (max-width: 1023px) {
+    .faq-intro__lede, .faq-band .lede { font-family: var(--font-sans); font-size: 17px; line-height: 28px; }
+    .faq-band .lede { font-weight: 500; }
+  }
+  @media (min-width: 1024px) {
+    .faq-intro { padding-block: 64px; }
+    .faq-intro__lede { margin-top: 20px; }
+    .faq-search { margin-top: 32px; }
+    .faq-chips { display: none; }
+    .faq-body { padding-block: 96px; }
+    .faq-body__grid { display: grid; grid-template-columns: minmax(0, 296px) minmax(0, 843px); justify-content: space-between; gap: 80px; align-items: start; }
+    .faq-cats { display: block; position: sticky; top: calc(var(--header-h) + 24px); padding-top: 8px; }
+    .faq-cats ul { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 4px; }
+    .faq-cat {
+      display: flex; justify-content: space-between; align-items: center; min-height: 44px; padding: 10px 12px;
+      border-radius: var(--radius); font-size: 15px; line-height: 24px; color: var(--text-primary); text-decoration: none;
+    }
+    .faq-cat:hover { background: var(--bg-raised); color: var(--text-heading); }
+    .faq-cat.is-active { background: var(--bg-brand-subtle); color: var(--text-heading); font-weight: 600; }
+    .faq-cat__count { font-size: 15px; font-weight: 500; color: var(--text-secondary); }
+    .faq-sections { gap: 72px; }
+    .faq-cat-section__h { margin-bottom: 16px; }
+    .faq-band { padding-block: 154px; }
+    .faq-band__grid { grid-template-columns: minmax(0, 600px) minmax(0, 515px); justify-content: space-between; align-items: center; }
+  }
+</style>

@@ -1,0 +1,140 @@
+---
+// Guides index: intro, the featured guide (newest guide file), email signup.
+// The "Latest" grid and category buttons are hidden in the design (saved for later).
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/shared/Breadcrumb.astro';
+import Img from '../components/shared/Img.astro';
+import ConsentFields from '../components/shared/ConsentFields.astro';
+import { guideDate, noWidow } from '../components/guides/format';
+import featuredImg from '../assets/images/22-photo-grow-featured-16x9.jpg';
+
+const guides = (await getCollection('guides')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const featured = guides[0];
+const href = `/guides/${featured.id}`;
+const date = guideDate(featured.data.date);
+---
+<BaseLayout metaKey="/guides">
+  <Breadcrumb items={[{ label: 'Guides' }]} />
+
+  <section class="section--paper intro" aria-labelledby="guides-h1">
+    <div class="container">
+      <h1 class="h1 h1--48" id="guides-h1">Guides to cannabis financing</h1>
+      <p class="lede guides-lede">Plain answers before you borrow a dollar.</p>
+    </div>
+  </section>
+
+  <section class="section--paper featured" aria-labelledby="featured-h">
+    <div class="container featured__grid">
+      <a href={href} class="featured__media" tabindex="-1" aria-hidden="true">
+        <Img src={featuredImg} alt="" widths={[400, 800, 1200, 1700]} sizes="(min-width: 1440px) 843px, (min-width: 1024px) 60vw, 100vw" priority />
+      </a>
+      <div class="featured__text">
+        <p class="eyebrow">Featured guide</p>
+        <p class="chip-cat">{featured.data.category}</p>
+        <h2 class="h2 featured__title" id="featured-h"><a href={href} set:html={noWidow(featured.data.title)} /></h2>
+        <p class="meta"><time datetime={date.iso}>{date.display}</time> · {featured.data.readTime} read</p>
+        <a href={href} class="link featured__link" data-track="guide_open">Read the guide<span class="visually-hidden">: {featured.data.title}</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="signup" aria-labelledby="signup-h">
+    <div class="container signup__grid">
+      <div class="signup__text">
+        <h2 class="h2" id="signup-h">Get the next guide</h2>
+        <p class="lede guides-lede">One email when there's something worth reading.</p>
+      </div>
+      <form
+        class="signup__form" id="guides-signup" novalidate
+        data-w3f data-subject="New guides signup" data-event="guide_signup"
+        data-success-text="You're on the list. We'll email you when the next guide is out."
+      >
+        <div class="field">
+          <label class="field__label" for="guides-email">Email</label>
+          <div class="signup__row">
+            <input class="input" type="email" id="guides-email" name="email" autocomplete="email" placeholder="name@business.com" required aria-describedby="guides-email-error" />
+            <button type="submit" class="btn btn--primary signup__btn">Send it to me</button>
+          </div>
+          <p class="field__error" id="guides-email-error" hidden>Enter an email address, like name@business.com.</p>
+        </div>
+        <ConsentFields kind="email" idPrefix="guides" required />
+        <div data-form-status hidden tabindex="-1" role="status"></div>
+      </form>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { bindForm } from '../scripts/forms';
+  const form = document.querySelector<HTMLFormElement>('#guides-signup');
+  if (form) {
+    const email = form.querySelector<HTMLInputElement>('#guides-email')!;
+    const err = form.querySelector<HTMLElement>('#guides-email-error')!;
+    const check = () => {
+      const bad = !email.validity.valid;
+      email.setAttribute('aria-invalid', String(bad));
+      err.hidden = !bad;
+      return !bad;
+    };
+    // Show our own message (and keep the browser's checks for the consent box).
+    form.addEventListener('submit', (e) => { if (!check()) { e.preventDefault(); e.stopImmediatePropagation(); email.focus(); } }, true);
+    email.addEventListener('blur', () => { if (email.value) check(); });
+    email.addEventListener('input', () => { if (email.getAttribute('aria-invalid') === 'true') check(); });
+    bindForm(form);
+  }
+</script>
+
+<style>
+  .intro { padding-block: 28px 24px; }
+  .intro .h1, .featured__title { text-wrap: wrap; }
+  .intro .lede { margin-top: 16px; }
+  /* Phones: ledes are IBM Plex Sans 17/28 in the design (the global .lede is serif). */
+  .guides-lede { font-family: var(--font-sans); font-size: 17px; line-height: 28px; }
+
+  .featured { padding-bottom: 40px; }
+  .featured__grid { display: grid; }
+  .featured__media { display: block; aspect-ratio: 16 / 9; overflow: hidden; margin-inline: calc(-1 * var(--gutter)); background: var(--bg-sunken); }
+  .featured__media :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .featured__text { display: grid; justify-items: start; align-content: center; padding-top: 32px; }
+  .featured__text .eyebrow { margin-bottom: 12px; }
+  .chip-cat { display: none; }
+  .featured__title { font-size: 28px; line-height: 36px; }
+  .featured__title a { color: inherit; text-decoration: none; }
+  .featured__title a:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+  .featured .meta { margin-top: 16px; }
+  .featured__link { margin-top: 12px; font-size: 17px; line-height: 28px; }
+
+  .signup { background: var(--bg-accent-subtle); padding-block: 56px 64px; }
+  .signup__grid { display: grid; gap: 24px; }
+  .signup__text { display: grid; gap: 12px; }
+  .signup__form { display: grid; gap: 16px; }
+  .signup__row { display: grid; gap: 16px; }
+  .signup__btn { width: 100%; min-height: 52px; }
+  .signup__form :global(.consent-email) { align-items: flex-start; }
+  .signup__form :global(.consent-email .consent-footer) { font-size: 12px; line-height: 20px; }
+
+  @media (min-width: 768px) {
+    .featured__media { margin-inline: 0; border-radius: var(--radius); }
+    .signup__row { grid-template-columns: minmax(0, 1fr) auto; }
+    .signup__btn { width: auto; min-height: 52px; font-size: 13px; padding-inline: 24px; }
+  }
+  @media (min-width: 1024px) {
+    .intro { padding-block: 64px 48px; }
+    .intro .lede { margin-top: 16px; }
+    .featured__text .eyebrow { margin-bottom: 16px; }
+    .guides-lede { font-family: var(--font-serif); font-size: 21.78px; line-height: 32px; }
+    .featured { padding-bottom: 96px; }
+    .featured__grid { grid-template-columns: minmax(0, 843fr) minmax(0, 405fr); column-gap: 32px; align-items: center; }
+    .featured__text { padding-top: 0; }
+    .chip-cat {
+      display: inline-block; margin-bottom: 16px; padding: 2px 8px; border-radius: var(--radius-sm);
+      background: var(--bg-brand-subtle); font-size: 13px; line-height: 20px; font-weight: 600; color: var(--text-heading);
+    }
+    .featured__title { font-size: 39px; line-height: 44px; }
+    .featured .meta { margin-top: 24px; }
+    .featured__link { margin-top: 16px; font-size: 15px; line-height: 24px; }
+    .signup { padding-block: 96px; }
+    .signup__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 624px); column-gap: 32px; align-items: center; }
+  }
+</style>

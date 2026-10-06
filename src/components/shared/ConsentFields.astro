@@ -1,0 +1,30 @@
+---
+// Shared consent block for forms. Replaces "Counsel-approved text only." in the design.
+// kind="sms" → two optional, unchecked SMS boxes (transactional + marketing) + links.
+// kind="email" → one email opt-in line. Always includes the spam honeypot.
+import { consent } from '../../data/consent';
+interface Props { kind?: 'sms' | 'email'; idPrefix?: string; required?: boolean }
+const { kind = 'sms', idPrefix = 'c', required = false } = Astro.props;
+---
+{kind === 'sms' ? (
+  <div class="consent-box">
+    <label class="choice" for={`${idPrefix}-sms`}>
+      <input type="checkbox" id={`${idPrefix}-sms`} name="sms_consent_transactional" value="Yes" />
+      <span><strong>{consent.smsTransactional.label}</strong>{consent.smsTransactional.detail}</span>
+    </label>
+    <label class="choice" for={`${idPrefix}-sms-mkt`}>
+      <input type="checkbox" id={`${idPrefix}-sms-mkt`} name="sms_consent_marketing" value="Yes" />
+      <span><strong>{consent.smsMarketing.label}</strong>{consent.smsMarketing.detail}</span>
+    </label>
+    <p class="consent-footer">See our <a href="/sms-terms">SMS Terms</a> and <a href="/privacy">Privacy Policy</a>. We never sell or share your mobile number for marketing.</p>
+  </div>
+) : (
+  <label class="choice consent-email" for={`${idPrefix}-email-consent`}>
+    <input type="checkbox" id={`${idPrefix}-email-consent`} name="email_consent" value="Yes" required={required} />
+    <span class="consent-footer">{consent.emailSignup.label} {consent.emailSignup.detail} See our <a href="/privacy">Privacy Policy</a>.</span>
+  </label>
+)}
+<div class="hp-field" aria-hidden="true">
+  <label for={`${idPrefix}-botcheck`}>Leave this empty</label>
+  <input type="checkbox" name="botcheck" id={`${idPrefix}-botcheck`} tabindex="-1" autocomplete="off" />
+</div>

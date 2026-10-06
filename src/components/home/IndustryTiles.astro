@@ -1,0 +1,52 @@
+---
+// Industries · 3 photo tiles with a white label card overlapping the bottom.
+import Img from '../shared/Img.astro';
+import disp from '../../assets/images/07-tile-dispensaries.jpg';
+import cult from '../../assets/images/08-tile-cultivation.jpg';
+import proc from '../../assets/images/09-tile-processing.jpg';
+const tiles = [
+  { name: 'Dispensaries', link: 'See dispensary financing', href: '/industries/dispensaries', img: disp, pos: '30% center',
+    alt: 'Inside a dispensary: glass display counters under rows of pendant globe lights' },
+  { name: 'Cultivation', link: 'See grow financing', href: '/industries/cultivation', img: cult, pos: 'center',
+    alt: 'A dense canopy of flowering cannabis plants in an indoor grow' },
+  { name: 'Processing', link: 'See processor financing', href: '/industries/processing', img: proc, pos: '60% center',
+    alt: 'A gloved hand trimming a cannabis plant with blue-handled shears' },
+];
+---
+<ul role="list" class="tiles">
+  {tiles.map((t) => (
+    <li>
+      <a href={t.href} class="tile">
+        <div class="tile__media"><Img src={t.img} alt={t.alt} widths={[400, 600, 900, 1200]} sizes="(min-width: 1024px) 405px, (min-width: 768px) 45vw, 90vw" position={t.pos} /></div>
+        <div class="tile__label">
+          <h3 class="tile__name">{t.name}</h3>
+          <span class="link tile__link">{t.link}</span>
+        </div>
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .tiles { display: grid; gap: 16px; }
+  .tile { position: relative; display: block; border-radius: var(--radius); overflow: hidden; text-decoration: none; color: inherit; }
+  .tile__media { aspect-ratio: 4 / 3; background: var(--bg-sunken); }
+  .tile__media :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform .3s ease; }
+  .tile:hover .tile__media :global(img) { transform: scale(1.03); }
+  .tile__label {
+    position: absolute; left: 12px; bottom: 12px; max-width: calc(100% - 24px);
+    background: var(--bg-surface); border-radius: var(--radius-sm); padding: 12px 16px; display: grid; gap: 4px;
+  }
+  .tile__name { font-size: 20px; line-height: 32px; font-weight: 600; color: var(--text-heading); }
+  .tile:hover .tile__link { color: var(--text-link-hover); text-decoration-thickness: 2px; }
+  @media (min-width: 768px) {
+    .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+    .tile__media { aspect-ratio: 3 / 4; }
+    .tile__label { left: 16px; right: 16px; bottom: 16px; max-width: none; padding: 16px 20px; }
+  }
+  @media (min-width: 1024px) {
+    .tiles { gap: 32px; }
+    .tile__media { aspect-ratio: 405 / 539; }
+    .tile__label { left: 24px; right: 24px; bottom: 24px; padding: 22px 20px 20px; gap: 6px; }
+  }
+</style>

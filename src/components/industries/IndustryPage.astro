@@ -1,0 +1,150 @@
+---
+// Shared template for /industries/dispensaries, /cultivation, /processing.
+// Sections (design order): Breadcrumb · Hero (photo-led, panel) · Overview · What fits (4 cards) · Common uses (6) · FAQ (5) · Closing CTA.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../shared/Breadcrumb.astro';
+import Img from '../shared/Img.astro';
+import Icon from '../shared/Icon.astro';
+import FaqList from '../shared/FaqList.astro';
+import ClosingCTA from '../shared/ClosingCTA.astro';
+import IconCards from '../company/IconCards.astro';
+import FitCard from './FitCard.astro';
+import { industries, type IndustryKey } from './industries';
+import { faqs } from '../../data/faq';
+import { site } from '../../data/site';
+
+interface Props { industry: IndustryKey }
+const ind = industries[Astro.props.industry];
+const faqItems = faqs[ind.key];
+---
+<BaseLayout>
+  <Breadcrumb items={[{ label: 'Industries', href: '/industries' }, { label: ind.label }]} />
+
+  <section class="ind-hero" aria-labelledby="ind-h1">
+    <div class="ind-hero__media">
+      <Img src={ind.hero.src} alt={ind.hero.alt} widths={[400, 800, 1200, 1600, 2400]} sizes="100vw" priority position={ind.hero.position} />
+    </div>
+    <div class="container ind-hero__inner">
+      <div class="ind-hero__panel">
+        <p class="eyebrow">{ind.label}</p>
+        <h1 class="h1 h1--48 ind-hero__h1" id="ind-h1">{ind.h1}</h1>
+        <p class="lede ind-hero__lede">{ind.lede}</p>
+        <div class="btn-row btn-row--stack ind-hero__ctas" data-hero-cta>
+          <a href="/apply" class="btn btn--primary" data-track="cta_see_options" data-track-location="hero">See my options</a>
+          <a href="/contact" class="btn btn--secondary">Talk with us first</a>
+        </div>
+        <a href={site.phone.tel} class="link link-icon ind-hero__phone desktop-only" data-track="tel_click">
+          <Icon name="phone" size={20} />Call or text {site.phone.display}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--white ind-overview" aria-labelledby="ind-overview-h">
+    <div class="container ind-overview__grid">
+      <h2 class="h2" id="ind-overview-h">{ind.overview.h2}</h2>
+      <p class="lede ind-lede">{ind.overview.body}</p>
+    </div>
+  </section>
+
+  <section class="section section--paper ind-fit" aria-labelledby="ind-fit-h">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-head__text">
+          <h2 class="h2" id="ind-fit-h">{ind.fit.h2}</h2>
+          <p class="lede ind-lede">{ind.fit.lede}</p>
+        </div>
+        <div class="section-head__action desktop-only"><a class="link" href="/financing">Compare financing</a></div>
+      </div>
+      <ul role="list" class="grid grid--4 swipe ind-fit__grid">
+        {ind.fit.cards.map((c) => <li><FitCard {...c} /></li>)}
+      </ul>
+      <p class="ind-fit__more mobile-only"><a class="link" href="/financing">Compare financing</a></p>
+    </div>
+  </section>
+
+  <section class="section section--white ind-uses" aria-labelledby="ind-uses-h">
+    <div class="container">
+      <div class="section-head">
+        <div class="section-head__text">
+          <h2 class="h2" id="ind-uses-h">{ind.uses.h2}</h2>
+          <p class="lede ind-lede">{ind.uses.lede}</p>
+        </div>
+      </div>
+      <IconCards items={ind.uses.items} />
+    </div>
+  </section>
+
+  <section class="section section--paper ind-faq" aria-labelledby="ind-faq-h">
+    <div class="container faq-split">
+      <div class="faq-split__head">
+        <h2 class="h2" id="ind-faq-h">Questions owners ask</h2>
+        <a href="/faq" class="btn btn--secondary desktop-only">Read the FAQ</a>
+      </div>
+      <div>
+        <FaqList id={`faq-${ind.key}`} items={faqItems} />
+        <a href="/faq" class="btn btn--secondary btn--block mobile-only ind-faq__btn">Read the FAQ</a>
+      </div>
+    </div>
+  </section>
+
+  <ClosingCTA title={ind.close.h2} lede={ind.close.lede} />
+</BaseLayout>
+
+<style>
+  .ind-overview .h2, .ind-hero__h1 { text-wrap: wrap; }
+  /* Phones/tablets: photo on top, text below on paper. Desktop: full-bleed photo with a floating panel. */
+  .ind-hero { position: relative; background: var(--bg-canvas); }
+  .ind-hero__media { aspect-ratio: 13 / 10; overflow: hidden; background: var(--bg-sunken); }
+  .ind-hero__media :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .ind-hero__inner { padding-block: 32px 32px; }
+  .ind-hero__panel { display: grid; gap: 0; }
+  .ind-hero__h1 { margin-top: 12px; }
+  .ind-hero__lede { margin-top: 16px; }
+  .ind-hero__ctas { margin-top: 24px; }
+  .ind-hero__phone { margin-top: 24px; justify-self: start; }
+  .desktop-only { display: none; }
+  .mobile-only { display: block; }
+
+  .ind-overview__grid { display: grid; gap: 16px; }
+  .ind-fit__grid { list-style: none; margin: 0; padding: 0; }
+  .ind-fit__grid > li { display: flex; }
+  .ind-fit__more { margin-top: 32px; }
+  .ind-faq__btn.mobile-only { display: flex; margin-top: 32px; }
+
+  @media (max-width: 1023px) {
+    /* Design: ledes are Plex 17 on phones */
+    .ind-lede, .ind-hero__lede { font-family: var(--font-sans); font-size: 17px; line-height: 28px; }
+  }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .ind-hero__media { aspect-ratio: 16 / 7; }
+    .ind-hero__inner { padding-block: 48px; }
+    .ind-hero__panel { max-width: 600px; }
+    .ind-hero__ctas { flex-direction: row; }
+    .ind-hero__ctas .btn { width: auto; }
+  }
+  @media (min-width: 1024px) {
+    .desktop-only { display: inline-flex; }
+    .section-head__action.desktop-only { display: block; }
+    .mobile-only { display: none !important; }
+    .ind-hero { min-height: 640px; display: flex; align-items: center; }
+    .ind-hero__media { position: absolute; inset: 0; aspect-ratio: auto; }
+    .ind-hero__inner { position: relative; padding-block: 128px; }
+    .ind-hero__panel {
+      width: 560px; max-width: 100%; padding: 40px 40px 48px; background: var(--bg-canvas);
+      border-radius: var(--radius); box-shadow: var(--shadow-panel);
+    }
+    .ind-hero__h1 { margin-top: 20px; }
+    .ind-hero__lede { margin-top: 20px; }
+    .ind-hero__ctas { margin-top: 32px; }
+    .ind-hero__phone { margin-top: 28px; }
+    .ind-hero .btn { min-height: 48px; }
+
+    .ind-overview { padding-block: 96px; }
+    .ind-overview__grid { grid-template-columns: minmax(0, 576px) minmax(0, 624px); justify-content: space-between; gap: 80px; align-items: start; }
+    .ind-fit .section-head { align-items: end; }
+    .ind-fit .section-head__text { gap: 16px; }
+    .ind-uses .section-head__text { gap: 16px; }
+    .ind-faq .faq-split__head .btn { margin-top: 16px; }
+  }
+</style>

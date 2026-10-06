@@ -1,0 +1,94 @@
+---
+// /industries — hub. Frames "Industries — Desktop 1440 / Mobile 390".
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/shared/Breadcrumb.astro';
+import Img from '../components/shared/Img.astro';
+import ClosingCTA from '../components/shared/ClosingCTA.astro';
+import { industries, industryOrder } from '../components/industries/industries';
+const list = industryOrder.map((k) => industries[k]);
+---
+<BaseLayout>
+  <Breadcrumb items={[{ label: 'Industries' }]} />
+
+  <section class="section section--paper hub-intro" aria-labelledby="hub-h1">
+    <div class="container">
+      <h1 class="h1 h1--48" id="hub-h1">Financing built around your license</h1>
+      <p class="lede hub-intro__lede">Shops, grows and processors spend money differently. Pick yours and see what fits.</p>
+      <nav class="hub-jump" aria-label="Jump to an industry">
+        <span class="label hub-jump__label">Jump to</span>
+        <ul role="list">
+          {list.map((ind) => <li><a class="hub-chip" href={`#${ind.key}`}>{ind.label}</a></li>)}
+        </ul>
+      </nav>
+    </div>
+  </section>
+
+  {list.map((ind, i) => (
+    <section id={ind.key} class:list={['hub-panel', i % 2 ? 'section--paper hub-panel--flip' : 'section--white']} aria-labelledby={`${ind.key}-h`}>
+      <div class="hub-panel__media">
+        <Img src={ind.hub.image} alt={ind.hub.imageAlt} widths={[400, 800, 1200, 1400]} sizes="(min-width: 1024px) 685px, 100vw" />
+      </div>
+      <div class="container hub-panel__grid">
+        <div class="hub-panel__text">
+          <h2 class="h2 hub-panel__h" id={`${ind.key}-h`}>{ind.label}</h2>
+          <p class="hub-panel__body">{ind.hub.body}</p>
+          <a class="link" href={ind.href}>{ind.hub.link}</a>
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <ClosingCTA title="Not sure which fits? Five minutes will tell you." lede="No obligation. Stop anytime, no fee owed." />
+</BaseLayout>
+
+<style>
+  .hub-intro { padding-block: 40px 48px; }
+  .hub-intro__lede { margin-top: 16px; max-width: 728px; }
+  .hub-jump { display: flex; align-items: center; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+  .hub-jump__label { display: none; }
+  .hub-jump ul { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0; }
+  .hub-chip {
+    display: inline-flex; align-items: center; min-height: 40px; padding: 6px 16px;
+    border: 1px solid var(--border-strong); border-radius: 999px; background: var(--bg-surface);
+    font-size: 15px; line-height: 24px; font-weight: 500; color: var(--text-primary); text-decoration: none;
+  }
+  .hub-chip:hover { border-color: var(--border-brand); background: var(--bg-brand-subtle); color: var(--text-heading); }
+
+  .hub-panel { scroll-margin-top: var(--header-h); }
+  .hub-panel__media { aspect-ratio: 3 / 2; overflow: hidden; background: var(--bg-sunken); }
+  .hub-panel__media :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .hub-panel__grid { padding-block: 32px 48px; }
+  .hub-panel__text { display: grid; gap: 16px; justify-items: start; }
+  .hub-panel__body { font-size: 17px; line-height: 28px; }
+  .hub-panel__text .link { margin-top: 4px; }
+
+  @media (max-width: 1023px) {
+    .hub-intro__lede { font-family: var(--font-sans); font-size: 17px; line-height: 28px; }
+  }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .hub-panel__media { aspect-ratio: 16 / 7; }
+    .hub-panel__grid { padding-block: 40px 64px; }
+    .hub-panel__text { max-width: 600px; }
+  }
+  @media (min-width: 1024px) {
+    .hub-intro { padding-block: 64px; }
+    .hub-intro__lede { margin-top: 20px; }
+    .hub-jump { margin-top: 28px; }
+    .hub-jump__label { display: inline; }
+
+    .hub-panel { position: relative; padding-block: 64px; min-height: 592px; display: grid; align-items: center; }
+    .hub-panel__grid { padding-block: 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 515px); gap: 80px; align-items: center; }
+    .hub-panel__text { grid-column: 2; }
+    .hub-panel--flip .hub-panel__text { grid-column: 1; grid-row: 1; max-width: 515px; }
+    .hub-panel--flip .hub-panel__grid { grid-template-columns: minmax(0, 515px) minmax(0, 1fr); }
+    /* Photo sits in the opposite column, aligned to the container */
+    .hub-panel__media {
+      position: absolute; top: 64px; bottom: 64px; aspect-ratio: auto; border-radius: var(--radius);
+      left: max(var(--gutter), calc((100% - var(--container)) / 2));
+      width: calc(min(100% - 2 * var(--gutter), var(--container)) - 515px - 80px);
+    }
+    .hub-panel--flip .hub-panel__media { left: auto; right: max(var(--gutter), calc((100% - var(--container)) / 2)); }
+    .hub-panel__h { font-size: 39px; line-height: 44px; }
+    .hub-panel__text { gap: 20px; }
+  }
+</style>

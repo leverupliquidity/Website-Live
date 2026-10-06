@@ -1,0 +1,11 @@
+---
+// Usage: <Icon name="phone" /> — names match files in src/icons (without .svg).
+const icons = import.meta.glob('../../icons/*.svg', { query: '?raw', import: 'default', eager: true }) as Record<string, string>;
+interface Props { name: string; class?: string; size?: 16 | 20 | 24; label?: string }
+const { name, class: cls = '', size = 24, label } = Astro.props;
+const raw = icons[`../../icons/${name}.svg`];
+if (!raw) throw new Error(`Icon not found: ${name}`);
+const a11y = label ? `role="img" aria-label="${label}"` : 'aria-hidden="true" focusable="false"';
+const svg = raw.replace('<svg', `<svg class="icon icon--${size} ${cls}" width="${size}" height="${size}" ${a11y}`);
+---
+<Fragment set:html={svg} />

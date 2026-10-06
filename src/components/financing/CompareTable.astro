@@ -1,0 +1,106 @@
+---
+// /financing "All four, side by side". Table from tablet up (horizontal scroll with a
+// sticky first column below 1024), swipe cards on phones (as in the Mobile 390 frame).
+import { products } from '../../data/products';
+import { compareRows } from './productContent';
+const mobileRows = compareRows.filter((r) => r.mobile);
+---
+<div class="cmp-table-wrap" role="region" aria-label="Financing compared side by side" tabindex="0">
+  <table class="cmp-table">
+    <caption class="visually-hidden">Lines of credit, equipment financing, term loans and merchant cash advances compared</caption>
+    <colgroup><col class="cmp-col-label" />{products.map(() => <col />)}</colgroup>
+    <thead>
+      <tr>
+        <td class="cmp-corner"></td>
+        {products.map((p) => <th scope="col">{p.name}</th>)}
+      </tr>
+    </thead>
+    <tbody>
+      {compareRows.map((r) => (
+        <tr class:list={{ 'is-broker': r.broker }}>
+          <th scope="row">{r.label}</th>
+          {products.map((p) => <td class:list={[r.mono ? 'cmp-mono' : 'cmp-text']} set:html={r.values[p.key]} />)}
+        </tr>
+      ))}
+      <tr class="cmp-links">
+        <td class="cmp-corner"></td>
+        {products.map((p) => (
+          <td><a href={p.href} class="link">See costs and terms<span class="visually-hidden">: {p.name}</span></a></td>
+        ))}
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ul class="cmp-cards swipe" role="list">
+  {products.map((p) => (
+    <li class="card cmp-card">
+      <h3 class="cmp-card__name">{p.name}</h3>
+      <dl class="cmp-card__list">
+        {mobileRows.map((r) => (
+          <div class:list={['cmp-card__row', { 'is-broker': r.broker }]}>
+            <dt>{r.label}</dt>
+            <dd set:html={r.values[p.key]} />
+          </div>
+        ))}
+      </dl>
+      <a href={p.href} class="link cmp-card__link">See costs and terms<span class="visually-hidden">: {p.name}</span></a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  /* ── Table (tablet + desktop) ── */
+  .cmp-table-wrap { display: none; }
+  .cmp-cards { display: grid; }
+  @media (min-width: 768px) {
+    .cmp-table-wrap { display: block; position: relative; overflow-x: auto; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); }
+    .cmp-cards { display: none; }
+  }
+  @media (min-width: 1024px) { .cmp-table-wrap { overflow: visible; margin-inline: 0; padding-inline: 0; } }
+
+  .cmp-table { width: 100%; min-width: 900px; border-collapse: collapse; table-layout: fixed; }
+  .cmp-col-label { width: 22.6%; }
+  .cmp-table thead th, .cmp-table thead td { background: var(--bg-canvas); border-bottom: 1.5px solid var(--border-brand); }
+  .cmp-table thead th {
+    padding: 20px 16px 16px; text-align: right; vertical-align: bottom;
+    font-size: 20px; line-height: 32px; font-weight: 600; color: var(--text-heading);
+  }
+  .cmp-table tbody th {
+    padding: 16px; text-align: left; vertical-align: middle;
+    font-size: 15px; line-height: 24px; font-weight: 600; color: var(--text-primary);
+  }
+  .cmp-table tbody td { padding: 14px 16px; text-align: right; vertical-align: middle; }
+  .cmp-table tbody tr { border-bottom: 1px solid var(--border-subtle); }
+  .cmp-mono { font-family: var(--font-mono); font-weight: 500; font-size: 17px; line-height: 28px; color: var(--text-heading); }
+  .cmp-text { font-size: 15px; line-height: 24px; color: var(--text-primary); }
+  .cmp-table tr.is-broker { background: var(--bg-brand-subtle); border-bottom: 1.5px solid var(--border-brand); }
+  .cmp-table tr.is-broker th { font-size: 17px; line-height: 28px; color: var(--text-heading); }
+  .cmp-table tr.is-broker td { padding-block: 16px; }
+  .cmp-table tbody tr.cmp-links { border-bottom: 0; }
+  .cmp-table tr.cmp-links td { padding-top: 18px; }
+
+  /* Sticky first column while the table scrolls sideways (tablet) */
+  @media (max-width: 1023px) {
+    .cmp-table th:first-child, .cmp-table td:first-child { position: sticky; left: 0; z-index: 1; background: var(--bg-surface); }
+    .cmp-table thead td:first-child { background: var(--bg-canvas); }
+    .cmp-table tr.is-broker th { background: var(--bg-brand-subtle); }
+    .cmp-table th:first-child::after { content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 1px; background: var(--border-subtle); }
+  }
+
+  /* ── Swipe cards (phones) ── */
+  .cmp-cards { list-style: none; margin-block: 0; }
+  @media (max-width: 767px) { .cmp-cards.swipe { grid-auto-columns: 80%; } }
+  .cmp-card { display: flex; flex-direction: column; padding: 20px 20px 24px; }
+  .cmp-card__name { font-size: 20px; line-height: 32px; font-weight: 600; color: var(--text-heading); margin-bottom: 16px; }
+  .cmp-card__list { border-top: 1px solid var(--border-subtle); margin-bottom: 20px; }
+  .cmp-card__row {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+    padding: 9px 0; border-bottom: 1px solid var(--border-subtle); font-size: 15px; line-height: 24px;
+  }
+  .cmp-card__row dt { flex: none; color: var(--text-secondary); }
+  .cmp-card__row dd { min-width: 0; text-align: right; font-family: var(--font-mono); font-weight: 500; color: var(--text-heading); }
+  .cmp-card__row.is-broker { background: var(--bg-brand-subtle); margin-inline: -8px; padding-inline: 8px; border-bottom: 1.5px solid var(--border-brand); }
+  .cmp-card__row.is-broker dt { color: var(--text-heading); font-weight: 600; }
+  .cmp-card__link { margin-top: auto; }
+</style>

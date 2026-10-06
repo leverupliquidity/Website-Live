@@ -1,0 +1,25 @@
+---
+// Breadcrumb + BreadcrumbList structured data. items: [{label, href?}] — last item is the current page.
+import { site } from '../../data/site';
+import { cleanPath } from '../../data/path';
+interface Props { items: { label: string; href?: string }[] }
+const { items } = Astro.props;
+const all = [{ label: 'Home', href: '/' }, ...items];
+const ld = {
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: all.map((it, i) => ({
+    '@type': 'ListItem', position: i + 1, name: it.label,
+    ...(it.href ? { item: site.url + (it.href === '/' ? '' : it.href) } : { item: site.url + cleanPath(Astro.url.pathname) }),
+  })),
+};
+---
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <div class="container">
+    <ol>
+      {all.map((it, i) => (
+        <li>{i < all.length - 1 && it.href ? <a href={it.href}>{it.label}</a> : <span aria-current="page">{it.label}</span>}</li>
+      ))}
+    </ol>
+  </div>
+</nav>
+<script type="application/ld+json" set:html={JSON.stringify(ld)} />

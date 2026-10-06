@@ -1,0 +1,69 @@
+---
+// One owner's fields. n = owner number (or "__N__" inside the <template> for added owners).
+import Field from './Field.astro';
+import Icon from '../shared/Icon.astro';
+import { STATES, CREDIT_RANGES } from './options';
+interface Props { n: number | string; primary?: boolean }
+const { n, primary = false } = Astro.props;
+const p = `o${n}-`;
+const nm = (s: string) => `Owner ${n} — ${s}`;
+---
+<div class:list={['owner', { 'owner--extra': !primary }]} data-owner={n}>
+  <div class="owner__head">
+    <h3 class="owner__title"><Icon name="user" size={20} /><span data-owner-label>Owner {n}</span>{primary && <span class="owner__primary">· Primary</span>}</h3>
+    {!primary && <button type="button" class="ap-textbtn" data-remove-owner>Remove owner<span class="visually-hidden" data-owner-label-sr> {`${n}`}</span></button>}
+  </div>
+  <div class="form-grid form-grid--2 ap-grid">
+    <Field id={`${p}name`} label="Full Legal Name" required>
+      <input class="input" id={`${p}name`} name={nm('Full legal name')} autocomplete={primary ? 'name' : 'off'} required />
+    </Field>
+    <Field id={`${p}pct`} label="Ownership Percentage" required>
+      <input class="input" id={`${p}pct`} name={nm('Ownership %')} inputmode="numeric" data-fmt="pct" maxlength="3" required />
+    </Field>
+    <Field id={`${p}phone`} label="Personal Phone" required>
+      <input class="input" id={`${p}phone`} name={nm('Phone')} type="tel" inputmode="tel" placeholder="(XXX) XXX-XXXX" autocomplete={primary ? 'tel-national' : 'off'} data-fmt="phone" required />
+    </Field>
+    <Field id={`${p}email`} label="Personal Email" required>
+      <input class="input" id={`${p}email`} name={nm('Email')} type="email" autocomplete={primary ? 'email' : 'off'} data-fmt="email" required />
+    </Field>
+    <Field id={`${p}dob`} label="Date of Birth" required>
+      <div class="ap-iconwrap">
+        <input class="input" id={`${p}dob`} name={nm('Date of birth')} inputmode="numeric" placeholder="mm/dd/yyyy" autocomplete={primary ? 'bday' : 'off'} data-fmt="dob" maxlength="10" required />
+        <span class="ap-iconwrap__icon" aria-hidden="true"><Icon name="calendar" size={20} /></span>
+      </div>
+    </Field>
+    <Field id={`${p}ssn`} label="Social Security Number" required hint="Used for identity verification and credit review.">
+      <div class="ap-iconwrap">
+        <input class="input" id={`${p}ssn`} name={nm('SSN')} type="password" inputmode="numeric" autocomplete="off" placeholder="XXX-XX-XXXX" data-fmt="ssn" maxlength="11" aria-describedby={`${p}ssn-hint`} required spellcheck="false" />
+        <button type="button" class="ap-eye" data-ssn-toggle aria-controls={`${p}ssn`} aria-pressed="false" aria-label="Show Social Security Number">
+          <Icon name="eye" size={20} class="ap-eye__show" />
+          <svg class="icon icon--20 ap-eye__hide" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false"><path d="M3 3l18 18M10.6 5.1A10.4 10.4 0 0 1 12 5c7 0 11 7 11 7a18.4 18.4 0 0 1-3.2 4.2M6.6 6.6C3.4 8.6 1 12 1 12s4 7 11 7c1.8 0 3.4-.4 4.8-1.1M9.9 9.9a3 3 0 0 0 4.2 4.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </Field>
+    <Field id={`${p}credit`} label="Estimated Credit Score" required hint="Self-reported estimate — no credit is pulled when you submit this form.">
+      <select class="select" id={`${p}credit`} name={nm('Estimated credit score')} aria-describedby={`${p}credit-hint`} required>
+        <option value="">Select range</option>
+        {CREDIT_RANGES.map((c) => <option>{c}</option>)}
+      </select>
+    </Field>
+    <div class="ap-spacer" aria-hidden="true"></div>
+    <Field id={`${p}street`} label="Home Street Address" required class="span-2">
+      <input class="input" id={`${p}street`} name={nm('Home street address')} autocomplete={primary ? 'street-address' : 'off'} required />
+    </Field>
+    <div class="span-2 ap-addr">
+      <Field id={`${p}city`} label="City" required>
+        <input class="input" id={`${p}city`} name={nm('City')} autocomplete={primary ? 'address-level2' : 'off'} required />
+      </Field>
+      <Field id={`${p}state`} label="State" required>
+        <select class="select" id={`${p}state`} name={nm('State')} autocomplete={primary ? 'address-level1' : 'off'} required>
+          <option value="">Select</option>
+          {STATES.map(([, l]) => <option value={l}>{l}</option>)}
+        </select>
+      </Field>
+      <Field id={`${p}zip`} label="ZIP" required>
+        <input class="input" id={`${p}zip`} name={nm('ZIP')} inputmode="numeric" autocomplete={primary ? 'postal-code' : 'off'} data-fmt="zip" maxlength="5" required />
+      </Field>
+    </div>
+  </div>
+</div>

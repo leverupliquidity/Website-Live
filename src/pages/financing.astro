@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/shared/Breadcrumb.astro';
+import SectionHead from '../components/shared/SectionHead.astro';
+import ProductCard from '../components/shared/ProductCard.astro';
+import ClosingCTA from '../components/shared/ClosingCTA.astro';
+import Img from '../components/shared/Img.astro';
+import Icon from '../components/shared/Icon.astro';
+import CompareTable from '../components/financing/CompareTable.astro';
+import FitFinder from '../components/financing/FitFinder.astro';
+import { products } from '../data/products';
+import { site } from '../data/site';
+import harbor from '../assets/images/14-photo-dispensary-16x9.jpg';
+---
+<BaseLayout>
+  <Breadcrumb items={[{ label: 'Financing' }]} />
+
+  <section class="section section--paper hub-hero" aria-labelledby="hub-h1">
+    <div class="container hub-hero__grid">
+      <div class="hub-hero__text">
+        <h1 class="h1 h1--48" id="hub-h1">Compare four ways to fund a cannabis business</h1>
+        <p class="lede">Same numbers for every product: amount, total cost, payment and how often you pay. No guessing which costs more.</p>
+        <div class="btn-row btn-row--stack hub-hero__cta" data-hero-cta>
+          <a href="/apply" class="btn btn--primary" data-track="cta_see_options" data-track-location="financing_hero">See my options</a>
+          <a href="/contact" class="btn btn--secondary">Talk with us first</a>
+        </div>
+        <a href={site.phone.tel} class="link link-icon hub-hero__call"><Icon name="phone" />Call or text {site.phone.display}</a>
+      </div>
+      <div class="hub-hero__media">
+        <Img src={harbor} alt="Harbor at dusk, with dock lights reflected on calm water" widths={[400, 800, 1250, 1600]} sizes="(min-width: 1024px) 624px, 100vw" priority />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--white hub-compare" aria-labelledby="hub-compare-h">
+    <div class="container">
+      <SectionHead id="hub-compare-h" title="All four, side by side" lede="Typical ranges. Your offer shows your exact numbers.">
+        <p slot="action" class="meta hub-updated">Updated <time datetime={site.updated.iso}>{site.updated.display}</time></p>
+      </SectionHead>
+      <CompareTable />
+    </div>
+  </section>
+
+  <section class="section section--paper hub-fit" aria-label="Fit finder">
+    <div class="container">
+      <FitFinder />
+    </div>
+  </section>
+
+  <section class="section section--white hub-all" aria-labelledby="hub-all-h">
+    <div class="container">
+      <SectionHead id="hub-all-h" title="Four ways to fund a cannabis&nbsp;business" lede="Each one fits a different need. We'll say which." class="hub-all__head" />
+      <div class="grid grid--4 hub-all__cards">
+        {products.map((p) => <ProductCard product={p.key} />)}
+      </div>
+      <ul class="hub-all__list" role="list">
+        {products.map((p) => (
+          <li class="hub-all__item">
+            <div class="hub-all__thumb"><Img src={p.image} alt="" widths={[200]} sizes="64px" /></div>
+            <div>
+              <p class="hub-all__name">{p.name}</p>
+              <a href={p.href} class="link link--17">See costs and terms<span class="visually-hidden">: {p.name}</span></a>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <ClosingCTA title="Find out what you qualify for in 5 minutes." lede="No obligation. Stop anytime, no fee owed." />
+</BaseLayout>
+
+<style>
+  /* Hero: text + 16:9 photo; on phones the photo runs full width below the text */
+  .hub-hero { padding-block: 40px 0; }
+  .hub-hero__grid { display: grid; gap: 40px; }
+  .hub-hero .h1 { text-wrap: pretty; }
+  .hub-hero__text { display: grid; gap: 16px; justify-items: start; }
+  .hub-hero__cta { margin-top: 16px; width: 100%; }
+  .hub-hero__call { margin-top: 8px; }
+  .hub-hero__media { aspect-ratio: 16 / 9; overflow: hidden; margin-inline: calc(-1 * var(--gutter)); background: var(--bg-sunken); }
+  .hub-hero__media :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  @media (min-width: 768px) {
+    .hub-hero__cta { width: auto; }
+  }
+  @media (min-width: 1024px) {
+    .hub-hero { padding-block: 64px 96px; }
+    .hub-hero__grid { grid-template-columns: minmax(0, 1fr) minmax(0, min(624px, 50%)); gap: 32px; align-items: center; }
+    .hub-hero__text { gap: 0; }
+    .hub-hero__text .lede { margin-top: 24px; max-width: 610px; }
+    .hub-hero__cta { margin-top: 24px; }
+    .hub-hero__call { margin-top: 28px; }
+    .hub-hero__media { margin-inline: 0; border-radius: var(--radius); }
+  }
+
+  /* Compare */
+  .hub-compare .section-head { margin-bottom: 32px; }
+  .hub-updated { display: none; }
+  @media (min-width: 768px) { .hub-updated { display: block; } }
+  @media (min-width: 1024px) {
+    .hub-compare .section-head { margin-bottom: 40px; }
+  }
+
+  /* Fit finder */
+  @media (min-width: 1024px) { .hub-fit { padding-block: 96px; } }
+
+  /* Four ways: product cards from tablet up, compact list on phones */
+  .hub-all__cards { display: none; }
+  .hub-all :global(.hub-all__head .lede) { display: none; }
+  .hub-all :global(.hub-all__head) { margin-bottom: 24px; }
+  .hub-all__list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border-default); }
+  .hub-all__item { display: flex; align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--border-default); }
+  .hub-all__thumb { width: 64px; height: 64px; flex: none; border-radius: var(--radius); overflow: hidden; background: var(--bg-sunken); }
+  .hub-all__thumb :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .hub-all__name { font-size: 17px; line-height: 28px; font-weight: 600; color: var(--text-heading); }
+  @media (min-width: 768px) {
+    .hub-all__cards { display: grid; }
+    .hub-all__list { display: none; }
+    .hub-all :global(.hub-all__head .lede) { display: block; }
+    .hub-all :global(.hub-all__head) { margin-bottom: 48px; }
+    .hub-all :global(.hub-all__head .h2) { max-width: 480px; }
+  }
+</style>

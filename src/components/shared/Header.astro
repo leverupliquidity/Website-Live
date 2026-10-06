@@ -1,0 +1,333 @@
+---
+// Header/Desktop (with Financing mega menu + Industries menu) and Header/Mobile (menu accordion).
+// variant="apply" renders the slim Apply header (logo · Call · Text).
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import Img from './Img.astro';
+import logo from '../../assets/logos/logo-primary-reverse.png';
+import { site, nav } from '../../data/site';
+import { products } from '../../data/products';
+import { cleanPath } from '../../data/path';
+
+interface Props { variant?: 'default' | 'apply'; current?: string }
+const { variant = 'default' } = Astro.props;
+const path = cleanPath(Astro.url.pathname);
+const isActive = (href: string) => path === href || path.startsWith(href + '/');
+---
+<header class="site-header" data-header>
+  <div class="container site-header__bar">
+    <a href="/" class="site-header__logo" aria-label="Leverup Liquidity home">
+      <Image src={logo} alt="" width={220} height={52} densities={[1, 2]} loading="eager" class="site-header__logo-img" />
+    </a>
+
+    {variant === 'apply' ? (
+      <nav class="apply-nav" aria-label="Contact">
+        <a href={site.phone.tel} class="apply-nav__link" data-track="tel_click"><Icon name="phone" size={20} />Call</a>
+        <a href={site.phone.sms} class="apply-nav__link" data-track="sms_click"><Icon name="message" size={20} />Text</a>
+        {path === '/apply/confirmation' && <a href="/" class="apply-nav__exit">Back to home</a>}
+      </nav>
+    ) : (
+      <>
+        <nav class="main-nav desktop-block" aria-label="Main">
+          <ul role="list" class="main-nav__list">
+            {nav.primary.map((item) => (
+              <li class="main-nav__item">
+                {item.menu ? (
+                  <button
+                    type="button" class:list={['main-nav__link', { 'is-active': isActive(item.href) }]}
+                    aria-expanded="false" aria-controls={`menu-${item.menu}`} data-menu-toggle
+                  >
+                    {item.label}<Icon name="chevron-down" size={16} class="main-nav__chev" />
+                  </button>
+                ) : (
+                  <a href={item.href} class:list={['main-nav__link', { 'is-active': isActive(item.href) }]}
+                     aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+                )}
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div class="site-header__actions desktop-block">
+          <a href={site.phone.tel} class="site-header__phone" data-track="tel_click">
+            <Icon name="phone" size={20} /><span>Call or text {site.phone.display}</span>
+          </a>
+          <a href="/apply" class="btn btn--secondary-on-brand site-header__cta" data-track="cta_see_options">See my options</a>
+        </div>
+
+        <button type="button" class="menu-btn mobile-block" aria-expanded="false" aria-controls="mobile-menu" data-mobile-toggle>
+          <span class="visually-hidden" data-mobile-label>Open menu</span>
+          <Icon name="menu" class="menu-btn__open" />
+          <Icon name="close" class="menu-btn__close" />
+        </button>
+      </>
+    )}
+  </div>
+
+  {variant !== 'apply' && (
+    <>
+      <!-- Financing mega menu (desktop) -->
+      <div class="mega" id="menu-financing" hidden data-menu>
+        <div class="container">
+          <ul role="list" class="mega__grid">
+            {products.map((p) => (
+              <li>
+                <a href={p.href} class="mega__card">
+                  <div class="mega__media"><Img src={p.image} alt="" widths={[300, 600]} sizes="296px" /></div>
+                  <span class="mega__name">{p.menuName}</span>
+                  <span class="mega__blurb">{p.menuBlurb}</span>
+                  <span class="mega__figs mono">{p.amount}<span aria-hidden="true">&nbsp;&nbsp;·&nbsp;&nbsp;</span><span class="visually-hidden">, </span>{p.term}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <div class="mega__industries">
+            <span class="label">Industries</span>
+            {nav.industries.map((i) => <a href={i.href} class="link">{i.label}</a>)}
+          </div>
+          <div class="mega__foot">
+            <a href="/financing" class="link">Compare all four</a>
+            <a href="/contact" class="link">Not sure? Talk with us</a>
+            <a href={site.phone.tel} class="link link-icon" data-track="tel_click"><Icon name="phone" size={20} />Call or text {site.phone.display}</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Industries menu (desktop) -->
+      <div class="mega mega--small" id="menu-industries" hidden data-menu>
+        <div class="container">
+          <ul role="list" class="mega__grid mega__grid--3">
+            {nav.industries.map((i) => (
+              <li><a href={i.href} class="mega__text-link">{i.label}</a></li>
+            ))}
+          </ul>
+          <div class="mega__foot"><a href="/industries" class="link">See all industries</a></div>
+        </div>
+      </div>
+
+      <!-- Mobile menu -->
+      <div class="mobile-menu" id="mobile-menu" hidden data-mobile-menu>
+        <nav aria-label="Main" class="container">
+          <ul role="list" class="mobile-menu__list">
+            <li class="mobile-menu__item">
+              <button type="button" class="mobile-menu__toggle" aria-expanded="true" aria-controls="mm-financing" data-acc>
+                Financing <Icon name="plus" class="icon-plus" /><Icon name="minus" class="icon-minus" />
+              </button>
+              <div id="mm-financing" class="mobile-menu__panel">
+                <ul role="list" class="mobile-menu__products">
+                  {products.map((p) => (
+                    <li>
+                      <a href={p.href} class="mobile-menu__product">
+                        <span class="mobile-menu__thumb"><Img src={p.image} alt="" widths={[96, 144]} sizes="48px" /></span>
+                        {p.menuName}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+                <a href="/financing" class="link link--17">Compare all four</a>
+              </div>
+            </li>
+            <li class="mobile-menu__item">
+              <button type="button" class="mobile-menu__toggle" aria-expanded="false" aria-controls="mm-industries" data-acc>
+                Industries <Icon name="plus" class="icon-plus" /><Icon name="minus" class="icon-minus" />
+              </button>
+              <div id="mm-industries" class="mobile-menu__panel" hidden>
+                <ul role="list" class="mobile-menu__sub">
+                  {nav.industries.map((i) => <li><a href={i.href}>{i.label}</a></li>)}
+                  <li><a href="/industries" class="link link--17">See all industries</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="mobile-menu__item"><a href="/how-it-works" class="mobile-menu__link">How it works</a></li>
+            <li class="mobile-menu__item"><a href="/guides" class="mobile-menu__link">Guides</a></li>
+            <li class="mobile-menu__item"><a href="/about" class="mobile-menu__link">About</a></li>
+          </ul>
+        </nav>
+      </div>
+    </>
+  )}
+</header>
+
+<style>
+  .site-header { position: sticky; top: 0; z-index: 50; background: var(--bg-brand); color: var(--text-on-brand-nav); }
+  .site-header__bar { display: flex; align-items: center; justify-content: space-between; gap: 24px; height: var(--header-h); }
+  .site-header__logo { display: block; flex: none; }
+  .site-header__logo :global(img) { width: 170px; height: auto; }
+  @media (min-width: 1024px) { .site-header__logo :global(img) { width: 220px; margin-left: 0; } }
+
+  .main-nav__list { display: flex; gap: 32px; list-style: none; margin: 0; padding: 0; }
+  .main-nav__link {
+    white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; padding: 8px 0; background: none; border: 0;
+    color: var(--text-on-brand-nav); font-size: 15px; line-height: 24px; font-weight: 600; text-decoration: none;
+  }
+  .main-nav__link:hover { color: #fff; }
+  .main-nav__link.is-active, .main-nav__link[aria-expanded='true'] { color: var(--text-on-brand-accent); }
+  .main-nav__link[aria-expanded='true'] :global(.main-nav__chev) { transform: rotate(180deg); }
+  :global(.main-nav__chev) { transition: transform .15s ease; }
+  .site-header__actions { display: flex; align-items: center; gap: 24px; }
+  .site-header__actions.desktop-block { display: none; }
+  @media (min-width: 1024px) { .site-header__actions.desktop-block { display: flex; } }
+  .site-header__phone { display: inline-flex; align-items: center; gap: 8px; color: var(--text-on-brand-nav); font-size: 15px; font-weight: 600; text-decoration: none; white-space: nowrap; }
+  .site-header__phone :global(.icon) { color: var(--brand-teal-400); }
+  .site-header__phone:hover { color: #fff; }
+  .site-header__cta { min-height: 44px; }
+  @media (min-width: 1024px) and (max-width: 1279px) {
+    .main-nav__list { gap: 20px; }
+    .site-header__phone span { display: none; }
+  }
+
+  .menu-btn { width: 48px; height: 48px; display: grid; place-items: center; background: transparent; border: 1.5px solid var(--border-on-brand-accent); border-radius: var(--radius); color: var(--text-on-brand-accent); }
+  .menu-btn :global(.menu-btn__close) { display: none; }
+  .menu-btn[aria-expanded='true'] :global(.menu-btn__close) { display: block; }
+  .menu-btn[aria-expanded='true'] :global(.menu-btn__open) { display: none; }
+
+  .apply-nav { display: flex; align-items: center; gap: 24px; }
+  .apply-nav__link { display: inline-flex; align-items: center; gap: 8px; color: var(--text-on-brand-nav); font-size: 15px; font-weight: 600; text-decoration: none; min-height: 44px; }
+  .apply-nav__link :global(.icon) { color: var(--brand-teal-400); }
+  .apply-nav__link:hover { color: #fff; }
+  /* Confirmation: "Back to home" after a divider; on phones it replaces Call / Text. */
+  .apply-nav__exit { color: var(--text-on-brand-nav); font-size: 15px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; display: inline-flex; align-items: center; min-height: 44px; }
+  .apply-nav__exit::before { content: ''; width: 1px; height: 24px; background: var(--border-on-brand); margin-right: 24px; }
+  .apply-nav__exit:hover { color: #fff; }
+  @media (max-width: 767px) {
+    .apply-nav:has(.apply-nav__exit) .apply-nav__link { display: none; }
+    .apply-nav__exit::before { display: none; }
+  }
+
+  /* Mega menu */
+  .mega { position: absolute; left: 0; right: 0; top: 100%; background: var(--bg-raised); color: var(--text-primary); box-shadow: var(--shadow-menu); padding: 40px 0 0; max-height: calc(100vh - var(--header-h)); overflow: auto; }
+  .mega__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; list-style: none; margin: 0; padding: 0; }
+  .mega__grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .mega__card { display: grid; gap: 8px; text-decoration: none; color: inherit; }
+  .mega__media { aspect-ratio: 296 / 197; overflow: hidden; border-radius: var(--radius); margin-bottom: 12px; background: var(--bg-sunken); }
+  .mega__media :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform .25s ease; }
+  .mega__card:hover .mega__media :global(img) { transform: scale(1.03); }
+  .mega__name { font-size: 20px; line-height: 32px; font-weight: 600; color: var(--text-heading); }
+  .mega__card:hover .mega__name { text-decoration: underline; text-underline-offset: 3px; }
+  .mega__blurb { font-size: 15px; line-height: 24px; }
+  .mega__figs { font-size: 15px; line-height: 24px; font-weight: 500; color: var(--text-primary); margin-top: 4px; }
+  .mega__industries { display: flex; align-items: center; gap: 24px; margin-top: 28px; }
+  .mega__foot { display: flex; align-items: center; gap: 32px; border-top: 1px solid var(--border-subtle); margin-top: 24px; padding: 28px 0 40px; }
+  .mega--small .mega__foot { margin-top: 16px; }
+  .mega__text-link { display: block; padding: 16px 20px; background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius); font-size: 20px; font-weight: 600; color: var(--text-heading); text-decoration: none; }
+  .mega__text-link:hover { border-color: var(--border-brand); text-decoration: underline; text-underline-offset: 3px; }
+
+  /* Mobile menu */
+  .mobile-menu { position: fixed; left: 0; right: 0; top: var(--header-h); bottom: 0; background: var(--bg-surface); color: var(--text-heading); overflow-y: auto; padding-bottom: 120px; }
+  .mobile-menu__list { list-style: none; margin: 0; padding: 16px 0 0; }
+  .mobile-menu__item { border-bottom: 1px solid var(--border-subtle); }
+  .mobile-menu__toggle, .mobile-menu__link {
+    width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 16px 0;
+    background: none; border: 0; text-align: left; text-decoration: none;
+    font-size: 20px; line-height: 32px; font-weight: 600; color: var(--text-heading);
+  }
+  .mobile-menu__toggle :global(.icon) { color: var(--brand-teal-600); }
+  .mobile-menu__toggle :global(.icon-minus) { display: none; }
+  .mobile-menu__toggle[aria-expanded='true'] :global(.icon-minus) { display: block; }
+  .mobile-menu__toggle[aria-expanded='true'] :global(.icon-plus) { display: none; }
+  .mobile-menu__panel { padding-bottom: 20px; }
+  .mobile-menu__products { list-style: none; margin: 0 0 16px; padding: 0; display: grid; gap: 16px; }
+  .mobile-menu__product { display: flex; align-items: center; gap: 12px; font-size: 17px; line-height: 28px; color: var(--text-primary); text-decoration: none; }
+  .mobile-menu__thumb { width: 48px; height: 48px; flex: none; border-radius: var(--radius); overflow: hidden; }
+  .mobile-menu__thumb :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .mobile-menu__sub { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .mobile-menu__sub a:not(.link) { font-size: 17px; line-height: 28px; color: var(--text-primary); text-decoration: none; display: block; padding: 4px 0; }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  if (header) {
+    const toggles = [...header.querySelectorAll<HTMLButtonElement>('[data-menu-toggle]')];
+    const closeAll = (except?: HTMLButtonElement) => {
+      toggles.forEach((t) => {
+        if (t === except) return;
+        t.setAttribute('aria-expanded', 'false');
+        const m = document.getElementById(t.getAttribute('aria-controls')!);
+        if (m) m.hidden = true;
+      });
+    };
+    toggles.forEach((t) => {
+      t.addEventListener('click', () => {
+        const open = t.getAttribute('aria-expanded') === 'true';
+        closeAll(t);
+        t.setAttribute('aria-expanded', String(!open));
+        const m = document.getElementById(t.getAttribute('aria-controls')!);
+        if (m) m.hidden = open;
+      });
+    });
+    document.addEventListener('click', (e) => { if (!header.contains(e.target as Node)) closeAll(); });
+
+    // Keyboard: the menus sit after the nav in the DOM, so route Tab from an open toggle into its
+    // menu, and from the end of the menu back to the next nav item (closing the menu).
+    const focusables = (el: Element) => [...el.querySelectorAll<HTMLElement>('a[href], button:not([disabled])')];
+    const navItems = [...header.querySelectorAll<HTMLElement>('.main-nav a, .main-nav button')];
+    toggles.forEach((t) => {
+      const m = document.getElementById(t.getAttribute('aria-controls')!);
+      if (!m) return;
+      t.addEventListener('keydown', (e) => {
+        if (e.key === 'Tab' && !e.shiftKey && t.getAttribute('aria-expanded') === 'true') {
+          const first = focusables(m)[0];
+          if (first) { e.preventDefault(); first.focus(); }
+        }
+      });
+      m.addEventListener('keydown', (e) => {
+        if (e.key !== 'Tab') return;
+        const items = focusables(m);
+        if (e.shiftKey && document.activeElement === items[0]) { e.preventDefault(); t.focus(); }
+        else if (!e.shiftKey && document.activeElement === items[items.length - 1]) {
+          const next = navItems[navItems.indexOf(t) + 1];
+          if (next) { e.preventDefault(); closeAll(); next.focus(); }
+        }
+      });
+    });
+    header.addEventListener('focusout', (e) => {
+      const to = e.relatedTarget as Node | null;
+      if (to && !header.contains(to)) closeAll();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      const openT = toggles.find((t) => t.getAttribute('aria-expanded') === 'true');
+      closeAll();
+      openT?.focus();
+      closeMobile();
+    });
+
+    // Mobile menu
+    const mBtn = header.querySelector<HTMLButtonElement>('[data-mobile-toggle]');
+    const mMenu = header.querySelector<HTMLElement>('[data-mobile-menu]');
+    const mLabel = header.querySelector<HTMLElement>('[data-mobile-label]');
+    function closeMobile() {
+      if (!mBtn || !mMenu || mBtn.getAttribute('aria-expanded') !== 'true') return;
+      mBtn.setAttribute('aria-expanded', 'false'); mMenu.hidden = true;
+      document.documentElement.classList.remove('menu-open');
+      if (mLabel) mLabel.textContent = 'Open menu';
+      mBtn.focus();
+    }
+    mBtn?.addEventListener('click', () => {
+      const open = mBtn.getAttribute('aria-expanded') === 'true';
+      if (open) return closeMobile();
+      mBtn.setAttribute('aria-expanded', 'true'); mMenu!.hidden = false;
+      document.documentElement.classList.add('menu-open');
+      if (mLabel) mLabel.textContent = 'Close menu';
+    });
+    // Keep Tab inside the open mobile menu (menu button → menu links → action bar), since it covers the page.
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Tab' || !mBtn || !mMenu || mBtn.getAttribute('aria-expanded') !== 'true') return;
+      const bar = document.querySelector('[data-action-bar]');
+      const list = [mBtn, ...focusables(mMenu), ...(bar ? focusables(bar) : [])].filter((el) => el.getClientRects().length > 0 && getComputedStyle(el).visibility !== 'hidden');
+      const i = list.indexOf(document.activeElement as HTMLElement);
+      e.preventDefault();
+      const n = list.length;
+      list[i === -1 ? 0 : (i + (e.shiftKey ? n - 1 : 1)) % n].focus();
+    });
+    header.querySelectorAll<HTMLButtonElement>('[data-acc]').forEach((b) => {
+      b.addEventListener('click', () => {
+        const open = b.getAttribute('aria-expanded') === 'true';
+        b.setAttribute('aria-expanded', String(!open));
+        const p = document.getElementById(b.getAttribute('aria-controls')!);
+        if (p) p.hidden = open;
+      });
+    });
+    window.matchMedia('(min-width: 1024px)').addEventListener('change', (e) => { if (e.matches) closeMobile(); else closeAll(); });
+  }
+</script>

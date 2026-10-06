@@ -1,0 +1,39 @@
+---
+// Proof points · 4 (white band under the hero)
+import Icon from '../shared/Icon.astro';
+const items = [
+  { icon: 'ledger', title: 'Every fee shown', line: 'Total cost, before you sign.' },
+  { icon: 'shield', title: 'No obligation', line: 'Stop anytime, no fee owed.' },
+  { icon: 'lock', title: 'Info never sold', line: "We don't sell your info." },
+  { icon: 'clipboard-check', title: 'Not a fit yet?', line: 'Get a written plan to qualify.' },
+];
+---
+<section class="proof" aria-label="Why owners work with us">
+  <div class="container">
+    <ul role="list" class="proof__list">
+      {items.map((it) => (
+        <li class="proof__item">
+          <Icon name={it.icon} />
+          <p class="proof__title">{it.title}</p>
+          <p class="proof__line">{it.line}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .proof { background: var(--bg-surface); padding-block: 36px 40px; }
+  .proof__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 24px; }
+  .proof__item :global(.icon) { color: var(--brand-teal-600); }
+  .proof__title { margin-top: 12px; font-size: 17px; line-height: 28px; font-weight: 600; color: var(--text-heading); }
+  .proof__line { margin-top: 8px; font-size: 15px; line-height: 24px; }
+  @media (min-width: 1024px) {
+    .proof { padding-block: 40px; }
+    .proof__list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; }
+    .proof__item { padding-inline: 24px; }
+    .proof__item:first-child { padding-left: 0; }
+    .proof__item + .proof__item { border-left: 1px solid var(--border-subtle); }
+    .proof__title { margin-top: 10px; }
+  }
+</style>

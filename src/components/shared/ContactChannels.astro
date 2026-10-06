@@ -1,0 +1,30 @@
+---
+// Contact channel rows: Call · Text · Book a call. ground: 'brand' (on Harbor) or 'light'.
+import Icon from './Icon.astro';
+import { site } from '../../data/site';
+interface Props { ground?: 'brand' | 'light' }
+const { ground = 'brand' } = Astro.props;
+---
+<ul role="list" class:list={['channels', `channels--${ground}`]}>
+  <li><a class="channel" href={site.phone.tel} data-track="tel_click"><Icon name="phone" /><span class="channel__label">Call</span><span class="channel__detail mono">{site.phone.display}</span></a></li>
+  <li><a class="channel" href={site.phone.sms} data-track="sms_click"><Icon name="message" /><span class="channel__label">Text</span><span class="channel__detail mono">{site.phone.display}</span></a></li>
+  <li><a class="channel" href={site.bookingsUrl} target="_blank" rel="noopener" data-track="book_call_click"><Icon name="calendar" /><span class="channel__label">Book a call</span><span class="channel__detail">Pick a time</span></a></li>
+</ul>
+<style>
+  .channels { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .channel { display: flex; align-items: center; gap: 16px; min-height: 72px; padding: 16px 20px; border-radius: var(--radius); text-decoration: none; }
+  .channel__label { font-size: 17px; line-height: 28px; font-weight: 600; }
+  .channel__detail { margin-left: auto; font-size: 15px; line-height: 24px; }
+  .channels--brand .channel { background: var(--bg-brand-raised); border: 1px solid var(--border-on-brand); color: #fff; }
+  .channels--brand .channel :global(.icon) { color: var(--brand-teal-300); }
+  .channels--brand .channel__detail { color: var(--text-on-brand-nav); }
+  .channels--brand .channel:hover { border-color: var(--border-on-brand-accent); }
+  .channels--light .channel { background: var(--bg-surface); border: 1px solid var(--border-default); color: var(--text-heading); }
+  .channels--light .channel :global(.icon) { color: var(--brand-teal-600); }
+  .channels--light .channel__detail { color: var(--text-secondary); }
+  .channels--light .channel:hover { border-color: var(--border-brand); }
+  @media (max-width: 767px) {
+    .channels { gap: 8px; }
+    .channel { min-height: 56px; padding: 12px 20px; }
+  }
+</style>

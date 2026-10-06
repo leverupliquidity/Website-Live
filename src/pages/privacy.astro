@@ -1,0 +1,19 @@
+---
+// Privacy policy. Text: src/content/legal/privacy.html (Ryan's Termly policy converted to clean HTML,
+// wording unchanged). The Contents list is built from the policy's <h2 id> headings.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LegalPage from '../components/legal/LegalPage.astro';
+import { site } from '../data/site';
+import policy from '../content/legal/privacy.html?raw';
+
+const html = policy.replace(/<!--[\s\S]*?-->\s*/g, '');
+// Sidebar: every section heading except the policy's own "Table of contents" (already in the text).
+const toc = [...html.matchAll(/<h2 id="([^"]+)">([\s\S]*?)<\/h2>/g)]
+  .filter(([, id]) => id !== 'toc')
+  .map(([, id, label]) => ({ id, label: label.replace(/<[^>]+>/g, '') }));
+---
+<BaseLayout metaKey="/privacy">
+  <LegalPage title="Privacy policy" crumb="Privacy" active="privacy" updated={site.privacyUpdated} toc={toc}>
+    <Fragment set:html={html} />
+  </LegalPage>
+</BaseLayout>

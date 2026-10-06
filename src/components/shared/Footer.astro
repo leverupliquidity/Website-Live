@@ -1,0 +1,134 @@
+---
+// Footer/Site (full) and Footer/Minimal (Apply + confirmation).
+import { Image } from 'astro:assets';
+import logoStack from '../../assets/logos/logo-secondary-reverse.png';
+import { site, SHOW_TERMS } from '../../data/site';
+import Icon from './Icon.astro';
+interface Props { variant?: 'site' | 'minimal' }
+const { variant = 'site' } = Astro.props;
+const legal = [
+  { label: 'Privacy', href: '/privacy' },
+  ...(SHOW_TERMS ? [{ label: 'Terms', href: '/terms' }] : []),
+  { label: 'SMS terms', href: '/sms-terms' },
+];
+const linkedin = site.social.linkedin || 'https://www.linkedin.com/';
+const cols = [
+  { h: 'Financing', links: [
+    ['Lines of credit', '/financing/lines-of-credit'], ['Equipment financing', '/financing/equipment-financing'],
+    ['Term loans', '/financing/term-loans'], ['Merchant cash advance', '/financing/merchant-cash-advance'], ['Compare financing', '/financing'] ] },
+  { h: 'Company', links: [['About', '/about'], ['How it works', '/how-it-works'], ['FAQ', '/faq'], ['Contact', '/contact']] },
+  { h: 'Resources', links: [['Guides', '/guides'], ['Industries', '/industries']] },
+];
+---
+{variant === 'minimal' ? (
+  <footer class="site-footer site-footer--minimal">
+    <div class="container">
+      <div class="sf-min__top">
+        <a href="/" aria-label="Leverup Liquidity home"><Image src={logoStack} alt="" width={127} height={60} densities={[1, 2]} class="sf-min__logo" /></a>
+        <ul role="list" class="sf-legal">{legal.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+      </div>
+      <p class="sf-copy">© {site.year} Leverup Liquidity</p>
+    </div>
+  </footer>
+) : (
+  <footer class="site-footer">
+    <div class="container">
+      <div class="sf__grid">
+        <div class="sf__brand">
+          <a href="/" aria-label="Leverup Liquidity home"><Image src={logoStack} alt="" width={186} height={88} densities={[1, 2]} class="sf__logo" /></a>
+          <p class="sf__blurb">We help licensed cannabis businesses get the capital most banks won't offer.</p>
+          <ul role="list" class="sf__social">
+            <li><a href={site.social.instagram} rel="noopener" target="_blank">Instagram</a></li>
+            <li><a href={site.social.facebook} rel="noopener" target="_blank">Facebook</a></li>
+            <li><a href={linkedin} rel="noopener" target="_blank">LinkedIn</a></li>
+          </ul>
+        </div>
+        {cols.map((c) => (
+          <nav class="sf__col" aria-label={c.h}>
+            <h2 class="sf__h">{c.h}</h2>
+            <ul role="list">{c.links.map(([l, h]) => <li><a href={h}>{l}</a></li>)}</ul>
+          </nav>
+        ))}
+        <div class="sf__col">
+          <h2 class="sf__h">Contact</h2>
+          <ul role="list">
+            <li><a href={site.phone.tel} data-track="tel_click">Call {site.phone.display}</a></li>
+            <li><a href={site.phone.sms} data-track="sms_click">Text {site.phone.display}</a></li>
+            <li><a href={`mailto:${site.email}`} data-track="email_click">{site.email}</a></li>
+            <li><a href={site.bookingsUrl} target="_blank" rel="noopener" data-track="book_call_click">Book a call</a></li>
+          </ul>
+        </div>
+      </div>
+      <!-- Phones: link groups as accordions + contact buttons (Footer/Site · mobile) -->
+      <div class="sf-m">
+        {cols.map((c) => (
+          <details class="sf-m__acc">
+            <summary class="sf-m__sum">{c.h}<Icon name="plus" class="sf-m__plus" /><Icon name="minus" class="sf-m__minus" /></summary>
+            <nav aria-label={c.h}><ul role="list">{c.links.map(([l, h]) => <li><a href={h}>{l}</a></li>)}</ul></nav>
+          </details>
+        ))}
+        <ul role="list" class="sf-m__btns">
+          <li><a href={site.phone.tel} class="btn btn--secondary-on-brand" data-track="tel_click" data-track-location="footer">Call</a></li>
+          <li><a href={site.phone.sms} class="btn btn--secondary-on-brand" data-track="sms_click" data-track-location="footer">Text</a></li>
+          <li><a href={`mailto:${site.email}`} class="btn btn--secondary-on-brand" data-track="email_click" data-track-location="footer">Email</a></li>
+          <li><a href={site.bookingsUrl} target="_blank" rel="noopener" class="btn btn--secondary-on-brand" data-track="book_call_click" data-track-location="footer">Book a call</a></li>
+        </ul>
+      </div>
+      <div class="sf__bottom">
+        <p class="sf-copy">© {site.year} Leverup Liquidity</p>
+        <ul role="list" class="sf-legal">{legal.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+      </div>
+    </div>
+  </footer>
+)}
+
+<style>
+  .site-footer { background: var(--bg-brand-deep); color: var(--text-on-brand); padding: 56px 0 32px; }
+  .sf__grid { display: grid; gap: 40px 24px; grid-template-columns: 1fr 1fr; }
+  .sf__brand { grid-column: 1 / -1; display: grid; gap: 24px; justify-items: start; }
+  .sf__logo { width: 186px; height: auto; }
+  .sf__blurb { font-size: 15px; line-height: 24px; color: var(--text-on-brand-secondary); max-width: 380px; }
+  .sf__social { display: flex; gap: 20px; list-style: none; padding: 0; margin: 0; }
+  .sf__social a, .sf-legal a { color: var(--text-on-brand); font-size: 15px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+  .sf-legal a { font-size: 13px; }
+  .sf__h { font-size: 13px; line-height: 20px; font-weight: 600; color: #fff; margin-bottom: 12px; }
+  .sf__col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; line-height: 24px; }
+  .sf__col a { color: var(--text-on-brand-nav); font-size: 15px; line-height: 24px; text-decoration: none; }
+  .sf__col a:hover, .sf__social a:hover, .sf-legal a:hover { color: #fff; text-decoration: underline; }
+  .sf__bottom { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; border-top: 1px solid var(--border-on-brand); margin-top: 48px; padding-top: 32px; }
+  .sf-copy { font-size: 13px; line-height: 20px; color: var(--text-on-brand-secondary); }
+  .sf-legal { display: flex; gap: 24px; list-style: none; margin: 0; padding: 0; }
+  @media (min-width: 1024px) {
+    .site-footer { padding: 64px 0 24px; }
+    .sf__grid { grid-template-columns: minmax(0, 1.75fr) repeat(4, minmax(0, 1fr)); gap: 24px; }
+    .sf__brand { grid-column: auto; padding-right: 48px; }
+    .sf__bottom { margin-top: 48px; padding-top: 40px; }
+  }
+  .sf-m { display: none; }
+  @media (max-width: 767px) {
+    .site-footer:not(.site-footer--minimal) { padding: 40px 0; }
+    .sf__logo { width: 127px; }
+    .sf__brand { gap: 24px; }
+    .sf__grid > .sf__col { display: none; }
+    .sf-m { display: block; margin-top: 32px; }
+    .sf-m__acc { border-bottom: 1px solid var(--border-on-brand); }
+    .sf-m__acc:first-child { border-top: 1px solid var(--border-on-brand); }
+    .sf-m__sum { display: flex; align-items: center; justify-content: space-between; min-height: 56px; list-style: none; cursor: pointer;
+      font-size: 15px; line-height: 24px; font-weight: 600; color: #fff; }
+    .sf-m__sum::-webkit-details-marker { display: none; }
+    .sf-m :global(.sf-m__plus), .sf-m :global(.sf-m__minus) { color: var(--brand-teal-300); }
+    .sf-m :global(.sf-m__minus) { display: none; }
+    .sf-m__acc[open] :global(.sf-m__minus) { display: block; }
+    .sf-m__acc[open] :global(.sf-m__plus) { display: none; }
+    .sf-m__acc ul { list-style: none; margin: 0; padding: 0 0 16px; display: grid; gap: 4px; }
+    .sf-m__acc a { display: block; padding: 6px 0; color: var(--text-on-brand-nav); font-size: 15px; line-height: 24px; text-decoration: none; }
+    .sf-m__acc a:hover { color: #fff; text-decoration: underline; }
+    .sf-m__btns { list-style: none; margin: 24px 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .sf-m__btns .btn { width: 100%; }
+    .site-footer:not(.site-footer--minimal) .sf__bottom { flex-direction: column-reverse; align-items: flex-start; gap: 24px; border-top: 0; margin-top: 32px; padding-top: 0; }
+  }
+  /* Minimal */
+  .site-footer--minimal { padding: 40px 0 32px; }
+  .sf-min__top { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; padding-bottom: 28px; border-bottom: 1px solid var(--border-on-brand); margin-bottom: 24px; }
+  .sf-min__logo { width: 127px; height: auto; margin-left: 0; }
+</style>

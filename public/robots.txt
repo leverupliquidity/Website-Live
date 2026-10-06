@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://leverupliquidity.com/sitemap-index.xml

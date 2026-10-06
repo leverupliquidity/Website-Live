@@ -1,0 +1,86 @@
+---
+// "Contents" list for legal pages and guides.
+// Desktop (≥ 1024): a sticky list in the left column. Phones/tablets: a collapsible bar ("Contents" + chevron).
+// One <details> serves both: it is open by default (works without JS) and closed on load below 1024px.
+// The link for the section currently on screen gets aria-current="location" (dark, no underline).
+import Icon from '../shared/Icon.astro';
+interface Props { items: { id: string; label: string }[]; id?: string; label?: string; class?: string }
+const { items, id, label = 'Contents', class: cls } = Astro.props;
+const labelId = `${id ?? 'toc'}-label`;
+---
+<nav class:list={['toc', cls]} id={id} aria-labelledby={labelId}>
+  <details class="toc__details" open data-toc>
+    <summary class="toc__summary">
+      <span id={labelId}>{label}</span>
+      <Icon name="chevron-down" size={20} class="toc__chev" />
+    </summary>
+    <ol class="toc__list" role="list">
+      {items.map((it) => <li><a href={`#${it.id}`} set:html={it.label} /></li>)}
+    </ol>
+  </details>
+</nav>
+<script is:inline>
+  (function () {
+    var d = document.currentScript && document.currentScript.previousElementSibling;
+    d = d && d.querySelector('details');
+    if (d && !window.matchMedia('(min-width: 1024px)').matches) d.removeAttribute('open');
+  })();
+</script>
+<script>
+  const mq = window.matchMedia('(min-width: 1024px)');
+  document.querySelectorAll<HTMLDetailsElement>('details[data-toc]').forEach((d) => {
+    const summary = d.querySelector('summary')!;
+    const links = [...d.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')];
+    // Desktop: always open, the summary is just a label.
+    const sync = () => { if (mq.matches) d.open = true; };
+    mq.addEventListener('change', sync);
+    summary.addEventListener('click', (e) => { if (mq.matches) e.preventDefault(); });
+    // Phones: close the list after choosing a section.
+    links.forEach((a) => a.addEventListener('click', () => { if (!mq.matches) d.open = false; }));
+    // Open the list when something links to the Contents (e.g. "#toc").
+    const nav = d.closest('nav');
+    const openIfTarget = () => { if (nav?.id && location.hash === `#${nav.id}`) d.open = true; };
+    window.addEventListener('hashchange', openIfTarget); openIfTarget();
+
+    // Scroll spy: highlight the section currently being read.
+    const targets = links.map((a) => document.getElementById(decodeURIComponent(a.hash.slice(1)))).filter(Boolean) as HTMLElement[];
+    if (!targets.length || !('IntersectionObserver' in window)) return;
+    const setCurrent = (id: string) => links.forEach((a) => a.hash === `#${id}` ? a.setAttribute('aria-current', 'location') : a.removeAttribute('aria-current'));
+    const pick = () => {
+      const line = window.innerHeight * 0.3;
+      let current = targets[0];
+      for (const t of targets) { if (t.getBoundingClientRect().top <= line) current = t; else break; }
+      setCurrent(current.id);
+    };
+    let raf = 0;
+    window.addEventListener('scroll', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(pick); }, { passive: true });
+    pick();
+  });
+</script>
+<style>
+  /* Phones/tablets: full-bleed white bar between two hairlines. */
+  .toc { background: var(--bg-surface); border-block: 1px solid var(--border-default); }
+  .toc__summary {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    list-style: none; cursor: pointer; min-height: 56px; padding: 14px var(--gutter);
+    font-size: 15px; line-height: 24px; font-weight: 600; color: var(--text-heading);
+  }
+  .toc__summary::-webkit-details-marker { display: none; }
+  .toc :global(.toc__chev) { color: var(--brand-teal-600); transition: transform .15s ease; }
+  .toc__details[open] :global(.toc__chev) { transform: rotate(180deg); }
+  .toc__list { list-style: none; margin: 0; padding: 0 var(--gutter) 20px; display: grid; gap: 12px; font-size: 15px; line-height: 24px; }
+  .toc__list a {
+    display: inline-block;
+    font-size: 15px; line-height: 24px; font-weight: 600; color: var(--text-link);
+    text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px;
+  }
+  .toc__list a:hover { color: var(--text-link-hover); text-decoration-thickness: 2px; }
+  .toc__list a[aria-current] { color: var(--text-heading); text-decoration: none; }
+
+  @media (min-width: 1024px) {
+    .toc { background: none; border: 0; position: sticky; top: calc(var(--header-h) + 32px); max-height: calc(100vh - var(--header-h) - 64px); overflow-y: auto; }
+    .toc__summary { min-height: 0; padding: 0 0 12px; cursor: default; font-size: 13px; line-height: 20px; color: var(--text-secondary); }
+    .toc :global(.toc__chev) { display: none; }
+    .toc__list { padding: 0 4px 4px 0; }
+  }
+</style>

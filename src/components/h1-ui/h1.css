@@ -1,0 +1,34 @@
+/* Page-level helpers used by Home, How it works, Apply and Apply confirmation.
+   Prefixed "h1-" so they never collide with global classes. */
+
+/* Lede: IBM Plex Sans 17/28 on phones and tablets, Source Serif 21.78/32 on desktop (per the Figma copy deck). */
+.h1-lede { font-family: var(--font-sans); font-size: 17px; line-height: 28px; font-weight: 400; color: var(--text-primary); }
+.h1-lede--brand { color: var(--text-on-brand-secondary); font-weight: 500; }
+@media (min-width: 1024px) {
+  .h1-lede { font-family: var(--font-serif); font-optical-sizing: auto; font-size: 21.78px; line-height: 32px; }
+}
+
+/* Harbor-band headings are Source Serif Bold in the design. */
+.h1-h2-bold { font-weight: 700; }
+
+/* Desktop H1 at 48/52 (Figma "H1 48"), 39/44 on phones. */
+@media (min-width: 1024px) { .h1-48 { font-size: 48px; line-height: 52px; } }
+
+/* "You provide" style check list (check-circle icons) */
+.h1-checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.h1-checks li { display: flex; align-items: center; gap: 12px; font-size: 15px; line-height: 24px; }
+.h1-checks .icon { width: 20px; height: 20px; color: var(--brand-teal-600); flex: none; }
+@media (max-width: 1023px) { .h1-checks { gap: 14px; } .h1-checks li { font-size: 15px; } }
+
+/* Number box used in the 4-step band (and Apply section numbers use their own circle). */
+.h1-numbox {
+  width: 48px; height: 48px; flex: none; display: grid; place-items: center;
+  border: 1.5px solid var(--border-on-brand-accent); border-radius: var(--radius-sm);
+  font-family: var(--font-mono); font-weight: 600; font-size: 15px; line-height: 24px; color: var(--text-on-brand-accent);
+}
+@media (max-width: 1023px) { .h1-numbox { width: 40px; height: 40px; } }
+
+/* Info box (blue-grey) with a lock line */
+.h1-infobox { background: var(--feedback-info-surface); border: 1px solid var(--feedback-info-border); border-radius: var(--radius); padding: 20px; display: grid; gap: 8px; justify-items: start; }
+.h1-lockline { display: flex; align-items: center; gap: 12px; font-size: 15px; line-height: 24px; color: var(--text-primary); }
+.h1-lockline .icon { width: 20px; height: 20px; color: var(--brand-teal-600); flex: none; }

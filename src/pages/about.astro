@@ -1,0 +1,175 @@
+---
+// /about — Frames "About — Desktop 1440 / Mobile 390".
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/shared/Breadcrumb.astro';
+import Img from '../components/shared/Img.astro';
+import Icon from '../components/shared/Icon.astro';
+import ClosingCTA from '../components/shared/ClosingCTA.astro';
+import IconCards from '../components/company/IconCards.astro';
+import headshot from '../assets/images/10-headshot-ryan-harbor.jpg';
+import photoD from '../assets/images/19-photo-dispensary-4x3.jpg';
+import photoG from '../assets/images/20-photo-grow-4x3.jpg';
+import photoP from '../assets/images/21-photo-processing-4x3.jpg';
+import logoSmall from '../assets/logos/logo-primary-small-reverse.png';
+import { site } from '../data/site';
+
+const photos = [
+  { src: photoD, alt: 'Detroit skyline across the river at dusk' },
+  { src: photoG, alt: 'Tall cannabis plants growing outdoors under an evening sky' },
+  { src: photoP, alt: 'Old apothecary counter with wooden cabinets, glass jars and dried flowers' },
+];
+const howWeWork = [
+  { icon: 'ledger', title: 'Every fee up front', body: 'You see total cost before you sign.' },
+  { icon: 'shield', title: 'No obligation', body: 'Stop anytime, no fee owed.' },
+  { icon: 'users', title: 'Lenders chosen for you', body: 'We tell you why each made the list.' },
+  { icon: 'document', title: 'Honest second opinions', body: "Send us any offer and we'll say if it's good." },
+  { icon: 'clipboard-check', title: 'A plan either way', body: 'Not a fit yet? You get it in writing.' },
+  { icon: 'repeat', title: 'We check back', body: "When you likely qualify for cheaper money, we'll tell you." },
+];
+---
+<BaseLayout>
+  <Breadcrumb items={[{ label: 'About' }]} />
+
+  <section class="about-hero" aria-labelledby="about-h1">
+    <div class="about-hero__grid container">
+      <div class="about-hero__photo">
+        <Img src={headshot} alt="Ryan Rodriguez, founder of Leverup Liquidity, in a navy suit and tie" widths={[400, 600, 800, 1080]} sizes="(min-width: 1024px) 515px, (min-width: 768px) 50vw, 100vw" priority />
+      </div>
+      <div class="about-hero__text">
+        <p class="eyebrow">About Leverup Liquidity</p>
+        <h1 class="h1 h1--48 about-hero__h1" id="about-h1">A broker who works with you like a partner.</h1>
+        <p class="lede about-hero__lede">I'm Ryan Rodriguez, founder of Leverup. We work with licensed cannabis operators to get access to capital most banks won't offer, with clear answers and no sales games.</p>
+        <p class="about-hero__who"><span class="about-hero__name">Ryan Rodriguez</span><span class="about-hero__role">Founder, Leverup Liquidity</span></p>
+        <div class="about-hero__ctas" data-hero-cta>
+          <a href={site.bookingsUrl} target="_blank" rel="noopener" class="btn btn--primary" data-track="book_call_click" data-track-location="hero">Book a call</a>
+          <a href={site.phone.tel} class="link link-icon" data-track="tel_click"><Icon name="phone" size={20} />Call or text {site.phone.display}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--white about-story" aria-label="Our story">
+    <div class="container">
+      <div class="about-story__col">
+        <p>Cannabis operators run strong businesses with real payroll and innovative operations that banks still won't work with. That leaves a lot of owners without capital, or with offers they can't compare and complex terms full of unforeseen hurdles.</p>
+        <p>So we built Leverup to do one thing well: find the private lenders that fund cannabis, line up their offers the same way, and demystify the process.</p>
+        <figure class="about-quote">
+          <blockquote class="quote">“We’ll walk you through every number before&nbsp;you&nbsp;sign.”</blockquote>
+          <figcaption class="meta about-quote__by">Ryan Rodriguez, Founder, Leverup Liquidity</figcaption>
+        </figure>
+        <p>If you're not a fit yet, you leave with a written plan. If someone else gave you a better deal, we'll tell you to take it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--paper about-photos" aria-label="Who we work with">
+    <div class="container">
+      <ul role="list" class="grid grid--3 swipe about-photos__grid" tabindex="0" aria-label="Photos: who we work with">
+        {photos.map((p) => (
+          <li class="about-photos__item"><Img src={p.src} alt={p.alt} widths={[400, 800, 1200]} sizes="(min-width: 1024px) 405px, (min-width: 768px) 45vw, 85vw" /></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--white about-how" aria-labelledby="about-how-h">
+    <div class="container">
+      <h2 class="h2 about-how__h" id="about-how-h">How we work</h2>
+      <IconCards items={howWeWork} />
+    </div>
+  </section>
+
+  <section class="section section--paper about-broker" aria-labelledby="about-broker-h">
+    <div class="container about-broker__grid">
+      <h2 class="h2" id="about-broker-h">How a broker works</h2>
+      <ol role="list" class="broker-flow">
+        <li class="broker-node">
+          <Icon name="building" size={24} class="broker-node__icon" />
+          <h3 class="broker-node__title">Your business</h3>
+          <p class="broker-node__meta">Tells us what you need.</p>
+        </li>
+        <li class="broker-link" aria-hidden="true"></li>
+        <li class="broker-node broker-node--us">
+          <h3 class="broker-node__logo"><Image src={logoSmall} alt="Leverup Liquidity" width={130} densities={[1, 2]} /></h3>
+          <p class="broker-node__meta">Matches you and lays out every offer.</p>
+        </li>
+        <li class="broker-link" aria-hidden="true"></li>
+        <li class="broker-node">
+          <Icon name="layers" size={24} class="broker-node__icon" />
+          <h3 class="broker-node__title">Lenders</h3>
+          <p class="broker-node__meta">Make the decision and fund the deal.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <ClosingCTA title="Let's see what's out there for you." lede="Five minutes to apply. No obligation to sign." />
+</BaseLayout>
+
+<style>
+  .about-hero__h1 { text-wrap: wrap; }
+  .about-hero { background: var(--bg-canvas); }
+  .about-hero__grid { padding-inline: 0; }
+  .about-hero__photo { aspect-ratio: 1; overflow: hidden; background: var(--bg-brand); }
+  .about-hero__photo :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .about-hero__text { padding: 32px var(--gutter) 40px; }
+  .about-hero__h1 { margin-top: 12px; }
+  .about-hero__lede { margin-top: 16px; }
+  .about-hero__who { display: grid; margin-top: 24px; }
+  .about-hero__name { font-size: 17px; line-height: 28px; font-weight: 600; color: var(--text-heading); }
+  .about-hero__role { font-size: 15px; line-height: 24px; color: var(--text-secondary); }
+  .about-hero__ctas { display: flex; flex-direction: column; align-items: stretch; gap: 20px; margin-top: 24px; }
+  .about-hero__ctas .link { align-self: flex-start; min-height: 44px; }
+
+  .about-story__col { display: grid; gap: 24px; max-width: 620px; }
+  .about-quote { margin: 8px 0 0; }
+  .about-quote__by { display: none; margin-top: 12px; }
+
+  .about-photos__grid { list-style: none; margin: 0; padding: 0; }
+  .about-photos__item { aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--radius); background: var(--bg-sunken); }
+  .about-photos__item :global(img) { width: 100%; height: 100%; object-fit: cover; }
+
+  .about-how__h { margin-bottom: 32px; }
+  @media (min-width: 768px) { .about-photos__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+  .about-broker__grid { display: grid; gap: 32px; }
+  .broker-flow { list-style: none; margin: 0; padding: 0; display: grid; justify-items: stretch; }
+  .broker-node { background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius); padding: 24px 20px; }
+  .broker-node :global(.broker-node__icon) { color: var(--brand-teal-600); margin-bottom: 12px; }
+  .broker-node__title { font-size: 17px; line-height: 28px; font-weight: 600; color: var(--text-heading); }
+  .broker-node__meta { font-size: 13px; line-height: 20px; color: var(--text-secondary); margin-top: 8px; }
+  .broker-node--us { background: var(--bg-brand); border-color: var(--bg-brand); }
+  .broker-node--us .broker-node__meta { color: var(--text-on-brand-secondary); font-weight: 500; }
+  .broker-node__logo :global(img) { width: 130px; height: auto; }
+  .broker-link { width: 2px; height: 40px; margin: 8px auto; background: var(--border-strong); }
+
+  @media (max-width: 1023px) {
+    .about-hero__lede { font-family: var(--font-sans); font-size: 17px; line-height: 28px; }
+    .about-story .quote { font-size: 28px; line-height: 36px; }
+  }
+  @media (min-width: 768px) {
+    .about-hero__grid { padding-inline: var(--gutter); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: center; padding-block: 64px; }
+    .about-hero__photo { border-radius: var(--radius); }
+    .about-hero__text { padding: 0; }
+    .about-hero__ctas { flex-direction: row; align-items: center; gap: 24px; flex-wrap: wrap; }
+    .about-hero__ctas .link { align-self: center; }
+    .about-quote__by { display: block; }
+  }
+  @media (min-width: 1024px) {
+    .about-hero__grid { grid-template-columns: minmax(0, 515px) minmax(0, 624px); justify-content: space-between; gap: 80px; padding-block: 64px 96px; }
+    .about-hero__h1 { margin-top: 16px; }
+    .about-hero__lede { margin-top: 20px; }
+    .about-hero__who { margin-top: 28px; }
+    .about-hero__ctas { margin-top: 32px; }
+    .about-story { padding-block: 96px; }
+    .about-story__col { margin-left: clamp(0px, 17.1%, 219px); max-width: 610px; }
+    .about-quote { margin-top: 24px; }
+    .about-how__h { margin-bottom: 48px; }
+    .about-broker__grid { grid-template-columns: minmax(200px, 1fr) minmax(0, 733px); align-items: center; gap: clamp(32px, 5.5vw, 80px); }
+    .broker-flow { grid-template-columns: 170px minmax(16px, 1fr) 200px minmax(16px, 1fr) 170px; align-items: center; }
+    .broker-node { padding: 24px 20px; }
+    .broker-node--us { padding: 24px 20px; }
+    .broker-link { width: auto; height: 2px; margin: 0 16px; }
+  }
+</style>

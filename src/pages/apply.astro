@@ -1,0 +1,353 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/shared/Icon.astro';
+import ConsentFields from '../components/shared/ConsentFields.astro';
+import Field from '../components/apply/Field.astro';
+import OwnerFields from '../components/apply/OwnerFields.astro';
+import ApplyHelp from '../components/apply/ApplyHelp.astro';
+import { STATES, ENTITY_TYPES, FREQUENCIES } from '../components/apply/options';
+import { ACCEPT, HINT } from '../components/apply/files';
+import { site } from '../data/site';
+import '../components/h1-ui/h1.css';
+---
+<BaseLayout header="apply" footer="minimal" actionBar={false}>
+  <div class="apply">
+    <div class="container apply__grid">
+      <div class="apply__main">
+        <header class="apply__intro">
+          <p class="eyebrow">Apply</p>
+          <h1 class="h1 h1-48">See what you qualify for</h1>
+          <p class="h1-lede">Five minutes now, documents later. Or book a call and talk it through first.</p>
+          <p class="apply__reqnote">Fields marked <span class="req" aria-hidden="true">*</span><span class="visually-hidden">with an asterisk</span> are required.</p>
+        </header>
+
+        <form id="apply-form" class="apply__form" novalidate data-w3f
+          data-subject="New application" data-event="apply_submit" data-redirect="/apply/confirmation">
+
+          <!-- 1 · Business Information -->
+          <section class="ap-sec" data-step="1" aria-labelledby="sec1-h">
+            <div class="ap-sec__head">
+              <h2 class="ap-sec__title" id="sec1-h"><span class="ap-num" aria-hidden="true">1</span>Business Information</h2>
+              <p class="ap-sec__sub">The basics about the business applying for funding.</p>
+            </div>
+            <div class="form-grid form-grid--2 ap-grid">
+              <Field id="b-name" label="Legal Business Name" required>
+                <input class="input" id="b-name" name="Business — Legal name" autocomplete="organization" required />
+              </Field>
+              <Field id="b-dba" label="DBA / Trade Name" optional>
+                <input class="input" id="b-dba" name="Business — DBA / trade name" />
+              </Field>
+              <Field id="b-entity" label="Entity Type" required>
+                <select class="select" id="b-entity" name="Business — Entity type" required>
+                  <option value="">Select</option>
+                  {ENTITY_TYPES.map((t) => <option>{t}</option>)}
+                </select>
+              </Field>
+              <Field id="b-ein" label="EIN / Federal Tax ID" required>
+                <input class="input" id="b-ein" name="Business — EIN" inputmode="numeric" placeholder="00-0000000" autocomplete="off" data-fmt="ein" maxlength="10" required />
+              </Field>
+              <Field id="b-industry" label="Type of Business / Industry" required>
+                <input class="input" id="b-industry" name="Business — Type / industry" placeholder="e.g., restaurant, trucking, retail" required />
+              </Field>
+              <Field id="b-start" label="Business Start Date" required>
+                <div class="ap-iconwrap">
+                  <input class="input" id="b-start" name="Business — Start date" inputmode="numeric" placeholder="MM / YYYY" autocomplete="off" data-fmt="month" maxlength="9" aria-describedby="b-tib" required />
+                  <span class="ap-iconwrap__icon" aria-hidden="true"><Icon name="calendar" size={20} /></span>
+                </div>
+                <p class="ap-tib" id="b-tib" aria-live="polite" hidden></p>
+                <input type="hidden" name="Business — Time in business" id="b-tib-val" />
+              </Field>
+              <Field id="b-street" label="Street Address" required class="span-2">
+                <input class="input" id="b-street" name="Business — Street address" autocomplete="street-address" required />
+              </Field>
+              <div class="span-2 ap-addr">
+                <Field id="b-city" label="City" required>
+                  <input class="input" id="b-city" name="Business — City" autocomplete="address-level2" required />
+                </Field>
+                <Field id="b-state" label="State" required>
+                  <select class="select" id="b-state" name="Business — State" autocomplete="address-level1" required>
+                    <option value="">Select</option>
+                    {STATES.map(([, l]) => <option value={l}>{l}</option>)}
+                  </select>
+                </Field>
+                <Field id="b-zip" label="ZIP" required>
+                  <input class="input" id="b-zip" name="Business — ZIP" inputmode="numeric" autocomplete="postal-code" data-fmt="zip" maxlength="5" required />
+                </Field>
+              </div>
+              <Field id="b-phone" label="Business Phone" required>
+                <input class="input" id="b-phone" name="Business — Phone" type="tel" inputmode="tel" placeholder="(XXX) XXX-XXXX" autocomplete="tel-national" data-fmt="phone" required />
+              </Field>
+              <Field id="b-email" label="Business Email" required>
+                <input class="input" id="b-email" name="Business — Email" type="email" autocomplete="email" data-fmt="email" required />
+              </Field>
+              <Field id="b-amount" label="Funding Amount Requested" required hint="How much you’re looking for. Most requests fall between $5,000 and $250,000.">
+                <div class="input-affix">
+                  <span class="input-affix__prefix" aria-hidden="true">$</span>
+                  <input class="input" id="b-amount" name="Business — Funding amount requested" inputmode="numeric" placeholder="0" autocomplete="off" data-fmt="money" aria-describedby="b-amount-hint" required />
+                </div>
+              </Field>
+              <div class="ap-spacer" aria-hidden="true"></div>
+              <Field id="b-web" label="Website" optional class="span-2">
+                <input class="input" id="b-web" name="Business — Website" inputmode="url" placeholder="example.com" autocomplete="url" spellcheck="false" />
+              </Field>
+            </div>
+          </section>
+
+          <!-- 2 · Existing Funding (all optional in validation) -->
+          <section class="ap-sec" data-step="2" aria-labelledby="sec2-h">
+            <div class="ap-sec__head">
+              <h2 class="ap-sec__title" id="sec2-h"><span class="ap-num" aria-hidden="true">2</span>Existing Funding</h2>
+              <p class="ap-sec__sub">This helps us understand the business’s current obligations.</p>
+            </div>
+            <fieldset class="ap-yn">
+              <legend class="ap-yn__q">Does the business currently have an outstanding merchant cash advance, ACH-based funding, commercial financing, or commercial mortgage?</legend>
+              <div class="ap-yn__opts">
+                <label class="ap-radio"><input type="radio" name="Existing funding — Has outstanding funding" value="Yes" data-funding="yes" aria-controls="funding-more" /><span>Yes</span></label>
+                <label class="ap-radio"><input type="radio" name="Existing funding — Has outstanding funding" value="No" data-funding="no" aria-controls="funding-more" /><span>No</span></label>
+              </div>
+            </fieldset>
+            <div class="ap-reveal form-grid form-grid--2" id="funding-more" hidden>
+              <Field id="f-count" label="Number of open positions / advances">
+                <input class="input" id="f-count" name="Existing funding — Open positions" inputmode="numeric" data-fmt="int" maxlength="2" disabled />
+              </Field>
+              <Field id="f-names" label="Current funder / lender name(s)">
+                <input class="input" id="f-names" name="Existing funding — Funder / lender names" disabled />
+              </Field>
+              <Field id="f-balance" label="Approximate remaining balance(s)">
+                <div class="input-affix">
+                  <span class="input-affix__prefix" aria-hidden="true">$</span>
+                  <input class="input" id="f-balance" name="Existing funding — Remaining balance" inputmode="numeric" placeholder="0" data-fmt="money" disabled />
+                </div>
+              </Field>
+              <Field id="f-freq" label="Payment frequency">
+                <select class="select" id="f-freq" name="Existing funding — Payment frequency" disabled>
+                  <option value="">Select frequency</option>
+                  {FREQUENCIES.map((f) => <option>{f}</option>)}
+                </select>
+              </Field>
+              <Field id="f-payment" label="Payment amount">
+                <div class="input-affix">
+                  <span class="input-affix__prefix" aria-hidden="true">$</span>
+                  <input class="input" id="f-payment" name="Existing funding — Payment amount" inputmode="numeric" placeholder="0" data-fmt="money" disabled />
+                </div>
+              </Field>
+            </div>
+          </section>
+
+          <!-- 3 · Owner Information -->
+          <section class="ap-sec" data-step="3" aria-labelledby="sec3-h">
+            <div class="ap-sec__head">
+              <h2 class="ap-sec__title" id="sec3-h"><span class="ap-num" aria-hidden="true">3</span>Owner Information</h2>
+              <p class="ap-sec__sub">Owner 1 — Primary. Personal details are used for identity verification and credit review.</p>
+            </div>
+            <OwnerFields n={1} primary />
+          </section>
+
+          <!-- 4 · Additional Owners -->
+          <section class="ap-sec" data-step="4" aria-labelledby="sec4-h">
+            <div class="ap-sec__head">
+              <h2 class="ap-sec__title" id="sec4-h"><span class="ap-num" aria-hidden="true">4</span>Additional Owners <span class="ap-sec__opt">(optional)</span></h2>
+              <p class="ap-sec__sub">Add any other owners of the business — up to 4 owners total. The form submits with Owner 1 alone.</p>
+            </div>
+            <div class="ap-owners" data-owners aria-live="polite"></div>
+            <button type="button" class="btn btn--secondary ap-add" data-add-owner>Add Another Owner</button>
+            <template id="owner-tpl"><OwnerFields n="__N__" /></template>
+          </section>
+
+          <!-- 5 · Bank Statements (optional) -->
+          <section class="ap-sec" data-step="5" aria-labelledby="sec5-h">
+            <div class="ap-sec__head">
+              <h2 class="ap-sec__title" id="sec5-h"><span class="ap-num" aria-hidden="true">5</span>Bank Statements</h2>
+              <p class="ap-sec__sub">Upload the last three months of business bank statements — all pages, downloaded as PDFs from online banking.</p>
+              <p class="ap-sec__sub ap-sec__sub--gap">Optional — you can also email them to <a href={`mailto:${site.email}`} class="ap-mail">{site.email}</a> after you apply.</p>
+            </div>
+            <div class="ap-drop" data-drop>
+              <Icon name="upload" class="ap-drop__icon" />
+              <p class="ap-drop__title"><span class="only-desktop">Drag and drop your statements here</span><span class="only-mobile">Choose your statements</span></p>
+              <p class="ap-drop__hint" id="drop-hint">{HINT}</p>
+              <input type="file" id="statements" aria-label="Bank statements" class="visually-hidden" multiple accept={ACCEPT} aria-describedby="drop-hint" tabindex="-1" />
+              <button type="button" class="btn btn--secondary ap-drop__btn" data-choose aria-describedby="drop-hint">Choose files</button>
+            </div>
+            <div class="field__error ap-drop__err" id="drop-err" role="alert" hidden></div>
+            <ul role="list" class="ap-files" data-files hidden></ul>
+            <p class="ap-files__total" data-files-total aria-live="polite" hidden></p>
+          </section>
+
+          <!-- 6 · Authorization & Consent -->
+          <section class="ap-sec" data-step="6" aria-labelledby="sec6-h">
+            <div class="ap-sec__head">
+              <h2 class="ap-sec__title" id="sec6-h"><span class="ap-num" aria-hidden="true">6</span>Authorization &amp; Consent</h2>
+              <p class="ap-sec__sub">Please review and agree to both authorizations.</p>
+            </div>
+            <div class="ap-ack-list">
+              <div class="ap-ack-wrap">
+                <label class="ap-ack" for="ack-credit">
+                  <input type="checkbox" id="ack-credit" name="Authorization — Credit authorization" value="Agreed" required />
+                  <span><strong>Credit Authorization</strong>Each owner listed above authorizes Leverup Liquidity and its funding partners to obtain consumer credit reports and credit scores for the purpose of evaluating this application, in accordance with the Fair Credit Reporting Act.</span>
+                </label>
+              </div>
+              <div class="ap-ack-wrap">
+                <label class="ap-ack" for="ack-guaranty">
+                  <input type="checkbox" id="ack-guaranty" name="Authorization — Personal guaranty acknowledgment" value="Agreed" required />
+                  <span><strong>Personal Guaranty Acknowledgment</strong>Each owner acknowledges that any funding obtained may require a personal guaranty, and certifies that all information provided in this application is true, accurate, and complete.</span>
+                </label>
+              </div>
+            </div>
+            <div class="ap-sms"><ConsentFields kind="sms" idPrefix="apply" /></div>
+            <div data-form-status hidden tabindex="-1" role="status"></div>
+            <button type="submit" class="btn btn--primary ap-submit">Submit application</button>
+            <p class="ap-small">By submitting this application, you certify that the information provided is true and complete.</p>
+          </section>
+        </form>
+
+        <div class="apply__help-m"><ApplyHelp variant="mobile" /></div>
+      </div>
+
+      <div class="apply__side"><ApplyHelp variant="desktop" /></div>
+    </div>
+  </div>
+  <template id="err-icon"><Icon name="alert-circle" size={16} /></template>
+  <template id="file-icon"><Icon name="file" /></template>
+</BaseLayout>
+
+<script>
+  import { initApplyForm } from '../components/apply/apply-form';
+  initApplyForm();
+</script>
+
+<style>
+  .apply { background: var(--bg-canvas); padding-block: 40px 56px; }
+  .apply__grid { display: grid; gap: 48px; }
+  .apply__side { display: none; }
+  .apply__intro { display: grid; gap: 12px; }
+  .apply__intro .h1 { margin-top: 4px; }
+  .apply__reqnote { margin-top: 24px; font-size: 15px; line-height: 24px; color: var(--text-secondary); }
+  .req { color: var(--feedback-error); }
+
+  /* Sections: dividers on phones, white cards from 768 */
+  .ap-sec { padding-block: 40px; border-top: 1px solid var(--border-default); }
+  .apply__form { margin-top: 32px; }
+  .ap-sec__head { margin-bottom: 24px; }
+  .ap-sec__title { display: flex; align-items: center; flex-wrap: wrap; gap: 0 16px; font-family: var(--font-sans); font-size: 20px; line-height: 32px; font-weight: 600; color: var(--text-heading); }
+  .ap-num {
+    width: 32px; height: 32px; border-radius: 50%; display: inline-grid; place-items: center; flex: none;
+    border: 1.5px solid var(--border-brand); background: var(--bg-brand-subtle);
+    font-family: var(--font-mono); font-weight: 500; font-size: 15px; line-height: 1; color: var(--text-heading);
+  }
+  .ap-sec__opt { font-size: 15px; font-weight: 400; color: var(--text-secondary); margin-left: -4px; }
+  .ap-sec__sub { margin-top: 8px; font-size: 15px; line-height: 24px; color: var(--text-secondary); }
+  .ap-sec__sub--gap { margin-top: 16px; }
+  .ap-mail { color: var(--text-link); text-decoration: underline; text-underline-offset: 2px; }
+
+  .ap-grid { gap: 24px; }
+  .ap-spacer { display: none; }
+  .ap-addr { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .ap-addr > :global(.field:first-child) { grid-column: 1 / -1; }
+  .apply :global(.field__label) { color: var(--text-primary); }
+  .apply :global(.field__label .opt) { color: var(--text-secondary); }
+  .apply :global(.input), .apply :global(.select) { min-height: 52px; }
+  .apply :global(.select:invalid), .apply :global(.select.is-empty) { color: var(--text-muted); }
+  .apply :global(.select option) { color: var(--text-primary); }
+  .apply :global(.ap-hint--brand) { color: var(--text-brand); font-weight: 600; font-size: 15px; line-height: 24px; }
+  .ap-tib { font-size: 15px; line-height: 24px; font-weight: 600; color: var(--text-brand); }
+  .apply :global(.ap-iconwrap) { position: relative; }
+  .apply :global(.ap-iconwrap .input) { padding-right: 52px; }
+  .apply :global(.ap-iconwrap__icon) { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--icon-neutral); pointer-events: none; display: flex; }
+  .apply :global(.ap-eye) { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; display: grid; place-items: center; background: none; border: 0; color: var(--icon-neutral); border-radius: var(--radius-sm); }
+  .apply :global(.ap-eye:hover) { color: var(--text-heading); }
+  .apply :global(.ap-eye__hide) { display: none; }
+  .apply :global(.ap-eye[aria-pressed='true'] .ap-eye__hide) { display: block; }
+  .apply :global(.ap-eye[aria-pressed='true'] .ap-eye__show) { display: none; }
+  .apply :global(.input[aria-invalid='true']:not(.ap-noicon)) {
+    padding-right: 48px;
+    background: var(--bg-surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b23b32' stroke-width='1.5' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 7.5v5.5M12 16.2v.3'/%3E%3C/svg%3E") no-repeat right 16px center / 20px;
+  }
+  .apply :global(.ap-iconwrap .input[aria-invalid='true']), .apply :global(.input-affix .input[aria-invalid='true']) { background-image: none; }
+  .apply :global(.field__error) { font-size: 15px; line-height: 24px; }
+  .apply :global(.field__error .icon) { margin-top: 4px; }
+
+  /* Owner cards */
+  .apply :global(.owner) { background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius); padding: 24px; }
+  .apply :global(.owner + .owner) { margin-top: 24px; }
+  .apply :global(.owner__head) { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 20px; }
+  .apply :global(.owner__title) { display: flex; align-items: center; gap: 8px; font-size: 20px; line-height: 32px; font-weight: 600; color: var(--text-heading); }
+  .apply :global(.owner__title .icon) { color: var(--brand-teal-600); }
+  .apply :global(.owner__primary) { font-size: 17px; font-weight: 400; color: var(--text-secondary); margin-left: 2px; }
+  .apply :global(.ap-textbtn) { background: none; border: 0; padding: 10px 0; min-height: 44px; color: var(--text-link); font-weight: 600; font-size: 15px; line-height: 24px; text-decoration: underline; text-underline-offset: 3px; }
+  .apply :global(.ap-textbtn:hover) { color: var(--text-link-hover); text-decoration-thickness: 2px; }
+  .ap-owners:not(:empty) { margin-bottom: 24px; }
+  .ap-add[hidden] { display: none; }
+
+  /* Yes / No */
+  .ap-yn { border: 0; margin: 0; padding: 0; min-width: 0; }
+  .ap-yn__q { padding: 0; font-size: 15px; line-height: 24px; font-weight: 600; color: var(--text-primary); }
+  .ap-yn__opts { margin-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .ap-radio { display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 12px 16px; background: var(--bg-surface); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font-size: 15px; font-weight: 600; cursor: pointer; }
+  .ap-radio input { width: 20px; height: 20px; margin: 0; accent-color: var(--brand-teal-600); }
+  .ap-radio:has(input:checked) { background: var(--bg-brand-subtle); border: 1.5px solid var(--brand-teal-600); }
+  .ap-radio:has(input:focus-visible) { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+  .ap-reveal { margin-top: 24px; padding-left: 20px; border-left: 2px solid var(--border-brand); }
+
+  /* Dropzone */
+  .ap-drop { border: 1.5px dashed var(--border-strong); border-radius: var(--radius); background: var(--bg-surface); padding: 32px 20px; display: grid; justify-items: center; text-align: center; gap: 8px; }
+  .ap-drop.is-over { border-color: var(--brand-teal-600); background: var(--bg-brand-subtle); }
+  .ap-drop :global(.ap-drop__icon) { color: var(--brand-teal-600); width: 32px; height: 32px; margin-bottom: 8px; }
+  .ap-drop__title { font-size: 17px; line-height: 28px; font-weight: 600; color: var(--text-heading); }
+  .ap-drop__hint { font-size: 13px; line-height: 20px; color: var(--text-secondary); }
+  .ap-drop__btn { margin-top: 12px; }
+  .ap-drop__err { margin-top: 12px; display: grid; gap: 4px; }
+  .apply :global(.ap-err-line) { display: flex; gap: 8px; align-items: flex-start; }
+  .ap-files { margin-top: 24px; background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius); }
+  .apply :global(.ap-file) { display: flex; align-items: center; gap: 16px; padding: 16px 20px; }
+  .apply :global(.ap-file + .ap-file) { border-top: 1px solid var(--border-subtle); }
+  .apply :global(.ap-file > .icon) { color: var(--brand-teal-600); }
+  .apply :global(.ap-file__info) { flex: 1; min-width: 0; }
+  .apply :global(.ap-file__name) { display: block; font-size: 15px; line-height: 24px; font-weight: 600; color: var(--text-heading); overflow-wrap: anywhere; }
+  .apply :global(.ap-file__meta) { display: block; font-size: 13px; line-height: 20px; color: var(--text-secondary); }
+  .ap-files__total { margin-top: 16px; font-size: 13px; line-height: 20px; color: var(--text-secondary); }
+
+  /* Consent */
+  .ap-ack-list { display: grid; gap: 24px; }
+  .ap-ack { display: flex; gap: 12px; align-items: flex-start; padding: 20px 16px; background: var(--bg-canvas); border: 1px solid var(--border-default); border-radius: var(--radius); cursor: pointer; font-size: 15px; line-height: 24px; }
+  .ap-ack input { width: 22px; height: 22px; margin: 2px 0 0; accent-color: var(--brand-teal-600); flex: none; }
+  .ap-ack strong { display: block; font-size: 17px; line-height: 28px; font-weight: 600; margin-bottom: 4px; margin-top: -2px; }
+  .ap-ack-wrap :global(.field__error) { margin-top: 8px; }
+  .ap-ack:has(input[aria-invalid='true']) { border-color: var(--feedback-error); }
+  .ap-sms { margin-top: 24px; }
+  .ap-submit { margin-top: 32px; width: 100%; }
+  .ap-small { margin-top: 20px; font-size: 12px; line-height: 20px; color: var(--text-primary); }
+  .apply [data-form-status] { margin-top: 24px; }
+  .apply__help-m { margin-top: 8px; }
+
+  @media (min-width: 768px) {
+    .apply { padding-block: 56px 80px; }
+    .apply__form { margin-top: 32px; display: grid; gap: 32px; }
+    .ap-sec { background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius); padding: 40px; }
+    .ap-sec__head { margin-bottom: 28px; }
+    .ap-sec__title { font-family: var(--font-serif); font-size: 28px; line-height: 36px; gap: 0 12px; }
+    .ap-sec__opt { font-family: var(--font-sans); font-size: 17px; margin-left: 0; }
+    .ap-spacer { display: block; }
+    .ap-grid { gap: 28px 24px; }
+    .ap-addr { grid-template-columns: minmax(0, 1fr) minmax(0, 0.46fr) minmax(0, 0.46fr); }
+    .ap-addr > :global(.field:first-child) { grid-column: auto; }
+    .apply :global(.owner) { padding: 28px 24px; }
+    .apply :global(.owner--extra) { background: var(--bg-canvas); }
+    .ap-submit { width: auto; }
+    .ap-drop { padding: 40px; }
+  }
+  @media (min-width: 1024px) {
+    .apply { padding-block: 64px 96px; }
+    .apply__intro { gap: 16px; }
+    .apply__reqnote { margin-top: 40px; }
+    .apply__form { margin-top: 32px; }
+    .ap-sec__title { gap: 0 12px; }
+    .apply__main { max-width: 820px; }
+  }
+  /* Side-by-side form + help panel only when both fit at design widths. */
+  @media (min-width: 1200px) {
+    .apply__main { max-width: none; }
+    .apply__grid { grid-template-columns: minmax(0, 733px) minmax(0, 405px); justify-content: space-between; align-items: start; gap: 48px; }
+    .apply__side { display: block; position: sticky; top: calc(var(--header-h) + 24px); }
+    .apply__help-m { display: none; }
+  }
+</style>

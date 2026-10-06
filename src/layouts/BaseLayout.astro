@@ -1,0 +1,95 @@
+---
+// Every page uses this layout: <head> (SEO, social, fonts, analytics), header, main, footer, mobile action bar.
+import '@fontsource-variable/source-serif-4/opsz.css';
+import '@fontsource-variable/ibm-plex-sans/wght.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '@fontsource/ibm-plex-mono/600.css';
+import '../styles/global.css';
+import serifWoff from '@fontsource-variable/source-serif-4/files/source-serif-4-latin-opsz-normal.woff2?url';
+import sansWoff from '@fontsource-variable/ibm-plex-sans/files/ibm-plex-sans-latin-wght-normal.woff2?url';
+import Header from '../components/shared/Header.astro';
+import Footer from '../components/shared/Footer.astro';
+import ActionBar from '../components/shared/ActionBar.astro';
+import Analytics from '../components/shared/Analytics.astro';
+import { site, integrations } from '../data/site';
+import { meta } from '../data/meta';
+import { cleanPath } from '../data/path';
+
+interface Props {
+  title?: string; description?: string; metaKey?: string; noindex?: boolean;
+  ogImage?: string; ogType?: 'website' | 'article';
+  header?: 'default' | 'apply'; footer?: 'site' | 'minimal'; actionBar?: boolean;
+  jsonLd?: Record<string, unknown>[];
+}
+const path = cleanPath(Astro.url.pathname);
+const p = Astro.props;
+const m = meta[p.metaKey ?? path] ?? { title: site.name, description: site.description };
+const title = p.title ?? m.title;
+const description = p.description ?? m.description;
+const noindex = p.noindex ?? m.noindex ?? false;
+const canonical = site.url + (path === '/' ? '/' : path);
+const ogImage = new URL(p.ogImage ?? '/og-default.png', site.url).href;
+const { header = 'default', footer = 'site', actionBar = header !== 'apply', ogType = 'website', jsonLd = [] } = p;
+
+const org = {
+  '@context': 'https://schema.org', '@type': 'FinancialService', '@id': site.url + '/#org',
+  name: site.name, legalName: site.legalName, url: site.url,
+  logo: site.url + '/icon-512.png', image: site.url + '/og-default.png',
+  telephone: site.phone.e164, email: site.email, description: site.description,
+  areaServed: 'US',
+  sameAs: [site.social.instagram, site.social.facebook, site.social.linkedin].filter(Boolean),
+  contactPoint: [{ '@type': 'ContactPoint', telephone: site.phone.e164, email: site.email, contactType: 'customer service', availableLanguage: 'English' }],
+};
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <meta name="theme-color" content="#0c2b3a" />
+    {integrations.googleSiteVerification && <meta name="google-site-verification" content={integrations.googleSiteVerification} />}
+
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <link rel="preload" href={sansWoff} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={serifWoff} as="font" type="font/woff2" crossorigin />
+
+    <script type="application/ld+json" set:html={JSON.stringify(org)} />
+    {jsonLd.map((ld) => <script type="application/ld+json" set:html={JSON.stringify(ld)} />)}
+    <slot name="head" />
+    <Analytics />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <Header variant={header} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer variant={footer} />
+    {actionBar && <ActionBar />}
+  </body>
+</html>

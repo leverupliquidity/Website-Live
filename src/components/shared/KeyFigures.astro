@@ -1,0 +1,12 @@
+---
+// Panel/Key figures. rows: [[label, value], ...]
+interface Props { rows: [string, string][]; title?: string; linkHref?: string; linkLabel?: string }
+const { rows, title = 'Key figures', linkHref = '#costs', linkLabel = 'See the full cost below' } = Astro.props;
+---
+<aside class="key-figures" aria-label={title}>
+  <p class="key-figures__title">{title}</p>
+  <dl>
+    {rows.map(([k, v]) => <div class="key-figures__row"><dt>{k}</dt><dd set:html={v} /></div>)}
+  </dl>
+  {linkHref && <a href={linkHref} class="link key-figures__link">{linkLabel}</a>}
+</aside>

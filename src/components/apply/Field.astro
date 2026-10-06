@@ -1,0 +1,11 @@
+---
+// Apply form field wrapper: label (* for required, "(optional)" when marked), control slot, hint.
+// Error messages are added by the form script (id `${id}-err`).
+interface Props { id: string; label: string; required?: boolean; optional?: boolean; hint?: string; hintTone?: 'meta' | 'brand'; class?: string }
+const { id, label, required = false, optional = false, hint, hintTone = 'meta', class: cls } = Astro.props;
+---
+<div class:list={['field', 'ap-field', cls]}>
+  <label class="field__label" for={id}>{label}{required && <span class="req" aria-hidden="true"> *</span>}{optional && <span class="opt"> (optional)</span>}</label>
+  <slot />
+  {hint && <p class:list={['field__hint', { 'ap-hint--brand': hintTone === 'brand' }]} id={`${id}-hint`}>{hint}</p>}
+</div>

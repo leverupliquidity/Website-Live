@@ -1,0 +1,58 @@
+---
+// SMS terms. Text from Ryan's "Leverup Leads LLC SMS Terms" (docs/SMSTerms.txt), verbatim except:
+// the bracketed frequency option removed, the Privacy Policy [URL] filled in, and the
+// email, phone and website turned into links. Each labelled paragraph is a section.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LegalPage from '../components/legal/LegalPage.astro';
+import { site } from '../data/site';
+
+const sections: { id: string; title: string; html: string }[] = [
+  {
+    id: 'program', title: 'Program',
+    html: 'Leverup Leads LLC ("Leverup Liquidity") offers text messages about your funding inquiry and application (status updates, document requests, offers) and, if you opt in to marketing, promotional messages about business financing products.',
+  },
+  {
+    id: 'consent', title: 'Consent',
+    html: 'By checking the SMS box on our forms or texting START to 947-238-6272, you agree to receive recurring automated text messages from Leverup Liquidity at the number provided. Consent is not a condition of any purchase or of obtaining financing.',
+  },
+  { id: 'frequency', title: 'Frequency', html: 'Message frequency varies.' },
+  { id: 'cost', title: 'Cost', html: 'Message and data rates may apply.' },
+  {
+    id: 'opt-out', title: 'Opt-out',
+    html: 'Reply STOP to cancel at any time. You will receive one message confirming your opt-out. We also honor any other reasonable request to stop.',
+  },
+  {
+    id: 'help', title: 'Help',
+    html: 'Reply HELP or contact <a href="mailto:info@leverupliquidity.com">info@leverupliquidity.com</a> / <a href="tel:+19472386272" class="nowrap">947-238-6272</a>.',
+  },
+  { id: 'carriers', title: 'Carriers', html: 'Carriers are not liable for delayed or undelivered messages.' },
+  {
+    id: 'privacy', title: 'Privacy',
+    html: 'See our Privacy Policy at <a href="/privacy">leverupliquidity.com/privacy</a>. We do not sell, rent or share mobile numbers or SMS opt-in data with third parties or affiliates for their marketing purposes.',
+  },
+  {
+    id: 'eligibility', title: 'Eligibility',
+    html: 'You confirm you are 18+ and the subscriber or authorized user of the mobile number.',
+  },
+  { id: 'quiet-hours', title: 'Quiet hours', html: 'We send messages between 9 a.m. and 8 p.m. your local time.' },
+  {
+    id: 'disputes', title: 'Disputes',
+    html: 'These terms incorporate our Terms of Use, including its arbitration agreement and class-action waiver, at <a href="/">leverupliquidity.com</a>.',
+  },
+];
+---
+<BaseLayout metaKey="/sms-terms">
+  <LegalPage
+    title="SMS terms" crumb="SMS terms" active="sms-terms" updated={site.smsTermsUpdated}
+    intro="Leverup Leads LLC (“Leverup Liquidity”)"
+    toc={sections.map((s) => ({ id: s.id, label: s.title }))}
+    numbered
+  >
+    {sections.map((s) => (
+      <Fragment>
+        <h2 id={s.id}>{s.title}</h2>
+        <p set:html={s.html} />
+      </Fragment>
+    ))}
+  </LegalPage>
+</BaseLayout>
