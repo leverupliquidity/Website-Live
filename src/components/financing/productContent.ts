@@ -165,7 +165,7 @@ export const productContent: Record<ProductKey, ProductContent> = {
       ['Amount', '$50K–$5M'],
       ['Term', '12–60 months'],
       ['How often', 'Weekly, bi-weekly or monthly'],
-      ['Time to fund', '2–12 hours'],
+      ['Time to fund', '3–14 days'],
     ],
     photoAlt: 'Large indoor cannabis grow under rows of lights',
     photoPosition: '50% 60%',
@@ -278,7 +278,7 @@ export const compareRows: CompareRow[] = [
     label: 'How often', mono: true, mobile: true,
     values: { loc: 'Weekly, bi-weekly or monthly', equipment: 'Monthly', term: 'Weekly, bi-weekly or monthly', mca: 'Daily, weekly or monthly' },
   },
-  { label: 'Time to fund', mono: true, mobile: true, values: { loc: '2–12 hours', equipment: '2–12 hours', term: '2–12 hours', mca: '2–12 hours' } },
+  { label: 'Time to fund', mono: true, mobile: true, values: { loc: '2–12 hours', equipment: '2–12 hours', term: '3–14 days', mca: '2–12 hours' } },
   {
     label: 'Security', mono: false, mobile: false,
     values: { loc: 'No collateral required', equipment: 'No collateral required', term: 'Not required for<br>most term loans', mca: 'No collateral required' },

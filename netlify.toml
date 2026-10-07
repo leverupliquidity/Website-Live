@@ -4,11 +4,26 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  # Testing tools (Playwright) are not needed on Netlify; skip their browser download.
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1"
 
 # 301 redirects from the old site
 [[redirects]]
   from = "/funding"
   to = "/financing"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/funding.html"
+  to = "/financing"
+  status = 301
+  force = true
+
+# Old site's separate phone homepage
+[[redirects]]
+  from = "/index-mobile*"
+  to = "/"
   status = 301
   force = true
 
