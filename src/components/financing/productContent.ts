@@ -278,7 +278,7 @@ export const compareRows: CompareRow[] = [
     label: 'How often', mono: true, mobile: true,
     values: { loc: 'Weekly, bi-weekly or monthly', equipment: 'Monthly', term: 'Weekly, bi-weekly or monthly', mca: 'Daily, weekly or monthly' },
   },
-  { label: 'Time to fund', mono: true, mobile: true, values: { loc: '2–12 hours', equipment: '2–12 hours', term: '3–14 days', mca: '2–12 hours' } },
+  { label: 'Time to fund', mono: true, mobile: true, values: { loc: '1–3 days', equipment: '3–7 days', term: '3–14 days', mca: '1–3 days' } },
   {
     label: 'Security', mono: false, mobile: false,
     values: { loc: 'No collateral required', equipment: 'No collateral required', term: 'Not required for<br>most term loans', mca: 'No collateral required' },
