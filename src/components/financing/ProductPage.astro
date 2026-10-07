@@ -1,0 +1,247 @@
+---
+// Shared template for the four product pages (/financing/<product>).
+// All copy comes from productContent.ts (verbatim from the Figma copy deck).
+import Breadcrumb from '../shared/Breadcrumb.astro';
+import KeyFigures from '../shared/KeyFigures.astro';
+import CostsTable from '../shared/CostsTable.astro';
+import FaqList from '../shared/FaqList.astro';
+import ProductCard from '../shared/ProductCard.astro';
+import ClosingCTA from '../shared/ClosingCTA.astro';
+import SectionHead from '../shared/SectionHead.astro';
+import Img from '../shared/Img.astro';
+import Icon from '../shared/Icon.astro';
+import { products, productByKey, type ProductKey } from '../../data/products';
+import { faqs } from '../../data/faq';
+import { site } from '../../data/site';
+import { productContent, productShared as S } from './productContent';
+
+interface Props { product: ProductKey }
+const { product } = Astro.props;
+const c = productContent[product];
+const p = productByKey(product);
+const others = products.filter((x) => x.key !== product).map((x) => x.key);
+---
+<Breadcrumb items={[{ label: 'Financing', href: '/financing' }, { label: p.name }]} />
+
+<section class="section section--paper pp-hero" aria-labelledby="pp-h1">
+  <div class="container pp-hero__grid">
+    <div class="pp-hero__text">
+      <h1 class="h1 h1--48" id="pp-h1">{c.h1}</h1>
+      <p class="lede">{c.lede}</p>
+      <div class="btn-row btn-row--stack pp-hero__cta" data-hero-cta>
+        <a href="/apply" class="btn btn--primary" data-track="cta_see_options" data-track-location="product_hero">{S.ctaPrimary}</a>
+        <a href="/contact" class="btn btn--secondary">{S.ctaSecondary}</a>
+      </div>
+      <a href={site.phone.tel} class="link link-icon pp-hero__call" data-track-location="product_hero">
+        <Icon name="phone" />Call or text {site.phone.display}
+      </a>
+      <ul class="check-list pp-hero__checks" role="list">
+        {S.heroChecks.map((t) => <li><Icon name="check-circle" size={20} />{t}</li>)}
+      </ul>
+    </div>
+    <div class="pp-hero__panel">
+      <KeyFigures rows={c.keyFigures} linkLabel={S.keyFiguresLink} />
+    </div>
+  </div>
+</section>
+
+<div class="pp-photo">
+  <Img src={p.image} alt={c.photoAlt} widths={[400, 800, 1200, 1600, 2400]} sizes="100vw" position={c.photoPosition} />
+</div>
+
+<section class="section section--white pp-uses" aria-labelledby="pp-uses-h">
+  <div class="container">
+    <SectionHead id="pp-uses-h" title={S.usesTitle} lede={c.usesLede} />
+    <ul class="pp-uses__grid" role="list">
+      {c.uses.map((u) => (
+        <li class="pp-use"><Icon name={u.icon} class="pp-use__icon" /><span class="pp-use__title">{u.title}</span></li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<section class="section section--paper pp-how" aria-labelledby="pp-how-h">
+  <div class="container">
+    <SectionHead id="pp-how-h" title={S.howTitle} lede={S.howLede}>
+      <a slot="action" href="/how-it-works" class="link pp-desk">{S.howLink}</a>
+    </SectionHead>
+    <ol class="pp-steps" role="list">
+      {c.steps.map((s, i) => (
+        <li class="pp-step">
+          <div class="pp-step__num" aria-hidden="true"><span>{String(i + 1).padStart(2, '0')}</span></div>
+          <div class="pp-step__text">
+            <h3 class="h3 pp-step__title"><span class="visually-hidden">Step {i + 1}: </span>{s.title}</h3>
+            <p>{s.body}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+    <a href="/how-it-works" class="link pp-mob pp-after-link">{S.howLink}</a>
+  </div>
+</section>
+
+<section class="section section--white pp-costs" id="costs" aria-labelledby="pp-costs-h">
+  <div class="container pp-costs__grid">
+    <div class="pp-costs__head">
+      <h2 class="h2" id="pp-costs-h" set:html={S.costsTitle} />
+      <p class="lede">{S.costsLede}</p>
+    </div>
+    <CostsTable rows={c.costs} caption={`${p.name}: costs and terms`} />
+  </div>
+</section>
+
+<section class="section section--paper pp-fit" aria-label={`Is ${p.name.toLowerCase()} a fit?`}>
+  <div class="container pp-fit__grid">
+    <div class="card pp-fit__card">
+      <h2 class="h3">{S.goodFitTitle}</h2>
+      <ul class="check-list" role="list">
+        {c.goodFit.map((t) => <li><Icon name="check-circle" size={20} />{t}</li>)}
+      </ul>
+    </div>
+    <div class="card pp-fit__card">
+      <h2 class="h3">{S.passTitle}</h2>
+      <ul class="check-list check-list--x" role="list">
+        {c.passWhen.map((t) => <li><Icon name="x-circle" size={20} />{t}</li>)}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section section--white pp-faq" aria-labelledby="pp-faq-h">
+  <div class="container faq-split pp-faq__grid">
+    <div class="faq-split__head pp-faq__head"><h2 class="h2" id="pp-faq-h">{S.faqTitle}</h2></div>
+    <div class="pp-faq__list"><FaqList id={`faq-${product}`} items={faqs[c.faqKey]} /></div>
+    <div class="pp-faq__btn"><a href="/faq" class="btn btn--secondary">{S.faqLink}</a></div>
+  </div>
+</section>
+
+<section class="section section--paper pp-other" aria-labelledby="pp-other-h">
+  <div class="container">
+    <SectionHead id="pp-other-h" title={S.otherTitle} lede={S.otherLede}>
+      <a slot="action" href="/financing" class="link pp-desk">{S.otherLink}</a>
+    </SectionHead>
+    <div class="grid grid--3 swipe pp-other__grid">
+      {others.map((k) => <ProductCard product={k} sizes="(min-width: 1024px) 405px, (min-width: 768px) 45vw, 76vw" />)}
+    </div>
+    <a href="/financing" class="link pp-mob pp-after-link">{S.otherLink}</a>
+  </div>
+</section>
+
+<ClosingCTA title={c.closeTitle} lede={c.closeLede} />
+
+<style>
+  /* Hero */
+  .pp-hero { padding-block: 40px 40px; }
+  .pp-hero__grid { display: grid; gap: 32px; }
+  .pp-hero__text { display: grid; gap: 16px; align-content: start; justify-items: start; }
+  .pp-hero__cta { margin-top: 16px; width: 100%; }
+  .pp-hero__call, .pp-hero__checks { display: none; }
+  .pp-hero__checks li { font-size: 17px; line-height: 28px; }
+  .pp-hero__checks :global(.icon) { margin-top: 4px; }
+  /* Long key-figure values ("Weekly, bi-weekly or monthly") wrap instead of overflowing */
+  .pp-hero__panel :global(.key-figures__row) { align-items: baseline; }
+  .pp-hero__panel :global(.key-figures__row dt) { flex: none; }
+  .pp-hero__panel :global(.key-figures__row dd) { min-width: 0; overflow-wrap: anywhere; font-weight: 500; }
+
+  @media (min-width: 768px) {
+    .pp-hero { padding-block: 56px 64px; }
+    .pp-hero__cta { width: auto; }
+    .pp-hero__call { display: inline-flex; margin-top: 8px; }
+    .pp-hero__checks { display: grid; margin-top: 24px; gap: 10px; }
+  }
+  @media (min-width: 1024px) {
+    .pp-hero { padding-block: 64px 80px; }
+    .pp-hero__grid { grid-template-columns: minmax(0, 1fr) clamp(340px, 40%, 515px); gap: 64px; align-items: start; }
+    .pp-hero__text { gap: 0; }
+    .pp-hero__text .lede { margin-top: 20px; }
+    .pp-hero__cta { margin-top: 28px; }
+    .pp-hero__call { margin-top: 28px; }
+    .pp-hero__checks { margin-top: 40px; }
+    .pp-hero__panel :global(.key-figures__row dd) { font-weight: 600; }
+  }
+
+  /* Full-width photo band: 3:2 on phones, 8:3 from tablet up */
+  .pp-photo { aspect-ratio: 3 / 2; overflow: hidden; background: var(--bg-sunken); }
+  .pp-photo :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  @media (min-width: 768px) { .pp-photo { aspect-ratio: 8 / 3; max-height: 640px; } }
+
+  /* Uses */
+  .pp-uses .section-head { margin-bottom: 24px; }
+  .pp-uses__grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .pp-use { display: flex; align-items: center; gap: 24px; min-height: 50px; }
+  .pp-use :global(.pp-use__icon) { color: var(--brand-teal-600); }
+  .pp-use__title { font-size: 17px; line-height: 28px; font-weight: 600; color: var(--text-heading); }
+  @media (min-width: 768px) {
+    .pp-uses .section-head { margin-bottom: 48px; }
+    .pp-uses__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+    .pp-use { flex-direction: column; align-items: flex-start; gap: 12px; padding: 24px; background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius); }
+    .pp-use__title { font-size: 20px; line-height: 32px; }
+  }
+  @media (min-width: 1024px) {
+    .pp-uses__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+  }
+
+  /* How it works */
+  .pp-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 32px; }
+  .pp-step { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 20px; }
+  .pp-step__num { display: flex; align-items: center; }
+  .pp-step__num span {
+    display: grid; place-items: center; width: 48px; height: 48px; flex: none;
+    border: 1.5px solid var(--border-brand); border-radius: var(--radius-sm);
+    font-family: var(--font-mono); font-weight: 500; font-size: 15px; line-height: 20px; color: var(--text-brand);
+  }
+  .pp-step__title { margin-bottom: 8px; }
+  .pp-step__text p { font-size: 17px; line-height: 28px; }
+  .pp-after-link { display: inline-block; margin-top: 32px; }
+  .pp-desk { display: none; }
+  @media (min-width: 1024px) {
+    .pp-desk { display: inline; }
+    .pp-mob { display: none; }
+    .pp-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+    .pp-step { grid-template-columns: 1fr; gap: 24px; }
+    .pp-step__num::after { content: ''; flex: 1; height: 1px; margin-left: 16px; background: var(--border-default); }
+    .pp-step__title { margin-bottom: 16px; }
+  }
+
+  /* Costs */
+  .pp-costs__grid { display: grid; gap: 32px; }
+  .pp-costs__head { display: grid; gap: 12px; align-content: start; }
+  @media (min-width: 1024px) {
+    .pp-costs__grid { grid-template-columns: minmax(0, 0.64fr) minmax(0, 1fr); gap: 64px; }
+    .pp-costs__head { gap: 24px; padding-top: 8px; }
+    .pp-costs__head .h2 { max-width: 300px; }
+    .pp-costs__head .lede { max-width: 410px; }
+    .pp-costs__grid :global(.costs-table) { table-layout: fixed; }
+    .pp-costs__grid :global(.costs-table th:nth-child(1)) { width: 34%; }
+    .pp-costs__grid :global(.costs-table th:nth-child(2)) { width: 33%; }
+  }
+
+  /* Column headers all 13px (global .when rule also enlarges the header cell) */
+  @media (min-width: 768px) { .pp-costs__grid :global(.costs-table th.when) { font-size: 13px; } }
+
+  /* Fit cards */
+  .pp-fit__grid { display: grid; gap: 24px; }
+  .pp-fit__card { padding: 24px 24px 32px; display: grid; gap: 16px; align-content: start; }
+  .pp-fit__card .check-list { gap: 16px; }
+  .pp-fit__card .check-list li { font-size: 17px; line-height: 28px; gap: 16px; }
+  .pp-fit__card .check-list :global(.icon) { width: 22px; height: 22px; margin-top: 3px; }
+  @media (min-width: 768px) {
+    .pp-fit__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
+    .pp-fit__card { padding: 40px 32px 40px; }
+    .pp-fit__card .check-list { gap: 12px; }
+  }
+  @media (min-width: 1024px) { .pp-fit { padding-block: 96px; } }
+
+  /* FAQ: button under the heading on desktop, after the list on phones */
+  .pp-faq__grid { grid-template-areas: 'head' 'list' 'btn'; }
+  .pp-faq__head { grid-area: head; }
+  .pp-faq__list { grid-area: list; }
+  .pp-faq__btn { grid-area: btn; }
+  @media (max-width: 767px) { .pp-faq__btn .btn { width: 100%; } }
+  @media (min-width: 1024px) {
+    .pp-faq__grid { grid-template-areas: 'head list' 'btn list'; grid-template-rows: auto 1fr; row-gap: 32px; }
+  }
+
+  /* Other products: the swipe cards are a bit wider than the global 75% */
+  @media (max-width: 767px) { .pp-other__grid { grid-auto-columns: 82%; } }
+</style>

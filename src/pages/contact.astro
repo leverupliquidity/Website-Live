@@ -1,0 +1,178 @@
+---
+// /contact — Frames "Contact — Desktop 1440 / Mobile 390".
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/shared/Breadcrumb.astro';
+import Img from '../components/shared/Img.astro';
+import Icon from '../components/shared/Icon.astro';
+import ConsentFields from '../components/shared/ConsentFields.astro';
+import headshot from '../assets/images/13-headshot-ryan-circle.jpg';
+import { site } from '../data/site';
+
+const states = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','District of Columbia','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'];
+---
+<BaseLayout>
+  <Breadcrumb items={[{ label: 'Contact' }]} />
+
+  <section class="contact" aria-labelledby="contact-h1">
+    <div class="container contact__grid">
+      <div class="contact__intro">
+        <h1 class="h1 h1--48" id="contact-h1">Talk to a person, not a phone tree</h1>
+        <p class="lede contact__lede">Call, text or book a time. You get a real person, not a call center.</p>
+        <ul role="list" class="contact-list" data-hero-cta>
+          <li><Icon name="phone" /><span class="contact-list__label">Call</span><a class="contact-list__detail mono" href={site.phone.tel} data-track="tel_click">{site.phone.display}</a></li>
+          <li><Icon name="message" /><span class="contact-list__label">Text</span><a class="contact-list__detail mono" href={site.phone.sms} data-track="sms_click">{site.phone.display}</a></li>
+          <li><Icon name="mail" /><span class="contact-list__label">Email</span><a class="contact-list__detail contact-list__link" href={`mailto:${site.email}`} data-track="email_click">{site.email}</a></li>
+          <li><Icon name="calendar" /><span class="contact-list__label">Book a call</span><a class="contact-list__detail contact-list__link" href={site.bookingsUrl} target="_blank" rel="noopener" data-track="book_call_click">Pick a time</a></li>
+          <li><Icon name="clock" /><span class="contact-list__label">Hours</span><span class="contact-list__detail">{site.hours}</span></li>
+        </ul>
+      </div>
+
+      <div class="contact__form-wrap">
+        <form id="contact-form" class="contact-form"
+          data-w3f data-subject="New contact message" data-event="contact_submit"
+          data-success-text="Thanks. We got your message and will reply within one business day.">
+          <div class="form-grid form-grid--2">
+            <div class="field">
+              <label class="field__label" for="contact-name">Name</label>
+              <input class="input" id="contact-name" name="name" type="text" autocomplete="name" placeholder="First and last name" required />
+            </div>
+            <div class="field">
+              <label class="field__label" for="contact-business">Business name</label>
+              <input class="input" id="contact-business" name="business_name" type="text" autocomplete="organization" placeholder="Legal or DBA" />
+            </div>
+            <div class="field">
+              <label class="field__label" for="contact-mobile">Mobile</label>
+              <input class="input" id="contact-mobile" name="mobile" type="tel" autocomplete="tel" inputmode="tel" placeholder="(000) 000-0000" aria-describedby="contact-reach-error" />
+            </div>
+            <div class="field">
+              <label class="field__label" for="contact-email">Email</label>
+              <input class="input" id="contact-email" name="email" type="email" autocomplete="email" placeholder="name@business.com" aria-describedby="contact-reach-error" />
+            </div>
+            <p class="field__error span-2" id="contact-reach-error" hidden>
+              <Icon name="alert-circle" size={16} /><span>Add a mobile number or an email so we can reply.</span>
+            </p>
+            <div class="field span-2">
+              <label class="field__label" for="contact-state">State</label>
+              <select class="select" id="contact-state" name="state" autocomplete="address-level1">
+                <option value="">Select</option>
+                {states.map((s) => <option value={s}>{s}</option>)}
+              </select>
+            </div>
+            <div class="field span-2">
+              <label class="field__label" for="contact-message">What's on your mind?</label>
+              <textarea class="textarea" id="contact-message" name="message" rows="4" placeholder="Tell us what the money's for and how much you need." required></textarea>
+            </div>
+            <fieldset class="field span-2 contact-reach">
+              <legend class="field__label">Best way to reach you</legend>
+              <div class="contact-reach__opts">
+                <label class="choice"><input type="radio" name="best_way_to_reach" value="Text" checked /><span>Text</span></label>
+                <label class="choice"><input type="radio" name="best_way_to_reach" value="Call" /><span>Call</span></label>
+                <label class="choice"><input type="radio" name="best_way_to_reach" value="Email" /><span>Email</span></label>
+              </div>
+            </fieldset>
+            <div class="span-2"><ConsentFields kind="sms" idPrefix="contact" /></div>
+            <div class="span-2 contact-form__submit">
+              <div data-form-status hidden tabindex="-1" role="status"></div>
+              <button type="submit" class="btn btn--primary">Send it to us</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-founder" aria-label="From the founder">
+    <div class="container contact-founder__grid">
+      <div class="contact-founder__photo"><Img src={headshot} alt="Ryan Rodriguez, founder of Leverup Liquidity" widths={[160, 320]} sizes="160px" /></div>
+      <p class="contact-founder__quote">You'll hear back from us, personally.</p>
+      <p class="contact-founder__name">Ryan Rodriguez, Founder</p>
+      <a href={site.bookingsUrl} target="_blank" rel="noopener" class="btn btn--secondary contact-founder__btn" data-track="book_call_click">Book a call</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { bindForm } from '../scripts/forms';
+  const form = document.querySelector<HTMLFormElement>('#contact-form');
+  if (form) {
+    const mobile = form.querySelector<HTMLInputElement>('#contact-mobile')!;
+    const email = form.querySelector<HTMLInputElement>('#contact-email')!;
+    const err = form.querySelector<HTMLElement>('#contact-reach-error')!;
+    const setErr = (on: boolean) => {
+      err.hidden = !on;
+      [mobile, email].forEach((el) => (on ? el.setAttribute('aria-invalid', 'true') : el.removeAttribute('aria-invalid')));
+    };
+    [mobile, email].forEach((el) => el.addEventListener('input', () => { if (mobile.value.trim() || email.value.trim()) setErr(false); }));
+    // Native required checks: mark invalid fields for styling/AT.
+    form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[required]').forEach((el) => {
+      el.addEventListener('invalid', () => el.setAttribute('aria-invalid', 'true'));
+      el.addEventListener('input', () => { if (el.checkValidity()) el.removeAttribute('aria-invalid'); });
+    });
+    bindForm(form, {
+      beforeSubmit: (fd) => {
+        const ok = !!(String(fd.get('mobile') || '').trim() || String(fd.get('email') || '').trim());
+        setErr(!ok);
+        if (!ok) { mobile.focus(); return false; }
+      },
+    });
+  }
+</script>
+
+<style>
+  .contact .h1 { text-wrap: wrap; }
+  .contact { background: var(--bg-canvas); padding-top: 40px; }
+  .contact__grid { display: grid; gap: 40px; }
+  .contact__lede { margin-top: 16px; }
+  .contact-list { list-style: none; margin: 24px 0 0; padding: 0; border-top: 1px solid var(--border-default); }
+  .contact-list li { display: flex; align-items: center; gap: 12px; min-height: 68px; padding: 12px 0; border-bottom: 1px solid var(--border-default); }
+  .contact-list :global(.icon) { color: var(--brand-teal-600); }
+  .contact-list__label { font-size: 17px; line-height: 28px; font-weight: 600; color: var(--text-heading); }
+  .contact-list__detail { margin-left: auto; font-size: 17px; line-height: 28px; color: var(--text-primary); text-align: right; text-decoration: none; }
+  .contact-list__detail.mono { font-weight: 500; }
+  .contact-list__link { color: var(--text-link); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  .contact-list__link:hover { color: var(--text-link-hover); }
+
+  /* Phones/tablets: form sits on a white band below the channels */
+  .contact__form-wrap { background: var(--bg-surface); margin-inline: calc(-1 * var(--gutter)); padding: 40px var(--gutter) 56px; }
+  .contact-reach { border: 0; padding: 0; margin: 0; min-inline-size: 0; }
+  .contact-reach legend { padding: 0; margin-bottom: 8px; }
+  .contact-reach__opts { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+  .contact-reach .choice { font-size: 17px; line-height: 28px; align-items: center; min-height: 44px; }
+  .contact-reach .choice input { margin: 0; }
+  .contact-form__submit { display: grid; gap: 16px; }
+  .contact-form__submit .btn { width: 100%; }
+  .contact-form .field__error[hidden] { display: none; }
+
+  .contact-founder { background: var(--bg-canvas); padding-block: 48px 56px; }
+  .contact-founder__grid { display: grid; grid-template-columns: 96px 1fr; align-items: center; column-gap: 24px; row-gap: 16px; }
+  .contact-founder__photo { width: 96px; height: 96px; border-radius: 50%; overflow: hidden; }
+  .contact-founder__photo :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .contact-founder__quote { grid-column: 1 / -1; grid-row: 2; font-family: var(--font-serif); font-size: 28px; line-height: 36px; color: var(--text-heading); }
+  .contact-founder__name { grid-column: 2; grid-row: 1; font-size: 17px; line-height: 28px; font-weight: 600; color: var(--text-heading); }
+  .contact-founder__btn { grid-column: 1 / -1; width: 100%; }
+
+  @media (max-width: 1023px) {
+    .contact__lede { font-family: var(--font-sans); font-size: 17px; line-height: 28px; }
+  }
+  @media (min-width: 768px) {
+    .contact-form__submit .btn { width: auto; justify-self: start; }
+  }
+  @media (min-width: 1200px) {
+    .contact__grid { grid-template-columns: minmax(0, 515px) minmax(0, 624px); justify-content: space-between; gap: 80px; align-items: start; }
+  }
+  @media (min-width: 1024px) {
+    .contact__intro { max-width: 624px; }
+    .contact { padding-block: 64px 96px; }
+    .contact__lede { margin-top: 20px; }
+    .contact-list { margin-top: 32px; }
+    .contact__form-wrap { margin: 0; padding: 40px; border: 1px solid var(--border-default); border-radius: var(--radius); }
+    .contact-form .form-grid { row-gap: 28px; }
+
+    .contact-founder { background: var(--bg-surface); padding-block: 64px 96px; }
+    .contact-founder__grid { grid-template-columns: 160px 1fr; column-gap: 48px; row-gap: 0; align-items: start; }
+    .contact-founder__photo { width: 160px; height: 160px; grid-row: 1 / span 3; }
+    .contact-founder__quote { grid-column: 2; grid-row: 1; margin-top: 4px; }
+    .contact-founder__name { grid-column: 2; grid-row: 2; margin-top: 12px; }
+    .contact-founder__btn { grid-column: 2; grid-row: 3; width: auto; justify-self: start; margin-top: 24px; }
+  }
+</style>

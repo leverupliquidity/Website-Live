@@ -1,0 +1,21 @@
+---
+// Card/Product — photo, name, Amount/Term, blurb, "See costs and terms".
+import Img from './Img.astro';
+import { products, type ProductKey } from '../../data/products';
+interface Props { product: ProductKey; headingLevel?: 'h2' | 'h3'; linkLabel?: string; sizes?: string }
+const { product, headingLevel = 'h3', linkLabel = 'See costs and terms', sizes = '(min-width: 1200px) 296px, (min-width: 768px) 45vw, 76vw' } = Astro.props;
+const p = products.find((x) => x.key === product)!;
+const H = headingLevel;
+---
+<article class="card product-card">
+  <div class="product-card__media"><Img src={p.image} alt={p.imageAlt} widths={[400, 600, 900]} sizes={sizes} /></div>
+  <div class="product-card__body">
+    <H class="product-card__title">{p.name}</H>
+    <dl class="spec">
+      <div class="spec__row"><dt>Amount</dt><dd>{p.amount}</dd></div>
+      <div class="spec__row"><dt>Term</dt><dd>{p.term}</dd></div>
+    </dl>
+    <p class="product-card__blurb">{p.cardBlurb}</p>
+    <a href={p.href} class="link product-card__link">{linkLabel}<span class="visually-hidden">: {p.name}</span></a>
+  </div>
+</article>

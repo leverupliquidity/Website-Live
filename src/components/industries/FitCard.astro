@@ -1,0 +1,25 @@
+---
+// "What fits" product card for industry pages. Same look as shared ProductCard (global .product-card styles),
+// but with the industry-specific name and blurb from the design.
+import Img from '../shared/Img.astro';
+import { products, type ProductKey } from '../../data/products';
+interface Props { product: ProductKey; name: string; amount: string; term: string; blurb: string }
+const { product, name, amount, term, blurb } = Astro.props;
+const p = products.find((x) => x.key === product)!;
+---
+<article class="card product-card fit-card">
+  <div class="product-card__media"><Img src={p.image} alt={p.imageAlt} widths={[400, 600, 900]} sizes="(min-width: 1200px) 296px, (min-width: 768px) 45vw, 76vw" /></div>
+  <div class="product-card__body">
+    <h3 class="product-card__title">{name}</h3>
+    <dl class="spec">
+      <div class="spec__row"><dt>Amount</dt><dd>{amount}</dd></div>
+      <div class="spec__row"><dt>Term</dt><dd>{term}</dd></div>
+    </dl>
+    <p class="product-card__blurb">{blurb}</p>
+    <a href={p.href} class="link product-card__link">See costs and terms<span class="visually-hidden">: {p.name}</span></a>
+  </div>
+</article>
+<style>
+  .fit-card { width: 100%; }
+  @media (max-width: 767px) { .fit-card .product-card__blurb { font-size: 15px; line-height: 24px; } }
+</style>

@@ -1,0 +1,69 @@
+---
+// Home hero. Desktop: full-bleed photo with a Warm Paper panel on top.
+// Phones/tablets: photo first, then the text on paper. Mobile copy differs from desktop (per Figma).
+import Img from '../shared/Img.astro';
+import Icon from '../shared/Icon.astro';
+import hero from '../../assets/images/02-hero-dispensary-flower.jpg';
+import { site } from '../../data/site';
+---
+<section class="hero" aria-labelledby="hero-h">
+  <div class="hero__media">
+    <Img
+      src={hero}
+      alt="A flowering cannabis plant, its buds covered in frosty trichomes, against a dark background"
+      widths={[480, 800, 1200, 1600, 2400, 2880]}
+      sizes="(min-width: 1024px) 145vw, 100vw"
+      priority
+    />
+  </div>
+  <div class="container hero__inner">
+    <div class="hero__panel">
+      <h1 class="h1 hero__h" id="hero-h">
+        <span class="only-desktop">Cannabis financing, with all terms up&nbsp;front.</span>
+        <span class="only-mobile">Cannabis financing, all terms up&nbsp;front.</span>
+      </h1>
+      <p class="hero__lede hero__lede--d desktop-block">We match licensed operators with private lenders. You see the full cost first.</p>
+      <p class="hero__lede hero__lede--m mobile-block">Private lenders for licensed operators. See the full cost before you sign.</p>
+      <div class="btn-row btn-row--stack hero__cta" data-hero-cta>
+        <a href="/apply" class="btn btn--primary" data-track="cta_see_options" data-track-location="hero">See my options</a>
+        <a href="/financing" class="btn btn--secondary">Compare financing</a>
+      </div>
+      <a href={site.phone.tel} class="link link-icon hero__phone" data-track-location="hero"><Icon name="phone" size={20} />Call or text {site.phone.display}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero { position: relative; background: var(--bg-canvas); }
+  .hero__media { aspect-ratio: 13 / 14; overflow: hidden; background: #0b0d0a; }
+  .hero__media :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: 47% 30%; }
+  .hero__panel { padding: 32px 0 40px; display: grid; gap: 16px; justify-items: start; }
+  .hero__h { font-weight: 600; }
+  .hero__lede--m { font-size: 17px; line-height: 28px; }
+  .hero__cta { width: 100%; margin-top: 16px; }
+  .hero__phone { margin-top: 8px; }
+  .hero__phone :global(.icon) { width: 20px; height: 20px; }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .hero__media { aspect-ratio: 16 / 10; }
+    .hero__panel { padding: 48px 0 56px; max-width: 640px; }
+    .hero__cta { width: auto; }
+  }
+
+  @media (min-width: 1024px) {
+    .hero { min-height: 780px; display: flex; align-items: center; background: #080806; overflow: hidden; }
+    /* Figma crop: photo zoomed ~145% with the flower set right of centre. */
+    .hero__media { position: absolute; inset: 0; aspect-ratio: auto; background: #080806; }
+    .hero__media :global(img) { position: absolute; left: 7.7%; top: -10.4vw; width: 145%; max-width: none; height: auto; object-fit: fill; }
+    .hero__media::after { content: ''; position: absolute; inset: 0 auto 0 0; width: 16%; background: linear-gradient(90deg, #080806 45%, rgba(8, 8, 6, 0)); }
+    .hero__inner { position: relative; z-index: 1; }
+    .hero__panel {
+      width: 560px; max-width: 100%; padding: 40px; gap: 0;
+      background: var(--bg-canvas); border-radius: var(--radius); box-shadow: var(--shadow-panel);
+    }
+    .hero__h { font-size: 48px; line-height: 52px; }
+    .hero__lede--d { margin-top: 24px; font-family: var(--font-serif); font-size: 21.78px; line-height: 32px; color: var(--text-primary); }
+    .hero__cta { width: auto; margin-top: 24px; }
+    .hero__phone { margin-top: 24px; }
+  }
+</style>

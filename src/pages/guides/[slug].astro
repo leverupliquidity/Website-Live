@@ -1,0 +1,266 @@
+---
+// Guide article template. Every word, photo and table row comes from the guide's Markdown file
+// in src/content/guides/ (see the notes at the top of that file).
+// The body is split into sections at each "## " heading; the Contents list is built from them.
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { getImage } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/shared/Breadcrumb.astro';
+import Img from '../../components/shared/Img.astro';
+import Icon from '../../components/shared/Icon.astro';
+import CostsTable from '../../components/shared/CostsTable.astro';
+import ClosingCTA from '../../components/shared/ClosingCTA.astro';
+import Contents from '../../components/legal/Contents.astro';
+import { guideDate, noWidow } from '../../components/guides/format';
+import { consent } from '../../data/consent';
+import { site } from '../../data/site';
+import { meta } from '../../data/meta';
+import headshot from '../../assets/images/13-headshot-ryan-circle.jpg';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guides');
+  return guides.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+interface Props { entry: CollectionEntry<'guides'> }
+const { entry } = Astro.props;
+const g = entry.data;
+const date = guideDate(g.date);
+
+// Split the rendered Markdown into: opening (before the first "## ") + one chunk per section.
+const html = entry.rendered?.html ?? '';
+const [opening, ...rest] = html.split(/(?=<h2[\s>])/);
+const headings = (entry.rendered?.metadata?.headings as { depth: number; slug: string; text: string }[] | undefined ?? [])
+  .filter((h) => h.depth === 2);
+const sections = rest.map((chunk, i) => ({ html: chunk, id: headings[i]?.slug ?? `section-${i + 1}` }));
+const toc = headings.map((h) => ({ id: h.slug, label: h.text.replace(/&/g, '&amp;').replace(/</g, '&lt;') }));
+
+// What goes after section n (0 = after the opening paragraph).
+const extrasAfter = (n: number) => ({
+  image: !!g.inlineImage && g.inlineAfterSection === n,
+  callout: g.beforeYouSign.length > 0 && g.beforeYouSignAfterSection === n,
+  table: g.costRows.length > 0 && g.costTableAfterSection === n,
+});
+const blocks = [{ html: opening, id: null as string | null, n: 0 }, ...sections.map((s, i) => ({ ...s, n: i + 1 }))];
+
+// Structured data (Article) + share image cropped from the lead photo.
+const share = await getImage({ src: g.leadImage, width: 1200, height: 630, fit: 'cover', format: 'jpg', quality: 80 });
+const shareUrl = new URL(share.src, site.url).href;
+const pageUrl = `${site.url}/guides/${entry.id}`;
+// Page title/description: from src/data/meta.ts when listed there, otherwise from the guide file.
+const metaKey = `/guides/${entry.id}`;
+const own = meta[metaKey] ? {} : { title: `${g.title} | ${site.name}`, description: g.description };
+const articleLd = {
+  '@context': 'https://schema.org', '@type': 'Article',
+  headline: g.title, description: g.description,
+  image: [shareUrl],
+  datePublished: date.iso, dateModified: date.iso,
+  author: { '@type': 'Person', name: g.author, url: `${site.url}/about` },
+  publisher: { '@type': 'Organization', '@id': `${site.url}/#org`, name: site.name, logo: { '@type': 'ImageObject', url: `${site.url}/icon-512.png` } },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
+};
+---
+<BaseLayout metaKey={metaKey} {...own} ogType="article" ogImage={shareUrl} jsonLd={[articleLd]}>
+  <div class="crumb-trunc"><Breadcrumb items={[{ label: 'Guides', href: '/guides' }, { label: g.title }]} /></div>
+
+  <header class="art-head">
+    <div class="container art-head__inner">
+      <p class="cat">{g.category}</p>
+      <h1 class="h1 h1--48 art-head__h1" id="art-title" set:html={noWidow(g.title)} />
+      <p class="lede art-lede">{g.lede}</p>
+      <div class="byline">
+        <span class="byline__photo"><Img src={headshot} alt="" widths={[80]} sizes="40px" /></span>
+        <p class="meta">By {g.author} · <time datetime={date.iso}>{date.display}</time> · {g.readTime} read</p>
+      </div>
+    </div>
+  </header>
+
+  <figure class="lead container">
+    <div class="lead__media">
+      <Img src={g.leadImage} alt={g.leadImageAlt} widths={[400, 800, 1280, 1920, 2400]} sizes="(min-width: 1440px) 1280px, (min-width: 768px) calc(100vw - 80px), 100vw" priority />
+    </div>
+    {g.leadCaption && <figcaption class="caption lead__caption">{g.leadCaption}</figcaption>}
+  </figure>
+
+  <div class="art-body">
+    <div class="container art-grid">
+      {toc.length > 0 && <Contents items={toc} id="contents" class="art-toc" />}
+
+      <article class="art" aria-labelledby="art-title">
+        {blocks.map((b) => {
+          const x = extrasAfter(b.n);
+          return (
+            <Fragment>
+              {b.html.trim() && (b.id
+                ? <section class="art-sec" aria-labelledby={b.id} set:html={b.html} />
+                : <div class="art-sec" set:html={b.html} />)}
+              {x.image && g.inlineImage && (
+                <figure class="inline-fig">
+                  <div class="inline-fig__media">
+                    <Img src={g.inlineImage} alt={g.inlineImageAlt} widths={[400, 800, 1200, 1600]} sizes="(min-width: 1440px) 733px, (min-width: 1024px) 55vw, calc(100vw - 40px)" />
+                  </div>
+                  {g.inlineCaption && <figcaption class="caption">{g.inlineCaption}</figcaption>}
+                </figure>
+              )}
+              {x.callout && (
+                <div class="callout" role="note" aria-labelledby="callout-title">
+                  <p class="callout__title" id="callout-title"><Icon name="info" size={20} class="callout__icon" />Before you sign</p>
+                  <p class="callout__text">Before you sign, ask for: {g.beforeYouSign.join(', ')}.</p>
+                </div>
+              )}
+              {x.table && <div class="art-table"><CostsTable rows={g.costRows} /></div>}
+            </Fragment>
+          );
+        })}
+      </article>
+
+      <aside class="cta-box" aria-label="Next steps">
+        <a href="/apply" class="btn btn--primary" data-track="cta_see_options" data-track-location="article_sidebar">See my options</a>
+        <a href="/contact" class="btn btn--secondary">Talk with us first</a>
+      </aside>
+    </div>
+  </div>
+
+  <section class="about-author" aria-label="About the author and disclaimer">
+    <div class="container about-author__grid">
+      <div class="bio">
+        <span class="bio__photo"><Img src={headshot} alt="Ryan Rodriguez" widths={[192]} sizes="96px" /></span>
+        <p class="bio__text">Ryan Rodriguez, Founder, Leverup Liquidity. We help licensed cannabis operators find capital, with clear answers and no sales games.</p>
+      </div>
+      <div class="disclaimer">
+        <h2 class="disclaimer__h">Disclaimer</h2>
+        <p class="disclaimer__text">{consent.articleDisclaimer}</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="art-close">
+    <ClosingCTA title="Ready to see real numbers?" lede="Five minutes to apply. No obligation to sign." />
+  </div>
+</BaseLayout>
+
+<style>
+  /* Breadcrumb: one line, long title truncated with an ellipsis (as designed on phones). */
+  .crumb-trunc :global(.breadcrumb ol) { flex-wrap: nowrap; }
+  .crumb-trunc :global(.breadcrumb li) { flex: none; }
+  .crumb-trunc :global(.breadcrumb li:last-child) { flex: 0 1 auto; min-width: 0; }
+  .crumb-trunc :global(.breadcrumb li:last-child span) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* ── Header ── */
+  .art-head { background: var(--bg-canvas); padding-block: 28px 24px; }
+  .art-head__inner { display: grid; justify-items: start; }
+  .cat {
+    display: inline-block; padding: 2px 8px; border-radius: var(--radius-sm); background: var(--bg-brand-subtle);
+    font-size: 13px; line-height: 20px; font-weight: 600; color: var(--text-heading);
+  }
+  .art-head__h1 { margin-top: 16px; max-width: 840px; text-wrap: wrap; }
+  .art-lede { margin-top: 16px; max-width: 760px; font-family: var(--font-sans); font-size: 17px; line-height: 28px; }
+  .byline { display: flex; align-items: center; gap: 16px; margin-top: 16px; }
+  .byline__photo { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; flex: none; background: var(--bg-sunken); }
+  .byline__photo :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .byline .meta { font-size: 13px; }
+
+  /* ── Lead image ── */
+  .lead { background: var(--bg-canvas); padding-inline: 0; max-width: none; }
+  .lead__media { aspect-ratio: 16 / 9; overflow: hidden; background: var(--bg-sunken); }
+  .lead__media :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .caption { margin-top: 8px; font-size: 13px; line-height: 20px; color: var(--text-secondary); }
+  .lead__caption { display: none; }
+
+  /* ── Body: Contents · article · CTA ── */
+  .art-body { background: var(--bg-canvas); padding-bottom: 48px; }
+  .art-grid { display: grid; }
+  .art-grid :global(.art-toc) { margin-inline: calc(-1 * var(--gutter)); }
+  .art { padding-top: 28px; min-width: 0; }
+  .art-sec :global(p) { font-size: 17px; line-height: 28px; color: var(--text-primary); }
+  .art-sec :global(* + p), .art-sec :global(* + ul), .art-sec :global(* + ol) { margin-top: 20px; }
+  .art-sec :global(ul), .art-sec :global(ol) { padding-left: 1.25em; }
+  .art-sec :global(li + li) { margin-top: 8px; }
+  .art-sec :global(strong) { font-weight: 600; color: var(--text-heading); }
+  .art-sec :global(a) { color: var(--text-link); text-underline-offset: 3px; }
+  .art-sec :global(h2) {
+    font-family: var(--font-serif); font-size: 28px; line-height: 36px; font-weight: 600; color: var(--text-heading);
+    margin-bottom: 20px; scroll-margin-top: calc(var(--header-h) + 16px);
+  }
+  .art-sec :global(h3) { font-size: 20px; line-height: 32px; font-weight: 600; color: var(--text-heading); margin-top: 28px; }
+  .art > * + * { margin-top: 32px; }
+  .art > .art-sec + .art-sec { margin-top: 28px; }
+  .art > .inline-fig + .art-sec, .art > .callout + .art-sec, .art > .art-table + .art-sec { margin-top: 28px; }
+
+  .inline-fig__media { aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--radius); background: var(--bg-sunken); }
+  .inline-fig__media :global(img) { width: 100%; height: 100%; object-fit: cover; }
+
+  .callout { background: var(--bg-accent-subtle); border-radius: var(--radius); padding: 20px 24px 24px; }
+  .callout__title { display: flex; align-items: center; gap: 12px; font-size: 17px; line-height: 28px; font-weight: 600; color: var(--text-heading); }
+  .callout__title :global(.callout__icon) { color: var(--brand-teal-600); }
+  .callout__text { margin-top: 8px; font-size: 15px; line-height: 24px; color: var(--text-primary); }
+
+  /* Costs table on phones: item + figure on one line, "when" underneath (as designed). */
+  @media (max-width: 767px) {
+    .art-table :global(.costs-table tr) { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 16px; align-items: baseline; padding: 16px 0; }
+    .art-table :global(.costs-table tr.is-broker) { padding: 16px 18px; }
+    .art-table :global(.costs-table td) { width: auto; }
+    .art-table :global(.costs-table td:first-child) { grid-column: 1; grid-row: 1; font-size: 17px; line-height: 28px; }
+    .art-table :global(.costs-table td.num) { grid-column: 2; grid-row: 1; text-align: right; overflow-wrap: anywhere; }
+    .art-table :global(.costs-table td.when) { grid-column: 1 / -1; grid-row: 2; font-size: 13px; line-height: 20px; padding-top: 4px; }
+    .art-table :global(.costs-table tr.is-broker td.when) { color: var(--text-primary); }
+  }
+  .art-table :global(.costs-table td:first-child) { font-size: 17px; line-height: 28px; }
+  .art-table :global(.costs-table th.num), .art-table :global(.costs-table th.when) { font-size: 13px; line-height: 20px; color: var(--text-secondary); }
+  @media (min-width: 768px) {
+    .art-table :global(.costs-table td) { padding-block: 12px; }
+    .art-table :global(.costs-table tr.is-broker td) { padding-block: 14px; }
+  }
+  .art-table :global(.costs-table tr.is-broker td.when) { color: var(--text-primary); }
+
+  .cta-box {
+    display: grid; gap: 12px; align-content: start; margin-top: 32px;
+    background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius); padding: 20px;
+  }
+  .cta-box .btn { width: 100%; }
+
+  /* ── Author + disclaimer ── */
+  .about-author { background: var(--bg-surface); padding-block: 48px; }
+  .about-author__grid { display: grid; gap: 32px; }
+  .bio { display: flex; gap: 24px; align-items: flex-start; }
+  .bio__photo { width: 64px; height: 64px; border-radius: 50%; overflow: hidden; flex: none; background: var(--bg-sunken); }
+  .bio__photo :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .bio__text { font-size: 15px; line-height: 24px; max-width: 480px; }
+  .disclaimer__h { font-size: 15px; line-height: 24px; font-weight: 600; color: var(--text-heading); }
+  .disclaimer__text { margin-top: 12px; font-size: 12px; line-height: 20px; color: var(--text-primary); max-width: 515px; }
+
+  /* Closing CTA lede: IBM Plex Sans 17/28 on phones in the design. */
+  @media (max-width: 1023px) {
+    .art-close :global(.closing-cta .lede) { font-family: var(--font-sans); font-size: 17px; line-height: 28px; }
+  }
+
+  @media (min-width: 768px) {
+    .lead { padding-inline: var(--gutter); max-width: calc(var(--container) + 2 * var(--gutter)); }
+    .lead__media { border-radius: var(--radius); }
+    .lead__caption { display: block; }
+    .art-body { padding-top: 24px; }
+    .art-grid :global(.art-toc) { margin-inline: 0; border-inline: 1px solid var(--border-default); }
+    .bio__photo { width: 96px; height: 96px; }
+    .cta-box { justify-self: start; min-width: 320px; }
+  }
+  @media (min-width: 1024px) {
+    .art-head { padding-block: 64px 48px; }
+    .art-head__h1 { margin-top: 20px; }
+    .byline { gap: 12px; }
+    .byline__photo { width: 48px; height: 48px; }
+    .art-lede { margin-top: 20px; font-family: var(--font-serif); font-size: 21.78px; line-height: 32px; }
+    .byline { margin-top: 28px; }
+    .art-body { padding-top: 64px; padding-bottom: 96px; }
+    .art-grid { grid-template-columns: minmax(0, 296fr) minmax(0, 733fr); column-gap: 32px; align-items: start; }
+    .art-grid :global(.art-toc) { border: 0; }
+    .art { padding-top: 0; }
+    .cta-box { grid-column: 2; }
+    .about-author { padding-block: 64px; }
+    .about-author__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 515px); column-gap: 32px; }
+    .bio { max-width: 640px; }
+  }
+  @media (min-width: 1280px) {
+    .art-grid { grid-template-columns: minmax(0, 296fr) minmax(0, 733fr) minmax(0, 186fr); }
+    .cta-box { grid-column: 3; grid-row: 1; justify-self: stretch; margin-top: 0; min-width: 0; padding: 16px; position: sticky; top: calc(var(--header-h) + 32px); }
+    .cta-box .btn { padding-inline: 12px; }
+  }
+</style>

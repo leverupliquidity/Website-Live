@@ -1,0 +1,39 @@
+---
+// Action bar/Mobile · Call · Text · See options. Fixed to the bottom on phones.
+// On pages with an element marked [data-hero-cta], it appears once that element scrolls away.
+import { site } from '../../data/site';
+---
+<nav class="action-bar" data-action-bar aria-label="Quick actions">
+  <a href={site.phone.tel} class="btn btn--secondary" data-track="tel_click" data-track-location="action_bar">Call</a>
+  <a href={site.phone.sms} class="btn btn--secondary" data-track="sms_click" data-track-location="action_bar">Text</a>
+  <a href="/apply" class="btn btn--primary" data-track="cta_see_options" data-track-location="action_bar">See options</a>
+</nav>
+<style>
+  .action-bar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+    display: grid; grid-template-columns: 1fr 1fr 1.45fr; gap: 8px;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    background: var(--bg-surface); box-shadow: var(--shadow-sticky);
+    transform: translateY(0); transition: transform .2s ease, visibility 0s;
+  }
+  .action-bar .btn { min-height: 48px; font-size: 15px; padding-inline: 8px; }
+  .action-bar.is-hidden { transform: translateY(110%); visibility: hidden; transition: transform .2s ease, visibility 0s .2s; }
+  @media (min-width: 1024px) { .action-bar { display: none; } }
+  :global(body) { padding-bottom: 0; }
+  @media (max-width: 1023px) { :global(body.has-action-bar) { padding-bottom: 76px; } }
+</style>
+<script>
+  const bar = document.querySelector<HTMLElement>('[data-action-bar]');
+  const hero = document.querySelector('[data-hero-cta]');
+  document.body.classList.add('has-action-bar');
+  if (bar && hero && 'IntersectionObserver' in window) {
+    bar.classList.add('is-hidden');
+    new IntersectionObserver(([e]) => {
+      const menuOpen = document.documentElement.classList.contains('menu-open');
+      bar.classList.toggle('is-hidden', e.isIntersecting && !menuOpen);
+    }).observe(hero);
+    new MutationObserver(() => {
+      if (document.documentElement.classList.contains('menu-open')) bar.classList.remove('is-hidden');
+    }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+  }
+</script>

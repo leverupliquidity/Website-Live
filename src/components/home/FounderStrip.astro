@@ -1,0 +1,51 @@
+---
+// Founder strip: headshot (Harbor ground on desktop, paper circle on phones), quote, About us + Book a call.
+import Img from '../shared/Img.astro';
+import harbor from '../../assets/images/10-headshot-ryan-harbor.jpg';
+import circle from '../../assets/images/13-headshot-ryan-circle.jpg';
+import { site } from '../../data/site';
+const alt = 'Ryan Rodriguez, founder of Leverup Liquidity, in a navy suit and tie';
+---
+<section class="founder" aria-label="A word from our founder">
+  <div class="container founder__grid">
+    <div class="founder__photo founder__photo--d"><Img src={harbor} alt={alt} widths={[296, 592]} sizes="296px" /></div>
+    <figure class="founder__body">
+      <figcaption class="founder__by">
+        <span class="founder__photo founder__photo--m"><Img src={circle} alt={alt} widths={[96, 192]} sizes="96px" /></span>
+        <span class="founder__name">Ryan Rodriguez, Founder, Leverup Liquidity</span>
+      </figcaption>
+      <blockquote class="quote founder__quote"><p>“We’ll walk you through every number before&nbsp;you&nbsp;sign.”</p></blockquote>
+      <div class="btn-row btn-row--stack founder__btns">
+        <a href="/about" class="btn btn--secondary">About us</a>
+        <a href={site.bookingsUrl} target="_blank" rel="noopener" class="btn btn--secondary" data-track-location="founder">Book a call</a>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .founder { background: var(--bg-surface); padding-block: 48px; }
+  .founder__grid { display: grid; }
+  .founder__photo--d { display: none; }
+  .founder__body { margin: 0; display: grid; gap: 24px; }
+  .founder__by { display: flex; align-items: center; gap: 16px; }
+  .founder__photo--m { width: 96px; height: 96px; flex: none; border-radius: 50%; overflow: hidden; background: var(--bg-canvas); }
+  .founder__photo :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .founder__name { font-size: 17px; line-height: 28px; font-weight: 600; color: var(--text-heading); }
+  .founder__quote { margin: 0; }
+  .founder__btns { margin-top: 0; }
+  @media (min-width: 768px) {
+    .founder__quote { font-size: 32px; line-height: 40px; }
+  }
+  @media (min-width: 1024px) {
+    .founder { padding-block: 96px; }
+    .founder__grid { grid-template-columns: minmax(200px, 296px) minmax(0, 720px); column-gap: clamp(48px, 9.8vw, 141px); align-items: center; }
+    .founder__photo--d { display: block; aspect-ratio: 1; border-radius: var(--radius); overflow: hidden; background: var(--bg-brand); }
+    .founder__photo--m { display: none; }
+    .founder__body { gap: 0; }
+    /* Quote first, then the name, then buttons (desktop order). */
+    .founder__quote { order: 1; font-size: 39px; line-height: 44px; }
+    .founder__by { order: 2; margin-top: 24px; }
+    .founder__btns { order: 3; margin-top: 24px; }
+  }
+</style>

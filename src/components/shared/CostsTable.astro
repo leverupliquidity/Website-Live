@@ -1,0 +1,17 @@
+---
+// Table/Costs and terms. rows: { item, figure, when, broker? }. Broker row ("What we're paid") is highlighted.
+interface Row { item: string; figure: string; when: string; broker?: boolean }
+interface Props { rows: Row[]; caption?: string }
+const { rows, caption = 'Costs and terms' } = Astro.props;
+---
+<table class="costs-table">
+  <caption class="visually-hidden">{caption}</caption>
+  <thead><tr><th scope="col">Item</th><th scope="col" class="num">Figure</th><th scope="col" class="when">When charged</th></tr></thead>
+  <tbody>
+    {rows.map((r) => (
+      <tr class:list={{ 'is-broker': r.broker }}>
+        <td>{r.item}</td><td class="num" set:html={r.figure} /><td class="when">{r.when}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>

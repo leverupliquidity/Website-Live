@@ -1,0 +1,13 @@
+---
+// Section heading row: H2 + optional lede, optional action (slot="action") aligned right on desktop.
+interface Props { title: string; lede?: string; id?: string; level?: 'h2' | 'h1'; class?: string }
+const { title, lede, id, level = 'h2', class: cls } = Astro.props;
+const H = level;
+---
+<div class:list={['section-head', cls]}>
+  <div class="section-head__text">
+    <H class={level === 'h1' ? 'h1' : 'h2'} id={id} set:html={title} />
+    {lede && <p class="lede" set:html={lede} />}
+  </div>
+  {Astro.slots.has('action') && <div class="section-head__action"><slot name="action" /></div>}
+</div>

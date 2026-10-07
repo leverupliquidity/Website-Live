@@ -1,0 +1,58 @@
+---
+// How it works · Step detail (photo + text). Photo left on odd steps, right on even steps.
+// Phones: full-bleed photo on top, text below.
+import Img from '../shared/Img.astro';
+import Icon from '../shared/Icon.astro';
+import type { ImageMetadata } from 'astro';
+interface Props {
+  n: number; timing: string; title: string; body: string; lines?: string[]; provide: string[];
+  img: ImageMetadata; alt: string; ground: 'paper' | 'white'; position?: string;
+}
+const { n, timing, title, body, lines = [], provide, img, alt, ground, position } = Astro.props;
+const id = `step-${n}-h`;
+const flip = n % 2 === 0;
+---
+<section class:list={['step', `step--${ground}`, { 'step--flip': flip }]} aria-labelledby={id}>
+  <div class="step__grid">
+    <div class="step__media"><Img src={img} alt={alt} widths={[400, 800, 1248, 1600]} sizes="(min-width: 1024px) 624px, 100vw" position={position} /></div>
+    <div class="step__text">
+      <p class="eyebrow">{timing}</p>
+      <h2 class="h2 step__title" id={id}>{title}</h2>
+      <p class="step__body">{body}</p>
+      {lines.length > 0 && <ul role="list" class="step__lines">{lines.map((l) => <li>{l}</li>)}</ul>}
+      <h3 class="step__provide">You provide</h3>
+      <ul role="list" class="h1-checks">{provide.map((p) => <li><Icon name="check-circle" size={20} />{p}</li>)}</ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .step--paper { background: var(--bg-canvas); }
+  .step--white { background: var(--bg-surface); }
+  .step__media { aspect-ratio: 390 / 219; overflow: hidden; background: var(--bg-sunken); }
+  .step__media :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .step__text { padding: 32px var(--gutter) 48px; }
+  .step__title { margin-top: 12px; }
+  .step__body { margin-top: 16px; font-size: 17px; line-height: 28px; }
+  .step__lines { margin-top: 28px; font-size: 17px; line-height: 28px; }
+  .step__provide { margin-top: 20px; margin-bottom: 12px; font-size: 15px; line-height: 24px; font-weight: 600; color: var(--text-heading); }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .step__text { max-width: 720px; margin-inline: auto; padding-block: 40px 64px; }
+  }
+
+  @media (min-width: 1024px) {
+    .step { padding-block: 96px; }
+    .step__grid {
+      max-width: calc(var(--container) + 2 * var(--gutter)); margin-inline: auto; padding-inline: var(--gutter);
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; align-items: center;
+    }
+    .step__media { aspect-ratio: 624 / 351; border-radius: var(--radius); }
+    .step__text { padding: 0; max-width: 515px; justify-self: end; width: 100%; }
+    .step--flip .step__media { order: 2; }
+    .step--flip .step__text { order: 1; justify-self: start; max-width: 500px; }
+    .step__title { margin-top: 16px; }
+    .step__body { margin-top: 20px; }
+    .step__provide { margin-top: 28px; }
+  }
+</style>

@@ -1,0 +1,174 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/shared/Icon.astro';
+import { ACCEPT, HINT } from '../../components/apply/files';
+import { site } from '../../data/site';
+import '../../components/h1-ui/h1.css';
+
+const next = [
+  { icon: 'file-plus', n: '01', line: 'Upload your bank statements now and skip a round of back and forth.', btn: { label: 'Upload documents', href: '#upload', cls: 'btn--primary' } },
+  { icon: 'calendar', n: '02', line: 'Want to talk it through? Pick a time.', btn: { label: 'Book a call', href: site.bookingsUrl, cls: 'btn--secondary', ext: true } },
+  { icon: 'message', n: '03', line: `Questions? Text us at <span class="nowrap">${site.phone.display}</span>.`, btn: { label: 'Text us', href: site.phone.sms, cls: 'btn--secondary' } },
+];
+const needed = [
+  { key: 'Photo ID', title: 'Photo ID for each owner', meta: 'photo' },
+  { key: 'Business tax return', title: 'Business tax return', meta: 'PDF' },
+];
+---
+<BaseLayout header="apply" footer="minimal" actionBar={false}>
+  <section class="cf-hero" aria-labelledby="cf-h1">
+    <div class="container cf-hero__grid">
+      <div class="cf-hero__text">
+        <span class="cf-check"><Icon name="check-circle" /></span>
+        <h1 class="h1 h1-48" id="cf-h1">Got it. We're on it.</h1>
+        <p class="h1-lede">We’ll review your information and be in touch shortly.</p>
+      </div>
+      <div class="cf-ref" data-ref-box hidden>
+        <p class="cf-ref__label" id="ref-label">Reference number</p>
+        <p class="cf-ref__id mono" data-ref aria-labelledby="ref-label"></p>
+        <button type="button" class="cf-textbtn" data-copy-ref>Copy reference</button>
+        <span class="visually-hidden" role="status" data-copy-status></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--white cf-next" aria-labelledby="next-h">
+    <div class="container">
+      <h2 class="h2" id="next-h">What happens next</h2>
+      <ol role="list" class="cf-next__list">
+        {next.map((it) => (
+          <li class="cf-card">
+            <span class="cf-card__icon"><Icon name={it.icon} /></span>
+            <span class="cf-card__n mono" aria-hidden="true">{it.n}</span>
+            <p class="cf-card__line" set:html={it.line} />
+            <a href={it.btn.href} class={`btn ${it.btn.cls} cf-card__btn`} {...(it.btn.ext ? { target: '_blank', rel: 'noopener' } : {})}>{it.btn.label}</a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--paper cf-up" id="upload" aria-labelledby="up-h" tabindex="-1">
+    <div class="container cf-up__grid">
+      <div class="cf-up__head">
+        <h2 class="h2" id="up-h">Upload your documents</h2>
+        <p class="h1-lockline cf-up__lock-d"><Icon name="lock" size={20} />Files go only to lenders you approve.</p>
+      </div>
+      <div class="cf-up__body">
+        <div class="cf-drop" data-drop>
+          <Icon name="file-plus" class="cf-drop__icon" />
+          <p class="cf-drop__title">Take a photo or choose files</p>
+          <p class="cf-drop__hint" id="cf-hint">{HINT}</p>
+          <input type="file" id="cf-files" aria-label="Documents" class="visually-hidden" multiple accept={ACCEPT} tabindex="-1" />
+          <button type="button" class="btn btn--secondary cf-drop__btn" data-choose aria-describedby="cf-hint">Choose files</button>
+        </div>
+        <div class="field__error cf-err" data-err role="alert" hidden></div>
+
+        <div data-received-wrap hidden>
+          <h3 class="cf-list-h">Received</h3>
+          <ul role="list" class="cf-list" data-received aria-live="polite"></ul>
+        </div>
+
+        <h3 class="cf-list-h">Still needed:</h3>
+        <ul role="list" class="cf-list" data-needed>
+          {needed.map((d) => (
+            <li class="cf-item" data-need={d.key}>
+              <span class="cf-item__icon"><Icon name="file-plus" /></span>
+              <span class="cf-item__info"><span class="cf-item__name">{d.title}</span><span class="cf-item__meta">{d.meta}</span></span>
+              <span class="cf-badge cf-badge--need" data-badge><Icon name="alert-circle" size={16} /><span>Needed</span></span>
+              <button type="button" class="cf-textbtn cf-item__act" data-upload-for={d.key}>Upload<span class="visually-hidden"> {d.title}</span></button>
+            </li>
+          ))}
+        </ul>
+        <p class="h1-lockline cf-up__lock-m"><Icon name="lock" size={20} />Files go only to lenders you approve.</p>
+      </div>
+    </div>
+  </section>
+  <template id="cf-tpl-file"><Icon name="file" /></template>
+  <template id="cf-tpl-ok"><Icon name="check-circle" size={16} /></template>
+  <template id="cf-tpl-err"><Icon name="alert-circle" size={16} /></template>
+</BaseLayout>
+
+<script>
+  import { initConfirmation } from '../../components/apply/confirm-upload';
+  initConfirmation();
+</script>
+
+<style>
+  .cf-hero { background: var(--bg-canvas); padding-block: 40px 48px; }
+  .cf-hero__grid { display: grid; gap: 32px; }
+  .cf-hero__text { display: grid; gap: 16px; justify-items: start; }
+  .cf-check { color: var(--feedback-success); }
+  .cf-check :global(.icon) { width: 40px; height: 40px; }
+  .cf-ref { background: var(--bg-surface); border: 1.5px solid var(--border-brand); border-radius: var(--radius); padding: 24px 20px; display: grid; justify-items: start; gap: 8px; }
+  .cf-ref__label { font-size: 13px; line-height: 20px; font-weight: 600; color: var(--text-secondary); }
+  .cf-ref__id { font-size: 24px; line-height: 32px; font-weight: 600; color: var(--text-heading); }
+  .cf-textbtn { background: none; border: 0; padding: 0; min-height: 32px; color: var(--text-link); font-weight: 600; font-size: 15px; line-height: 24px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  .cf-textbtn:hover { color: var(--text-link-hover); text-decoration-thickness: 2px; }
+
+  .cf-next { padding-block: 56px; }
+  .cf-next__list { margin-top: 24px; display: grid; gap: 16px; }
+  .cf-card {
+    background: var(--bg-canvas); border: 1px solid var(--border-default); border-radius: var(--radius);
+    padding: 24px 20px 24px 20px; display: grid; grid-template-columns: 24px 1fr; column-gap: 16px; align-items: center;
+  }
+  .cf-card__icon { color: var(--brand-teal-600); grid-row: 1; grid-column: 1; display: flex; }
+  .cf-card__n { display: none; }
+  .cf-card__line { grid-row: 1; grid-column: 2; font-size: 17px; line-height: 28px; font-weight: 600; color: var(--text-heading); }
+  .cf-card__btn { grid-row: 2; grid-column: 2; margin-top: 16px; width: 100%; }
+
+  .cf-up__grid { display: grid; gap: 24px; }
+  .cf-up__lock-d { display: none; }
+  .cf-up__lock-m { margin-top: 24px; }
+  .cf-drop { border: 1.5px dashed var(--border-strong); border-radius: var(--radius); background: var(--bg-surface); padding: 32px 20px; display: grid; justify-items: center; text-align: center; gap: 8px; }
+  .cf-drop.is-over { border-color: var(--brand-teal-600); background: var(--bg-brand-subtle); }
+  .cf-drop :global(.cf-drop__icon) { color: var(--brand-teal-600); width: 32px; height: 32px; margin-bottom: 8px; }
+  .cf-drop__title { font-size: 17px; line-height: 28px; font-weight: 600; color: var(--text-heading); }
+  .cf-drop__hint { font-size: 13px; line-height: 20px; color: var(--text-secondary); }
+  .cf-drop__btn { margin-top: 12px; }
+  .cf-err { margin-top: 12px; display: grid; gap: 4px; }
+  .cf-up :global(.cf-err-line) { display: flex; gap: 8px; align-items: flex-start; }
+  .cf-list-h { margin-top: 32px; margin-bottom: 16px; font-size: 17px; line-height: 28px; font-weight: 600; color: var(--text-heading); }
+  .cf-list { background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius); }
+  .cf-up :global(.cf-item) { display: flex; align-items: center; gap: 16px; padding: 16px 20px; }
+  .cf-up :global(.cf-item + .cf-item) { border-top: 1px solid var(--border-subtle); }
+  .cf-up :global(.cf-item__icon) { color: var(--icon-neutral); display: flex; }
+  .cf-up :global([data-received] .cf-item__icon) { color: var(--brand-teal-600); }
+  .cf-up :global(.cf-item__info) { flex: 1; min-width: 0; }
+  .cf-up :global(.cf-item__name) { display: block; font-size: 15px; line-height: 24px; font-weight: 600; color: var(--text-heading); overflow-wrap: anywhere; }
+  .cf-up :global(.cf-item__meta) { display: block; font-size: 13px; line-height: 20px; color: var(--text-secondary); }
+  .cf-up :global(.cf-badge) { display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px; border-radius: 999px; border: 1px solid; font-size: 13px; line-height: 20px; font-weight: 600; white-space: nowrap; }
+  .cf-up :global(.cf-badge--ok) { background: var(--feedback-success-surface); border-color: var(--feedback-success-border); color: var(--feedback-success-text); }
+  .cf-up :global(.cf-badge--ok .icon) { color: var(--feedback-success); }
+  .cf-up :global(.cf-badge--need) { background: var(--feedback-warning-surface); border-color: var(--feedback-warning-border); color: var(--feedback-warning-text); }
+  .cf-up :global(.cf-badge--need .icon) { color: var(--feedback-warning); }
+  .cf-up :global(.cf-badge--busy) { background: var(--feedback-info-surface); border-color: var(--feedback-info-border); color: var(--feedback-info-text); }
+  .cf-up :global(.cf-badge--fail) { background: var(--feedback-error-surface); border-color: var(--feedback-error-border); color: var(--feedback-error-text); }
+  .cf-item__act { display: none; }
+
+  @media (min-width: 768px) {
+    .cf-next__list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+    .cf-card { grid-template-columns: 1fr auto; grid-template-rows: auto 1fr auto; align-items: start; padding: 28px; height: 100%; }
+    .cf-card__icon { grid-column: 1; grid-row: 1; }
+    .cf-card__n { display: block; grid-column: 2; grid-row: 1; font-size: 15px; line-height: 24px; font-weight: 500; color: var(--text-secondary); }
+    .cf-card__line { grid-column: 1 / -1; grid-row: 2; margin-top: 20px; }
+    .cf-card__btn { grid-column: 1 / -1; grid-row: 3; width: auto; justify-self: start; }
+    .cf-item__act { display: inline-block; }
+  }
+  @media (min-width: 1024px) {
+    .cf-hero { padding-block: 80px 92px; }
+    .cf-hero__grid { grid-template-columns: minmax(0, 720px) 405px; justify-content: space-between; align-items: start; }
+    .cf-hero__text { gap: 0; }
+    .cf-hero__text .h1 { margin-top: 32px; }
+    .cf-hero__text .h1-lede { margin-top: 24px; }
+    .cf-ref { padding: 28px; }
+    .cf-next { padding-block: 96px; }
+    .cf-next__list { margin-top: 40px; gap: 32px; }
+    .cf-card__line { font-size: 20px; line-height: 32px; }
+    .cf-up__grid { grid-template-columns: minmax(0, 467px) minmax(0, 733px); justify-content: space-between; gap: 80px; }
+    .cf-up__head { display: grid; gap: 16px; align-content: start; }
+    .cf-up__lock-d { display: flex; }
+    .cf-up__lock-m { display: none; }
+    .cf-drop { padding: 40px; }
+  }
+</style>

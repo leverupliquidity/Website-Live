@@ -1,0 +1,151 @@
+---
+// "Fit finder · 3 questions → suggested product" on /financing.
+// Three single-choice radio groups styled as chips. Once all three are answered
+// (or on "Find my fit"), the result card shows the suggested product.
+import { products } from '../../data/products';
+
+const questions = [
+  { name: 'purpose', legend: "1. What's the money for?", options: [
+    ['inventory', 'Inventory'], ['equipment', 'Equipment'], ['payroll', 'Payroll'], ['expansion', 'Expansion'], ['taxes', 'Taxes'],
+  ] },
+  { name: 'timing', legend: '2. When do you need it?', options: [
+    ['this-week', 'This week'], ['this-month', 'This month'], ['within-3-months', 'Within 3 months'], ['just-looking', 'Just looking'],
+  ] },
+  { name: 'revenue', legend: '3. Monthly revenue?', options: [
+    ['under-50k', 'Under $50K'], ['50k-150k', '$50K to $150K'], ['150k-500k', '$150K to $500K'], ['over-500k', 'Over $500K'],
+  ] },
+] as const;
+
+const productData = Object.fromEntries(products.map((p) => [p.key, { name: p.name, href: p.href }]));
+---
+<div class="fit">
+  <h2 class="h2 fit__h" id="fit-h">Find my fit</h2>
+  <form class="fit__panel" data-fit-finder aria-labelledby="fit-h" data-products={JSON.stringify(productData)}>
+    {questions.map((q) => (
+      <fieldset class="fit__q">
+        <legend class="fit__legend">{q.legend}</legend>
+        <div class="fit__chips">
+          {q.options.map(([value, label]) => (
+            <label class="fit__chip">
+              <input type="radio" name={q.name} value={value} />
+              <span>{label}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+    ))}
+    <button type="submit" class="btn btn--primary fit__submit" data-fit-submit>Find my fit</button>
+    <div class="fit__result" data-fit-result tabindex="-1" hidden>
+      <p class="fit__product" data-fit-product>Lines of credit</p>
+      <p class="fit__copy">Based on your answers, these usually fit best. Apply to see what lenders actually offer.</p>
+      <div class="btn-row btn-row--stack">
+        <a href="/apply" class="btn btn--primary" data-track="cta_see_options" data-track-location="fit_finder">See my options</a>
+        <a href="/financing/lines-of-credit" class="btn btn--secondary" data-fit-link>See costs and terms</a>
+      </div>
+    </div>
+    <p class="visually-hidden" role="status" aria-live="polite" data-fit-status></p>
+  </form>
+</div>
+
+<script>
+  type Key = 'loc' | 'equipment' | 'term' | 'mca';
+
+  // ── Suggestion table ──────────────────────────────────────────────
+  // purpose → [usual product, product when revenue is "Under $50K" or timing is "This week"]
+  const SUGGEST: Record<string, [Key, Key]> = {
+    equipment: ['equipment', 'equipment'], // Equipment → Equipment financing, always
+    expansion: ['term', 'mca'],            // Expansion → Term loans, else Merchant cash advance
+    inventory: ['loc', 'mca'],             // Inventory → Lines of credit, else Merchant cash advance
+    payroll:   ['loc', 'mca'],             // Payroll   → Lines of credit, else Merchant cash advance
+    taxes:     ['loc', 'mca'],             // Taxes     → Lines of credit, else Merchant cash advance
+  };
+  const needsFastOrSmall = (timing: string | null, revenue: string | null) =>
+    timing === 'this-week' || revenue === 'under-50k';
+
+  function suggest(purpose: string, timing: string | null, revenue: string | null): Key {
+    const [usual, fastOrSmall] = SUGGEST[purpose] ?? SUGGEST.inventory;
+    return needsFastOrSmall(timing, revenue) ? fastOrSmall : usual;
+  }
+
+  document.querySelectorAll<HTMLFormElement>('[data-fit-finder]').forEach((form) => {
+    const products = JSON.parse(form.dataset.products || '{}') as Record<Key, { name: string; href: string }>;
+    const result = form.querySelector<HTMLElement>('[data-fit-result]')!;
+    const nameEl = form.querySelector<HTMLElement>('[data-fit-product]')!;
+    const link = form.querySelector<HTMLAnchorElement>('[data-fit-link]')!;
+    const submit = form.querySelector<HTMLButtonElement>('[data-fit-submit]')!;
+    const status = form.querySelector<HTMLElement>('[data-fit-status]')!;
+    let lastTracked = '';
+
+    const value = (name: string) => (form.elements.namedItem(name) as RadioNodeList | null)?.value || null;
+
+    const show = (focus: boolean) => {
+      const purpose = value('purpose');
+      if (!purpose) {
+        form.querySelector<HTMLInputElement>('input[name="purpose"]')?.focus();
+        return;
+      }
+      const key = suggest(purpose, value('timing'), value('revenue'));
+      const p = products[key];
+      nameEl.textContent = p.name;
+      link.href = p.href;
+      link.setAttribute('aria-label', `See costs and terms: ${p.name}`);
+      const wasHidden = result.hidden;
+      result.hidden = false;
+      submit.hidden = true;
+      status.textContent = `Suggested: ${p.name}`;
+      if (focus && wasHidden) result.focus({ preventScroll: false });
+      // Track once per suggested product (not on every chip change)
+      if (key !== lastTracked) {
+        lastTracked = key;
+        window.lvTrack?.('fit_finder_result', { product: key });
+      }
+    };
+
+    form.addEventListener('change', () => {
+      const all = ['purpose', 'timing', 'revenue'].every((n) => value(n));
+      if (all || !result.hidden) show(false);
+    });
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      show(true);
+    });
+  });
+</script>
+
+<style>
+  .fit { display: grid; gap: 24px; }
+  .fit__panel { display: grid; gap: 28px; }
+  .fit__q { border: 0; margin: 0; padding: 0; min-width: 0; }
+  .fit__legend { padding: 0; margin-bottom: 16px; font-size: 17px; line-height: 28px; font-weight: 600; color: var(--text-heading); }
+  .fit__chips { display: flex; flex-wrap: wrap; gap: 12px 12px; }
+  .fit__chip { position: relative; display: inline-flex; cursor: pointer; }
+  .fit__chip input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+  .fit__chip span {
+    display: inline-flex; align-items: center; min-height: 44px; padding: 8px 16px;
+    border: 1px solid var(--border-strong); border-radius: 999px; background: var(--bg-surface);
+    font-size: 15px; line-height: 24px; font-weight: 500; color: var(--text-primary);
+    transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+  }
+  .fit__chip:hover span { border-color: var(--border-brand); background: var(--bg-brand-subtle); }
+  .fit__chip input:checked + span { background: var(--bg-brand); border-color: var(--bg-brand); color: var(--text-inverse); font-weight: 600; }
+  .fit__chip input:focus-visible + span { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+  .fit__submit { justify-self: start; }
+  @media (max-width: 767px) { .fit__submit { justify-self: stretch; } }
+
+  .fit__result { background: var(--bg-brand-subtle); border-radius: var(--radius); padding: 24px; display: grid; gap: 8px; }
+  .fit__result:focus { outline: none; }
+  .fit__result:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+  .fit__product { font-size: 20px; line-height: 32px; font-weight: 600; color: var(--text-heading); }
+  .fit__copy { font-size: 15px; line-height: 24px; }
+  .fit__result .btn-row { margin-top: 16px; }
+  @media (max-width: 767px) { .fit__copy { font-size: 17px; line-height: 28px; } }
+
+  @media (min-width: 768px) {
+    .fit__panel { background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius); padding: 40px; }
+  }
+  @media (min-width: 1024px) {
+    .fit { grid-template-columns: minmax(0, 467px) minmax(0, 733px); justify-content: space-between; gap: 64px; align-items: start; }
+    .fit__chip span { min-height: 40px; }
+    .fit__result { margin-top: 4px; }
+  }
+</style>

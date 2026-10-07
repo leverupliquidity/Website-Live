@@ -1,0 +1,39 @@
+---
+// Closing CTA band on Harbor + contact channels (used at the bottom of most pages).
+import ContactChannels from './ContactChannels.astro';
+interface Props {
+  title: string; lede: string;
+  primary?: { label: string; href: string }; secondary?: { label: string; href: string; external?: boolean };
+}
+const { title, lede, primary = { label: 'See my options', href: '/apply' }, secondary = { label: 'Talk with us first', href: '/contact' } } = Astro.props;
+---
+<section class="section section--brand closing-cta" aria-labelledby="closing-cta-h">
+  <div class="container closing-cta__grid">
+    <div class="closing-cta__text">
+      <h2 class="h2 closing-cta__h" id="closing-cta-h" set:html={title} />
+      <p class="lede">{lede}</p>
+      <div class="btn-row btn-row--stack">
+        <a href={primary.href} class="btn btn--primary-on-brand" data-track="cta_see_options" data-track-location="closing_cta">{primary.label}</a>
+        <a href={secondary.href} class="btn btn--secondary-on-brand" {...(secondary.external ? { target: '_blank', rel: 'noopener' } : {})}>{secondary.label}</a>
+      </div>
+    </div>
+    <ContactChannels ground="brand" />
+  </div>
+</section>
+<style>
+  .closing-cta { padding-block: 80px; }
+  .closing-cta__grid { display: grid; gap: 40px; }
+  .closing-cta__text { display: grid; gap: 16px; align-content: center; }
+  .closing-cta__text .btn-row { margin-top: 24px; }
+  .closing-cta__h { font-weight: 700; }
+  @media (max-width: 767px) {
+    .closing-cta { padding-block: 48px; }
+    .closing-cta__grid { gap: 24px; }
+    .closing-cta__text { gap: 12px; }
+    .closing-cta__text .btn-row { gap: 12px; }
+  }
+  @media (min-width: 1024px) {
+    .closing-cta { padding-block: 154px; }
+    .closing-cta__grid { grid-template-columns: minmax(0, 600px) minmax(0, 515px); justify-content: space-between; align-items: center; }
+  }
+</style>

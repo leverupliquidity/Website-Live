@@ -1,0 +1,122 @@
+---
+// Layout for the legal pages (Privacy, SMS terms): breadcrumb, page chips,
+// title, "Last updated", intro, then Contents (sticky on desktop) + the text.
+// The text goes in the default slot and is styled as .prose.
+// No Terms chip: the Terms page is not launching (SHOW_TERMS = false).
+import Breadcrumb from '../shared/Breadcrumb.astro';
+import Contents from './Contents.astro';
+import { SHOW_TERMS } from '../../data/site';
+
+interface Props {
+  title: string; crumb: string; active: 'privacy' | 'sms-terms';
+  updated: { display: string; iso: string };
+  intro?: string; toc: { id: string; label: string }[];
+  numbered?: boolean; // add "1." "2." … in front of section headings (CSS counters)
+}
+const { title, crumb, active, updated, intro, toc, numbered = false } = Astro.props;
+const chips = [
+  { key: 'privacy', label: 'Privacy', href: '/privacy' },
+  ...(SHOW_TERMS ? [{ key: 'terms', label: 'Terms', href: '/terms' }] : []),
+  { key: 'sms-terms', label: 'SMS terms', href: '/sms-terms' },
+];
+---
+<Breadcrumb items={[{ label: crumb }]} />
+<header class="legal-head">
+  <div class="container legal-head__inner">
+    <nav aria-label="Legal pages">
+      <ul class="chips" role="list">
+        {chips.map((c) => (
+          <li><a href={c.href} class:list={['chip', { 'is-active': c.key === active }]} aria-current={c.key === active ? 'page' : undefined}>{c.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <h1 class="h1 h1--48 legal-head__h1">{title}</h1>
+    <p class="meta legal-head__date">Last updated <time datetime={updated.iso}>{updated.display}</time></p>
+    {intro && <p class="legal-head__intro" set:html={intro} />}
+  </div>
+</header>
+<div class="legal-body">
+  <div class="container legal-grid">
+    <Contents items={toc} id="contents" class:list={['legal-toc', { 'is-numbered': numbered }]} />
+    <article class:list={['prose', 'legal-prose', { 'is-numbered': numbered }]}>
+      <slot />
+    </article>
+  </div>
+</div>
+
+<style>
+  .legal-head { background: var(--bg-canvas); padding-block: 20px 24px; }
+  .legal-head__inner { display: grid; justify-items: start; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .chip {
+    display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px;
+    border: 1px solid var(--border-strong); border-radius: 999px; background: var(--bg-surface);
+    font-size: 15px; line-height: 24px; font-weight: 500; color: var(--text-primary); text-decoration: none;
+  }
+  .chip:hover { border-color: var(--border-brand); background: var(--bg-brand-subtle); }
+  .chip.is-active { background: var(--bg-brand); border-color: var(--bg-brand); color: var(--text-inverse); font-weight: 600; }
+  .legal-head__date { margin-top: 8px; }
+  .legal-head__intro { margin-top: 16px; max-width: 70ch; font-size: 17px; line-height: 28px; color: var(--text-primary); }
+
+  .legal-body { background: var(--bg-surface); padding-bottom: 64px; }
+  .legal-grid { display: grid; }
+  /* Contents: full-bleed bar on phones/tablets */
+  .legal-grid :global(.legal-toc) { margin-inline: calc(-1 * var(--gutter)); }
+  .legal-prose { padding-top: 32px; color: var(--text-primary); text-align: left; overflow-wrap: break-word; }
+
+  @media (min-width: 768px) {
+    .chips { margin-bottom: 24px; }
+  }
+  @media (min-width: 1024px) {
+    .legal-head { padding-block: 48px 56px; }
+    .legal-head__date { margin-top: 24px; }
+    .legal-head__intro { font-family: var(--font-serif); font-size: 21.78px; line-height: 32px; margin-top: 28px; }
+    .legal-body { padding-block: 72px 96px; }
+    .legal-grid { grid-template-columns: 28% minmax(0, 1fr); column-gap: clamp(40px, 6vw, 80px); align-items: start; }
+    .legal-grid :global(.legal-toc) { margin-inline: 0; }
+    .legal-prose { padding-top: 0; }
+  }
+
+  /* ── Legal text ─────────────────────────────────────────── */
+  .legal-prose :global(h2) { margin-top: 40px; scroll-margin-top: calc(var(--header-h) + 16px); }
+  .legal-prose > :global(h2:first-child) { margin-top: 0; }
+  .legal-prose :global(h2 + *), .legal-prose :global(h3 + *) { margin-top: 12px; }
+  .legal-prose :global(h3) { margin-top: 32px; scroll-margin-top: calc(var(--header-h) + 16px); }
+  .legal-prose :global([id]) { scroll-margin-top: calc(var(--header-h) + 16px); }
+  .legal-prose :global(p), .legal-prose :global(li) { max-width: 70ch; }
+  .legal-prose :global(strong) { font-weight: 600; color: var(--text-heading); }
+  .legal-prose :global(ul) { padding-left: 1.25em; }
+  .legal-prose :global(ul li::marker) { color: var(--text-secondary); }
+  .legal-prose :global(a) { color: var(--text-link); text-decoration-thickness: 1px; text-underline-offset: 3px; overflow-wrap: anywhere; }
+  .legal-prose :global(a:hover) { color: var(--text-link-hover); text-decoration-thickness: 2px; }
+  .legal-prose :global(address) { font-style: normal; }
+
+  /* The policy's own table of contents */
+  .legal-prose :global(.policy-toc) { list-style: none; padding: 0; display: grid; gap: 8px; }
+  .legal-prose :global(.policy-toc li + li) { margin-top: 0; }
+
+  /* Tables: scroll sideways only on the table itself; stacked rows on phones */
+  .legal-prose :global(.table-scroll) { overflow-x: auto; max-width: 100%; }
+  .legal-prose :global(table) { min-width: 0; }
+  .legal-prose :global(th) { font-size: 13px; line-height: 20px; font-weight: 600; color: var(--text-secondary); border-bottom: 1.5px solid var(--border-brand); padding: 0 12px 10px 0; }
+  .legal-prose :global(td) { padding: 12px 12px 12px 0; }
+  .legal-prose :global(td:last-child), .legal-prose :global(th:last-child) { padding-right: 0; white-space: nowrap; }
+  @media (max-width: 767px) {
+    .legal-prose :global(thead) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    .legal-prose :global(table), .legal-prose :global(tbody), .legal-prose :global(tr), .legal-prose :global(td) { display: block; width: 100%; }
+    .legal-prose :global(tr) { padding: 12px 0; border-bottom: 1px solid var(--border-subtle); }
+    .legal-prose :global(tbody tr:first-child) { border-top: 1.5px solid var(--border-brand); }
+    .legal-prose :global(td) { border: 0; padding: 2px 0; }
+    .legal-prose :global(td:first-child) { font-weight: 600; color: var(--text-heading); }
+    .legal-prose :global(td[data-label])::before { content: attr(data-label) ': '; font-weight: 600; color: var(--text-secondary); }
+    .legal-prose :global(td:first-child[data-label])::before { content: none; }
+  }
+
+  /* Optional numbering for pages whose headings aren't numbered in the text */
+  .legal-prose.is-numbered { counter-reset: sec; }
+  .legal-prose.is-numbered :global(h2) { counter-increment: sec; }
+  .legal-prose.is-numbered :global(h2)::before { content: counter(sec) '. '; }
+  .legal-grid :global(.legal-toc.is-numbered ol) { counter-reset: toc; }
+  .legal-grid :global(.legal-toc.is-numbered li) { counter-increment: toc; }
+  .legal-grid :global(.legal-toc.is-numbered li a)::before { content: counter(toc) '. '; }
+</style>

@@ -1,0 +1,71 @@
+---
+// Apply help panel. variant="desktop": sticky right-hand card. variant="mobile": compact box under the form.
+import Img from '../shared/Img.astro';
+import Icon from '../shared/Icon.astro';
+import headshot from '../../assets/images/13-headshot-ryan-circle.jpg';
+import { site } from '../../data/site';
+interface Props { variant: 'desktop' | 'mobile' }
+const { variant } = Astro.props;
+const alt = 'Ryan Rodriguez, founder of Leverup Liquidity';
+---
+{variant === 'desktop' ? (
+  <aside class="help help--d" aria-labelledby="help-h-d">
+    <div class="help__who">
+      <span class="help__photo"><Img src={headshot} alt={alt} widths={[64, 128]} sizes="64px" /></span>
+      <span><span class="help__name">Ryan Rodriguez</span><span class="help__role">Founder, Leverup Liquidity</span></span>
+    </div>
+    <h2 class="help__h" id="help-h-d">Stuck? Text us.</h2>
+    <ul role="list" class="help__links">
+      <li><a href={site.phone.tel} class="link link-icon" data-track-location="apply_help"><Icon name="phone" size={20} />Call or text {site.phone.display}</a></li>
+      <li><a href={site.bookingsUrl} target="_blank" rel="noopener" class="link link-icon" data-track-location="apply_help"><Icon name="calendar" size={20} />Book a call</a></li>
+    </ul>
+    <p class="h1-lockline help__lock"><Icon name="lock" size={20} />Files go only to lenders you approve.</p>
+    <h3 class="help__next-h">What happens next</h3>
+    <ol role="list" class="help__next">
+      <li><span class="mono">1</span>We review your file within the hour</li>
+      <li><span class="mono">2</span>You see real numbers from matched lenders</li>
+      <li><span class="mono">3</span>You decide, or walk away with no fee</li>
+    </ol>
+  </aside>
+) : (
+  <aside class="help-m" aria-labelledby="help-h-m">
+    <div class="help-m__box">
+      <div class="help__who">
+        <span class="help__photo"><Img src={headshot} alt={alt} widths={[64, 128]} sizes="64px" /></span>
+        <span><h2 class="help-m__h" id="help-h-m">Stuck? Text us.</h2><span class="help__role help-m__role">Ryan Rodriguez, Founder</span></span>
+      </div>
+      <ul role="list" class="help-m__links">
+        <li><a href={site.phone.tel} class="link link-icon" data-track-location="apply_help"><Icon name="phone" size={20} />Call</a></li>
+        <li><a href={site.phone.sms} class="link link-icon" data-track-location="apply_help"><Icon name="message" size={20} />Text</a></li>
+        <li><a href={site.bookingsUrl} target="_blank" rel="noopener" class="link link-icon" data-track-location="apply_help"><Icon name="calendar" size={20} />Book a call</a></li>
+      </ul>
+    </div>
+    <p class="h1-lockline help-m__lock"><Icon name="lock" size={20} />Files go only to lenders you approve.</p>
+  </aside>
+)}
+
+<style>
+  .help { background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius); padding: 32px; }
+  .help__who { display: flex; align-items: center; gap: 16px; }
+  .help__photo { width: 64px; height: 64px; flex: none; border-radius: 50%; overflow: hidden; background: var(--bg-canvas); }
+  .help__photo :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .help__name { display: block; font-size: 17px; line-height: 28px; font-weight: 600; color: var(--text-heading); }
+  .help__role { display: block; font-size: 13px; line-height: 20px; color: var(--text-secondary); }
+  .help__h { margin-top: 24px; font-size: 20px; line-height: 32px; font-weight: 600; color: var(--text-heading); }
+  .help__links { margin-top: 20px; display: grid; gap: 12px; }
+  .help__links :global(.icon) { width: 20px; height: 20px; }
+  .help__lock { margin-top: 24px; padding-block: 24px; border-block: 1px solid var(--border-subtle); }
+  .help__next-h { margin-top: 24px; font-size: 15px; line-height: 24px; font-weight: 600; color: var(--text-heading); }
+  .help__next { margin-top: 12px; display: grid; gap: 12px; font-size: 15px; line-height: 24px; }
+  .help__next li { display: flex; gap: 12px; }
+  .help__next .mono { color: var(--text-brand); font-weight: 500; width: 9px; flex: none; }
+
+  .help-m { display: grid; gap: 32px; }
+  .help-m__box { background: var(--bg-brand-subtle); border-radius: var(--radius); padding: 20px; display: grid; gap: 16px; }
+  .help-m .help__photo { width: 48px; height: 48px; }
+  .help-m__h { font-size: 15px; line-height: 24px; font-weight: 600; color: var(--text-heading); }
+  .help-m__role { margin-top: 2px; }
+  .help-m__links { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+  .help-m__links :global(.link-icon) { gap: 8px; min-height: 44px; }
+  .help-m__links :global(.icon) { width: 20px; height: 20px; }
+</style>

@@ -1,0 +1,45 @@
+---
+// FAQ accordion. First item open by default (as designed). Answers support blank-line paragraphs.
+// Set schema={true} on ONE list per page to emit FAQPage structured data (use on /faq).
+import Icon from './Icon.astro';
+import type { Faq } from '../../data/faq';
+interface Props { items: Faq[]; id: string; openFirst?: boolean; schema?: boolean; headingLevel?: 'h3' | 'h4' }
+const { items, id, openFirst = true, schema = false, headingLevel = 'h3' } = Astro.props;
+const H = headingLevel;
+const ld = schema ? {
+  '@context': 'https://schema.org', '@type': 'FAQPage',
+  mainEntity: items.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a.replace(/\n\n/g, ' ') } })),
+} : null;
+---
+<div class="faq" data-faq>
+  {items.map((f, i) => {
+    const open = openFirst && i === 0;
+    return (
+      <div class="faq__item">
+        <H class="faq__q">
+          <button type="button" class="faq__btn" id={`${id}-q${i}`} aria-expanded={open ? 'true' : 'false'} aria-controls={`${id}-a${i}`}>
+            <span>{f.q}</span>
+            <Icon name="plus" class="icon-plus" /><Icon name="minus" class="icon-minus" />
+          </button>
+        </H>
+        <div class="faq__a" id={`${id}-a${i}`} role="region" aria-labelledby={`${id}-q${i}`} hidden={!open}>
+          {f.a.split(/\n\n+/).map((p) => <p>{p}</p>)}
+        </div>
+      </div>
+    );
+  })}
+</div>
+{ld && <script type="application/ld+json" set:html={JSON.stringify(ld)} />}
+<script>
+  document.querySelectorAll<HTMLElement>('[data-faq]').forEach((faq) => {
+    if (faq.dataset.bound) return; faq.dataset.bound = '1';
+    faq.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.faq__btn');
+      if (!btn) return;
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      const panel = document.getElementById(btn.getAttribute('aria-controls')!);
+      if (panel) panel.hidden = open;
+    });
+  });
+</script>

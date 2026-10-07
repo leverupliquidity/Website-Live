@@ -1,0 +1,167 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/shared/Breadcrumb.astro';
+import Icon from '../components/shared/Icon.astro';
+import FaqList from '../components/shared/FaqList.astro';
+import ClosingCTA from '../components/shared/ClosingCTA.astro';
+import StepsBand from '../components/home/StepsBand.astro';
+import StepDetail from '../components/h1-how/StepDetail.astro';
+import { faqs } from '../data/faq';
+import { site } from '../data/site';
+import s1 from '../assets/images/15-step-01.jpg';
+import s2 from '../assets/images/16-step-02.jpg';
+import s3 from '../assets/images/17-step-03.jpg';
+import s4 from '../assets/images/18-step-04.jpg';
+import '../components/h1-ui/h1.css';
+
+const glance: [string, string][] = [
+  ['Apply', '5 minutes'],
+  ['Match', '1 day–2 weeks'],
+  ['Review offers', '1–3 business days'],
+  ['Funding', '2–12 hours'],
+];
+const band = [
+  { title: 'Apply in 5 minutes', body: 'Apply · 5 minutes' },
+  { title: 'We match lenders', body: 'Match · 1 day–2 wks' },
+  { title: 'You see real numbers', body: 'Review · 1–3 business days' },
+  { title: 'You decide', body: 'Fund · 2–12 hrs' },
+];
+const ready = [
+  { icon: 'id-card', title: 'State cannabis license', format: 'PDF or photo' },
+  { icon: 'ledger', title: 'Last 3 to 6 months of bank statements', format: 'PDF' },
+  { icon: 'users', title: 'Photo ID for each owner', format: 'photo' },
+  { icon: 'receipt', title: 'Business tax return', format: 'PDF' },
+  { icon: 'file', title: 'Voided check', format: 'photo' },
+  { icon: 'document', title: 'Vendor quote, for equipment', format: 'PDF' },
+];
+---
+<BaseLayout>
+  <Breadcrumb items={[{ label: 'How it works' }]} />
+
+  <section class="how-intro" aria-labelledby="how-h1">
+    <div class="container how-intro__grid">
+      <div class="how-intro__text">
+        <h1 class="h1 h1-48" id="how-h1">From application to funds in four&nbsp;steps</h1>
+        <p class="h1-lede">Most of the work is ours. Here's what you do, what we do, and how long each step takes.</p>
+        <div class="btn-row btn-row--stack how-intro__cta" data-hero-cta>
+          <a href="/apply" class="btn btn--primary" data-track="cta_see_options" data-track-location="hero">See my options</a>
+          <a href="/contact" class="btn btn--secondary">Talk with us first</a>
+        </div>
+        <a href={site.phone.tel} class="link link-icon how-intro__phone" data-track-location="hero"><Icon name="phone" size={20} />Call or text {site.phone.display}</a>
+      </div>
+      <aside class="glance" aria-labelledby="glance-h">
+        <h2 class="glance__title" id="glance-h">At a glance</h2>
+        <dl>
+          {glance.map(([k, v]) => <div class="glance__row"><dt>{k}</dt><dd>{v}</dd></div>)}
+        </dl>
+        <p class="glance__note">Typical ranges. Your offer shows your exact numbers.</p>
+      </aside>
+    </div>
+  </section>
+
+  <StepsBand steps={band} />
+
+  <StepDetail n={1} ground="paper" img={s1} timing="Step 01 · 5 minutes" title="Apply in 5 minutes"
+    alt="A woman typing on a laptop at a small home-office desk with framed certificates on the wall"
+    body="Basic details on your business, license and sales. No hard credit pull, and a soft pull won't affect your score."
+    provide={['Business name', 'License number', 'Monthly revenue']} />
+  <StepDetail n={2} ground="white" img={s2} timing="Step 02 · 24 hours to 2 weeks, by product" title="We match lenders"
+    alt="A man in glasses on the phone at his desk behind two computer monitors" position="60% center"
+    body="We pick lenders by license type, time in business, revenue and credit, and tell you why each one made the list."
+    lines={['Line of credit: 24 hours', 'Cash advance: 1–2 days', 'Equipment financing: 3–5 days', 'Term loan: 1–2 weeks']}
+    provide={['Recent bank statements']} />
+  <StepDetail n={3} ground="paper" img={s3} timing="Step 03 · Often 1–3 business days" title="You see real numbers"
+    alt="Two people at a table going over printed financial paperwork, a pen and phone beside them"
+    body="Every offer laid out the same way: amount, total cost, payment, how often and every fee."
+    provide={['Your questions. Ask as many as you want.']} />
+  <StepDetail n={4} ground="white" img={s4} timing="Step 04 · Funds in 2–12 hours" title="You decide"
+    alt="A hand signing a document, with several printed pages fanned out on a dark table"
+    body="Sign the one that fits and funds land within 2–12 hours. Or walk away, no fee owed. Not a fit yet? You get a written plan."
+    provide={['A signature, or a no']} />
+
+  <section class="section section--paper how-ready" aria-labelledby="ready-h">
+    <div class="container how-ready__grid">
+      <div class="how-ready__head">
+        <h2 class="h2" id="ready-h">What to have ready</h2>
+        <p class="h1-lede">We ask once. You upload once.</p>
+      </div>
+      <div>
+        <ul role="list" class="how-ready__list">
+          {ready.map((r) => (
+            <li><Icon name={r.icon} /><span><strong>{r.title}</strong><span class="how-ready__fmt">{r.format}</span></span></li>
+          ))}
+        </ul>
+        <div class="h1-infobox how-ready__info">
+          <p class="h1-lockline"><Icon name="lock" size={20} />Files go only to lenders you approve.</p>
+          <a href="/privacy" class="link how-ready__link">How we handle your files</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--white" aria-labelledby="hfaq-h">
+    <div class="container faq-split how-faq">
+      <div class="faq-split__head">
+        <h2 class="h2" id="hfaq-h">Questions owners ask</h2>
+        <a href="/faq" class="btn btn--secondary how-faq__btn-d">Read the FAQ</a>
+      </div>
+      <div>
+        <FaqList id="how-faq" items={faqs.howItWorks} />
+        <a href="/faq" class="btn btn--secondary btn--block how-faq__btn-m">Read the FAQ</a>
+      </div>
+    </div>
+  </section>
+
+  <ClosingCTA title="Five minutes is all it takes to find out." lede="No obligation. Stop anytime, no fee owed." />
+</BaseLayout>
+
+<style>
+  .how-intro { background: var(--bg-canvas); padding-block: 40px 56px; }
+  .how-intro__grid { display: grid; gap: 32px; }
+  .how-intro__text { display: grid; gap: 16px; justify-items: start; }
+  .how-intro .h1 { text-wrap: wrap; }
+  .how-intro__cta { width: 100%; margin-top: 16px; }
+  .how-intro__phone { display: none; }
+  .how-intro__phone :global(.icon) { width: 20px; height: 20px; }
+
+  .glance { background: var(--bg-surface); border: 1.5px solid var(--border-brand); border-radius: var(--radius); padding: 24px 20px; }
+  .glance__title { font-size: 13px; line-height: 20px; font-weight: 600; color: var(--text-secondary); margin-bottom: 12px; }
+  .glance dl { border-top: 1px solid var(--border-subtle); }
+  .glance__row { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--border-subtle); }
+  .glance__row dt { font-size: 15px; line-height: 24px; color: var(--text-secondary); }
+  .glance__row dd { font-family: var(--font-mono); font-weight: 500; font-size: 15px; line-height: 24px; color: var(--text-heading); text-align: right; white-space: nowrap; }
+  .glance__note { margin-top: 16px; font-size: 13px; line-height: 20px; color: var(--text-secondary); }
+
+  .how-ready__grid { display: grid; gap: 32px; }
+  .how-ready__head { display: grid; gap: 12px; align-content: start; }
+  .how-ready__list { display: grid; gap: 28px; }
+  .how-ready__list li { display: flex; gap: 16px; align-items: flex-start; }
+  .how-ready__list :global(.icon) { color: var(--brand-teal-600); margin-top: 2px; }
+  .how-ready__list strong { display: block; font-size: 17px; line-height: 28px; font-weight: 600; color: var(--text-heading); }
+  .how-ready__fmt { display: block; margin-top: 2px; font-size: 13px; line-height: 20px; color: var(--text-secondary); }
+  .how-ready__info { margin-top: 32px; }
+
+  .how-faq__btn-d { display: none; }
+  .how-faq__btn-m { margin-top: 32px; }
+
+  @media (min-width: 768px) {
+    .how-intro__cta { width: auto; }
+    .how-ready__list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 32px; }
+  }
+  @media (min-width: 1024px) {
+    .how-intro { padding-block: 64px 96px; }
+    .how-intro__grid { grid-template-columns: minmax(0, 720px) 405px; justify-content: space-between; align-items: start; }
+    .how-intro__text { gap: 0; }
+    .how-intro__text .h1-lede { margin-top: 24px; }
+    .how-intro__cta { margin-top: 24px; }
+    .how-intro__phone { display: inline-flex; margin-top: 24px; }
+    .glance { padding: 32px; }
+    .glance__title { margin-bottom: 12px; }
+    .glance__row dd { font-size: 17px; line-height: 24px; }
+    .how-ready__grid { grid-template-columns: minmax(0, 467px) minmax(0, 733px); justify-content: space-between; gap: 80px; }
+    .how-ready__head { gap: 16px; }
+    .how-ready__list { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 22px 16px; }
+    .how-faq__btn-d { display: inline-flex; margin-top: 8px; }
+    .how-faq__btn-m { display: none; }
+  }
+</style>

@@ -1,0 +1,435 @@
+[
+ {
+  "file": "images/01-logo-primary-color-reverse-canva.png",
+  "width": 1698,
+  "height": 400,
+  "figma_layer": "Logo \u00b7 primary, color reverse (Canva)",
+  "used_on": [
+   "404 \u2014 Desktop 1440",
+   "About \u2014 Desktop 1440",
+   "Apply confirmation \u2014 Desktop 1440",
+   "Apply \u2014 Desktop 1440",
+   "Contact \u2014 Desktop 1440",
+   "Cultivation \u2014 Desktop 1440",
+   "Dispensaries \u2014 Desktop 1440",
+   "Equipment Financing \u2014 Desktop 1440",
+   "FAQ \u2014 Desktop 1440",
+   "Financing \u2014 Desktop 1440",
+   "Guide article \u2014 Desktop 1440",
+   "Guides \u2014 Desktop 1440",
+   "Home \u2014 Desktop 1440",
+   "How it works \u2014 Desktop 1440",
+   "Industries \u2014 Desktop 1440",
+   "Lines of Credit \u2014 Desktop 1440",
+   "Merchant Cash Advance \u2014 Desktop 1440",
+   "Nav \u00b7 Financing menu open \u2014 Desktop 1440",
+   "Privacy \u2014 Desktop 1440",
+   "Processing \u2014 Desktop 1440",
+   "SMS terms \u2014 Desktop 1440",
+   "Term Loans \u2014 Desktop 1440",
+   "Terms \u2014 Desktop 1440"
+  ]
+ },
+ {
+  "file": "images/02-hero-photo-d-gb-the-green-brand-unsplash-f9gvcfpdppo-full-bleed.jpg",
+  "width": 2880,
+  "height": 1620,
+  "figma_layer": "Hero photo \u00b7 D \u00b7 GB The Green Brand / Unsplash f9gvcFpdPpo, full bleed",
+  "used_on": [
+   "Home \u2014 Desktop 1440",
+   "Home \u2014 Mobile 390",
+   "Home \u2014 Mobile 390 \u00b7 scrolled, fixed action bar",
+   "Nav \u00b7 Financing menu open \u2014 Desktop 1440"
+  ]
+ },
+ {
+  "file": "images/03-photo.jpg",
+  "width": 2400,
+  "height": 1350,
+  "figma_layer": "Photo",
+  "used_on": [
+   "404 \u2014 Desktop 1440",
+   "404 \u2014 Mobile 390",
+   "Cultivation \u2014 Desktop 1440",
+   "Cultivation \u2014 Mobile 390",
+   "Dispensaries \u2014 Desktop 1440",
+   "Dispensaries \u2014 Mobile 390",
+   "Equipment Financing \u2014 Desktop 1440",
+   "Equipment Financing \u2014 Mobile 390",
+   "Financing \u2014 Desktop 1440",
+   "Financing \u2014 Mobile 390",
+   "Home \u2014 Desktop 1440",
+   "Home \u2014 Mobile 390",
+   "Home \u2014 Mobile 390 \u00b7 scrolled, fixed action bar",
+   "Lines of Credit \u2014 Desktop 1440",
+   "Lines of Credit \u2014 Mobile 390",
+   "Merchant Cash Advance \u2014 Desktop 1440",
+   "Merchant Cash Advance \u2014 Mobile 390",
+   "Nav \u00b7 Financing menu open \u2014 Desktop 1440",
+   "Nav \u00b7 Menu open \u2014 Mobile 390",
+   "Processing \u2014 Desktop 1440",
+   "Processing \u2014 Mobile 390",
+   "Term Loans \u2014 Desktop 1440",
+   "Term Loans \u2014 Mobile 390"
+  ]
+ },
+ {
+  "file": "images/04-photo.jpg",
+  "width": 2400,
+  "height": 3600,
+  "figma_layer": "Photo",
+  "used_on": [
+   "404 \u2014 Desktop 1440",
+   "404 \u2014 Mobile 390",
+   "Cultivation \u2014 Desktop 1440",
+   "Cultivation \u2014 Mobile 390",
+   "Dispensaries \u2014 Desktop 1440",
+   "Dispensaries \u2014 Mobile 390",
+   "Equipment Financing \u2014 Desktop 1440",
+   "Equipment Financing \u2014 Mobile 390",
+   "Financing \u2014 Desktop 1440",
+   "Financing \u2014 Mobile 390",
+   "Home \u2014 Desktop 1440",
+   "Home \u2014 Mobile 390",
+   "Home \u2014 Mobile 390 \u00b7 scrolled, fixed action bar",
+   "Lines of Credit \u2014 Desktop 1440",
+   "Lines of Credit \u2014 Mobile 390",
+   "Merchant Cash Advance \u2014 Desktop 1440",
+   "Merchant Cash Advance \u2014 Mobile 390",
+   "Nav \u00b7 Financing menu open \u2014 Desktop 1440",
+   "Nav \u00b7 Menu open \u2014 Mobile 390",
+   "Processing \u2014 Desktop 1440",
+   "Processing \u2014 Mobile 390",
+   "Term Loans \u2014 Desktop 1440",
+   "Term Loans \u2014 Mobile 390"
+  ]
+ },
+ {
+  "file": "images/05-photo.jpg",
+  "width": 2400,
+  "height": 1348,
+  "figma_layer": "Photo",
+  "used_on": [
+   "404 \u2014 Desktop 1440",
+   "404 \u2014 Mobile 390",
+   "Cultivation \u2014 Desktop 1440",
+   "Cultivation \u2014 Mobile 390",
+   "Dispensaries \u2014 Desktop 1440",
+   "Dispensaries \u2014 Mobile 390",
+   "Equipment Financing \u2014 Desktop 1440",
+   "Equipment Financing \u2014 Mobile 390",
+   "Financing \u2014 Desktop 1440",
+   "Financing \u2014 Mobile 390",
+   "Home \u2014 Desktop 1440",
+   "Home \u2014 Mobile 390",
+   "Home \u2014 Mobile 390 \u00b7 scrolled, fixed action bar",
+   "Lines of Credit \u2014 Desktop 1440",
+   "Lines of Credit \u2014 Mobile 390",
+   "Merchant Cash Advance \u2014 Desktop 1440",
+   "Merchant Cash Advance \u2014 Mobile 390",
+   "Nav \u00b7 Financing menu open \u2014 Desktop 1440",
+   "Nav \u00b7 Menu open \u2014 Mobile 390",
+   "Processing \u2014 Desktop 1440",
+   "Processing \u2014 Mobile 390",
+   "Term Loans \u2014 Desktop 1440",
+   "Term Loans \u2014 Mobile 390"
+  ]
+ },
+ {
+  "file": "images/06-photo.jpg",
+  "width": 2400,
+  "height": 1600,
+  "figma_layer": "Photo",
+  "used_on": [
+   "404 \u2014 Desktop 1440",
+   "404 \u2014 Mobile 390",
+   "Cultivation \u2014 Desktop 1440",
+   "Cultivation \u2014 Mobile 390",
+   "Dispensaries \u2014 Desktop 1440",
+   "Dispensaries \u2014 Mobile 390",
+   "Equipment Financing \u2014 Desktop 1440",
+   "Equipment Financing \u2014 Mobile 390",
+   "Financing \u2014 Desktop 1440",
+   "Financing \u2014 Mobile 390",
+   "Home \u2014 Desktop 1440",
+   "Home \u2014 Mobile 390",
+   "Home \u2014 Mobile 390 \u00b7 scrolled, fixed action bar",
+   "Lines of Credit \u2014 Desktop 1440",
+   "Lines of Credit \u2014 Mobile 390",
+   "Merchant Cash Advance \u2014 Desktop 1440",
+   "Merchant Cash Advance \u2014 Mobile 390",
+   "Nav \u00b7 Financing menu open \u2014 Desktop 1440",
+   "Nav \u00b7 Menu open \u2014 Mobile 390",
+   "Processing \u2014 Desktop 1440",
+   "Processing \u2014 Mobile 390",
+   "Term Loans \u2014 Desktop 1440",
+   "Term Loans \u2014 Mobile 390"
+  ]
+ },
+ {
+  "file": "images/07-tile-industry-dispensaries-cova-software-unsplash-cuxuy9umfio.jpg",
+  "width": 2400,
+  "height": 1350,
+  "figma_layer": "Tile/Industry \u00b7 Dispensaries \u00b7 Cova Software / Unsplash CUxuy9UmFIo",
+  "used_on": [
+   "Home \u2014 Desktop 1440",
+   "Home \u2014 Mobile 390",
+   "Home \u2014 Mobile 390 \u00b7 scrolled, fixed action bar"
+  ]
+ },
+ {
+  "file": "images/08-tile-industry-cultivation-joel-arbaje-unsplash-g2pu5s0jhoa.jpg",
+  "width": 2400,
+  "height": 1600,
+  "figma_layer": "Tile/Industry \u00b7 Cultivation \u00b7 Joel Arbaje / Unsplash g2PU5s0JhOA",
+  "used_on": [
+   "Home \u2014 Desktop 1440",
+   "Home \u2014 Mobile 390",
+   "Home \u2014 Mobile 390 \u00b7 scrolled, fixed action bar"
+  ]
+ },
+ {
+  "file": "images/09-tile-industry-processing-dominique-stueben-unsplash-bolt4bblivo.jpg",
+  "width": 2400,
+  "height": 1600,
+  "figma_layer": "Tile/Industry \u00b7 Processing \u00b7 Dominique Stueben / Unsplash bOlT4bBLivo",
+  "used_on": [
+   "Home \u2014 Desktop 1440",
+   "Home \u2014 Mobile 390",
+   "Home \u2014 Mobile 390 \u00b7 scrolled, fixed action bar"
+  ]
+ },
+ {
+  "file": "images/10-headshot-5a-harbor-ground-canva-1-1.jpg",
+  "width": 1080,
+  "height": 1080,
+  "figma_layer": "Headshot 5A \u00b7 Harbor ground (Canva), 1:1",
+  "used_on": [
+   "About \u2014 Desktop 1440",
+   "About \u2014 Mobile 390",
+   "Home \u2014 Desktop 1440"
+  ]
+ },
+ {
+  "file": "images/11-logo-secondary-color-reverse-canva.png",
+  "width": 842,
+  "height": 400,
+  "figma_layer": "Logo \u00b7 secondary, color reverse (Canva)",
+  "used_on": [
+   "404 \u2014 Desktop 1440",
+   "404 \u2014 Mobile 390",
+   "About \u2014 Desktop 1440",
+   "About \u2014 Mobile 390",
+   "Apply confirmation \u2014 Desktop 1440",
+   "Apply confirmation \u2014 Mobile 390",
+   "Apply \u2014 Desktop 1440",
+   "Apply \u2014 Mobile 390",
+   "Contact \u2014 Desktop 1440",
+   "Contact \u2014 Mobile 390",
+   "Cultivation \u2014 Desktop 1440",
+   "Cultivation \u2014 Mobile 390",
+   "Dispensaries \u2014 Desktop 1440",
+   "Dispensaries \u2014 Mobile 390",
+   "Equipment Financing \u2014 Desktop 1440",
+   "Equipment Financing \u2014 Mobile 390",
+   "FAQ \u2014 Desktop 1440",
+   "FAQ \u2014 Mobile 390",
+   "Financing \u2014 Desktop 1440",
+   "Financing \u2014 Mobile 390",
+   "Guide article \u2014 Desktop 1440",
+   "Guide article \u2014 Mobile 390",
+   "Guides \u2014 Desktop 1440",
+   "Guides \u2014 Mobile 390",
+   "Home \u2014 Desktop 1440",
+   "Home \u2014 Mobile 390",
+   "Home \u2014 Mobile 390 \u00b7 scrolled, fixed action bar",
+   "How it works \u2014 Desktop 1440",
+   "How it works \u2014 Mobile 390",
+   "Industries \u2014 Desktop 1440",
+   "Industries \u2014 Mobile 390",
+   "Lines of Credit \u2014 Desktop 1440",
+   "Lines of Credit \u2014 Mobile 390",
+   "Merchant Cash Advance \u2014 Desktop 1440",
+   "Merchant Cash Advance \u2014 Mobile 390",
+   "Privacy \u2014 Desktop 1440",
+   "Privacy \u2014 Mobile 390",
+   "Processing \u2014 Desktop 1440",
+   "Processing \u2014 Mobile 390",
+   "SMS terms \u2014 Desktop 1440",
+   "SMS terms \u2014 Mobile 390",
+   "Term Loans \u2014 Desktop 1440",
+   "Term Loans \u2014 Mobile 390",
+   "Terms \u2014 Desktop 1440",
+   "Terms \u2014 Mobile 390"
+  ]
+ },
+ {
+  "file": "images/12-logo-primary-small-color-reverse-canva.png",
+  "width": 1731,
+  "height": 400,
+  "figma_layer": "Logo \u00b7 primary small, color reverse (Canva)",
+  "used_on": [
+   "404 \u2014 Mobile 390",
+   "About \u2014 Desktop 1440",
+   "About \u2014 Mobile 390",
+   "Apply confirmation \u2014 Mobile 390",
+   "Apply \u2014 Mobile 390",
+   "Contact \u2014 Mobile 390",
+   "Cultivation \u2014 Mobile 390",
+   "Dispensaries \u2014 Mobile 390",
+   "Equipment Financing \u2014 Mobile 390",
+   "FAQ \u2014 Mobile 390",
+   "Financing \u2014 Mobile 390",
+   "Guide article \u2014 Mobile 390",
+   "Guides \u2014 Mobile 390",
+   "Home \u2014 Mobile 390",
+   "Home \u2014 Mobile 390 \u00b7 scrolled, fixed action bar",
+   "How it works \u2014 Mobile 390",
+   "Industries \u2014 Mobile 390",
+   "Lines of Credit \u2014 Mobile 390",
+   "Merchant Cash Advance \u2014 Mobile 390",
+   "Nav \u00b7 Menu open \u2014 Mobile 390",
+   "Privacy \u2014 Mobile 390",
+   "Processing \u2014 Mobile 390",
+   "SMS terms \u2014 Mobile 390",
+   "Term Loans \u2014 Mobile 390",
+   "Terms \u2014 Mobile 390"
+  ]
+ },
+ {
+  "file": "images/13-headshot-5a-paper-canva-circle-96.jpg",
+  "width": 1080,
+  "height": 1080,
+  "figma_layer": "Headshot 5A \u00b7 paper (Canva), circle 96",
+  "used_on": [
+   "Apply \u2014 Desktop 1440",
+   "Apply \u2014 Mobile 390",
+   "Contact \u2014 Desktop 1440",
+   "Contact \u2014 Mobile 390",
+   "Guide article \u2014 Desktop 1440",
+   "Guide article \u2014 Mobile 390",
+   "Home \u2014 Mobile 390",
+   "Home \u2014 Mobile 390 \u00b7 scrolled, fixed action bar"
+  ]
+ },
+ {
+  "file": "images/14-photo-d-da-shika-unsplash-t55ciihvpy4-16-9.jpg",
+  "width": 2400,
+  "height": 1597,
+  "figma_layer": "Photo \u00b7 D \u00b7 Da-shika / Unsplash t55ciIhVpy4, 16:9",
+  "used_on": [
+   "Financing \u2014 Desktop 1440",
+   "Financing \u2014 Mobile 390"
+  ]
+ },
+ {
+  "file": "images/15-photo-step-01-omar-lopez-unsplash-4hhmpfsi5yk.jpg",
+  "width": 1600,
+  "height": 1067,
+  "figma_layer": "Photo \u00b7 step 01 \u00b7 Omar Lopez / Unsplash 4HhmpfsI5yk",
+  "used_on": [
+   "How it works \u2014 Desktop 1440",
+   "How it works \u2014 Mobile 390"
+  ]
+ },
+ {
+  "file": "images/16-photo-step-02-berkeley-communications-unsplash-weddt-u3q3o.jpg",
+  "width": 1600,
+  "height": 1067,
+  "figma_layer": "Photo \u00b7 step 02 \u00b7 Berkeley Communications / Unsplash WEDDt-u3q3o",
+  "used_on": [
+   "How it works \u2014 Desktop 1440",
+   "How it works \u2014 Mobile 390"
+  ]
+ },
+ {
+  "file": "images/17-photo-step-03-olena-kholina-unsplash-mhqubtxq3hw.jpg",
+  "width": 1600,
+  "height": 1067,
+  "figma_layer": "Photo \u00b7 step 03 \u00b7 Olena Kholina / Unsplash MhqUBTxQ3Hw",
+  "used_on": [
+   "How it works \u2014 Desktop 1440",
+   "How it works \u2014 Mobile 390"
+  ]
+ },
+ {
+  "file": "images/18-photo-step-04-dimitri-karastelev-unsplash-zh4fuyiaczy-brightened.jpg",
+  "width": 1600,
+  "height": 1067,
+  "figma_layer": "Photo \u00b7 step 04 \u00b7 Dimitri Karastelev / Unsplash ZH4FUYiaczY (brightened)",
+  "used_on": [
+   "How it works \u2014 Desktop 1440",
+   "How it works \u2014 Mobile 390"
+  ]
+ },
+ {
+  "file": "images/19-photo-d-venti-views-unsplash-n4d4ocrndr8-4-3.jpg",
+  "width": 2400,
+  "height": 1600,
+  "figma_layer": "Photo \u00b7 D \u00b7 Venti Views / Unsplash n4D4OcrNdr8, 4:3",
+  "used_on": [
+   "About \u2014 Desktop 1440",
+   "About \u2014 Mobile 390"
+  ]
+ },
+ {
+  "file": "images/20-photo-g-eir-health-unsplash-kpoxs-da500-4-3.jpg",
+  "width": 2400,
+  "height": 1600,
+  "figma_layer": "Photo \u00b7 G \u00b7 Eir Health / Unsplash KPoxs_DA500, 4:3",
+  "used_on": [
+   "About \u2014 Desktop 1440",
+   "About \u2014 Mobile 390"
+  ]
+ },
+ {
+  "file": "images/21-photo-p-camera-obscura-unsplash-lsprwj6bimi-4-3.jpg",
+  "width": 2400,
+  "height": 3196,
+  "figma_layer": "Photo \u00b7 P \u00b7 camera obscura / Unsplash LSpRwJ6biMI, 4:3",
+  "used_on": [
+   "About \u2014 Desktop 1440",
+   "About \u2014 Mobile 390"
+  ]
+ },
+ {
+  "file": "images/22-photo-g-featured-naitian-tony-wang-unsplash-u4puxttqwkk-16-9.jpg",
+  "width": 2400,
+  "height": 1601,
+  "figma_layer": "Photo \u00b7 G \u00b7 featured \u00b7 Naitian (Tony) Wang / Unsplash U4puxttqWkk, 16:9",
+  "used_on": [
+   "Guides \u2014 Desktop 1440",
+   "Guides \u2014 Mobile 390"
+  ]
+ },
+ {
+  "file": "images/23-lead-image-d-cova-software-unsplash-rftwdvchtca-16-9.jpg",
+  "width": 2400,
+  "height": 1601,
+  "figma_layer": "Lead image \u00b7 D \u00b7 Cova Software / Unsplash RFtWdVcHtcA, 16:9",
+  "used_on": [
+   "Guide article \u2014 Desktop 1440",
+   "Guide article \u2014 Mobile 390"
+  ]
+ },
+ {
+  "file": "images/24-photo-g-inline-chuttersnap-unsplash-bnba1h-ngdy-16-9.jpg",
+  "width": 2400,
+  "height": 1597,
+  "figma_layer": "Photo \u00b7 G \u00b7 inline \u00b7 CHUTTERSNAP / Unsplash BNBA1h-NgdY, 16:9",
+  "used_on": [
+   "Guide article \u2014 Desktop 1440",
+   "Guide article \u2014 Mobile 390"
+  ]
+ },
+ {
+  "file": "images/25-photo-g-michael-benz-unsplash-igwnxx7paz4-4-3.jpg",
+  "width": 2400,
+  "height": 1600,
+  "figma_layer": "Photo \u00b7 G \u00b7 Michael Benz / Unsplash IgWNxx7paz4, 4:3",
+  "used_on": [
+   "404 \u2014 Desktop 1440",
+   "404 \u2014 Mobile 390"
+  ]
+ }
+]

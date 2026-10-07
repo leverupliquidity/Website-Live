@@ -1,0 +1,59 @@
+---
+// "How it works, in 4 steps" on Harbor. Used on Home (with button) and How it works (timing lines, no button).
+interface Step { title: string; body: string }
+interface Props { steps: Step[]; action?: { label: string; href: string }; id?: string }
+const { steps, action, id = 'steps-h' } = Astro.props;
+---
+<section class="section section--brand steps" aria-labelledby={id}>
+  <div class="container">
+    <div class="steps__head">
+      <div class="steps__text">
+        <h2 class="h2 h1-h2-bold" id={id}>How it works, in 4 steps</h2>
+        <p class="h1-lede h1-lede--brand">Most of the work is ours. Here's yours.</p>
+      </div>
+      {action && <a href={action.href} class="btn btn--secondary-on-brand steps__btn">{action.label}</a>}
+    </div>
+    <ol role="list" class="steps__list">
+      {steps.map((s, i) => (
+        <li class="steps__item">
+          <div class="steps__top"><span class="h1-numbox" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><span class="steps__line" aria-hidden="true"></span></div>
+          <div>
+            <h3 class="steps__title"><span class="visually-hidden">Step {i + 1}: </span>{s.title}</h3>
+            <p class="steps__body">{s.body}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+    {action && <a href={action.href} class="btn btn--secondary-on-brand btn--block steps__btn-m">{action.label}</a>}
+  </div>
+</section>
+
+<style>
+  .steps { padding-block: 56px; }
+  .steps__head { display: grid; gap: 12px; margin-bottom: 32px; }
+  .steps__text { display: grid; gap: 12px; }
+  .steps__list { display: grid; gap: 28px; }
+  .steps__item { display: grid; grid-template-columns: 40px 1fr; gap: 16px; align-items: start; }
+  .steps__line { display: none; }
+  .steps__title { font-size: 20px; line-height: 32px; font-weight: 700; color: #fff; margin-top: 2px; }
+  .steps__body { margin-top: 4px; font-size: 17px; line-height: 28px; font-weight: 500; color: var(--text-on-brand-secondary); }
+  .steps__btn { display: none; }
+  .steps__btn-m { margin-top: 32px; display: flex; }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .steps__list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
+  }
+  @media (min-width: 1024px) {
+    .steps { padding-block: 80px; }
+    .steps__btn-m { display: none; }
+    .steps__head { grid-template-columns: 1fr auto; align-items: end; gap: 32px; margin-bottom: 48px; }
+    .steps__text { gap: 16px; }
+    .steps__btn { display: inline-flex; margin-bottom: 4px; }
+    .steps__list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; }
+    .steps__item { grid-template-columns: none; gap: 28px; }
+    .steps__top { display: flex; align-items: center; gap: 16px; }
+    .steps__line { display: block; flex: 1; height: 1.5px; background: var(--border-on-brand); }
+    .steps__item:last-child .steps__line { display: none; }
+    .steps__title { margin-top: 0; }
+    .steps__body { margin-top: 16px; }
+  }
+</style>
