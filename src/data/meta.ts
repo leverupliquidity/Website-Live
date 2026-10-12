@@ -79,7 +79,7 @@ export const meta: Record<string, Meta> = {
   '/contact': {
     title: 'Contact Us | Leverup Liquidity',
     description:
-      'Call or text (313) 329-7157, email info@leverupliquidity.com or book a call. Ask us anything about financing your cannabis business.',
+      'Call or text (947) 238-6272, email info@leverupliquidity.com or book a call. Ask us anything about financing your cannabis business.',
   },
   '/faq': {
     title: 'Cannabis Financing FAQ | Leverup Liquidity',

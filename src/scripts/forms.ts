@@ -40,7 +40,7 @@ export function bindForm(form: HTMLFormElement, opts: { beforeSubmit?: (fd: Form
     } catch (err) {
       if (status) {
         status.hidden = false; status.className = 'form-status form-status--error';
-        status.textContent = `We couldn't send that. Please try again, or call or text (313) 329-7157. (${(err as Error).message})`;
+        status.textContent = `We couldn't send that. Please try again, or call or text (947) 238-6272. (${(err as Error).message})`;
         status.focus();
       }
     } finally {
