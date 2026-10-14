@@ -2,12 +2,12 @@
 // FAQs live in src/data/faq.ts (faqs.dispensaries / .cultivation / .processing).
 import type { ImageMetadata } from 'astro';
 import type { ProductKey } from '../../data/products';
-import heroDisp from '../../assets/images/23-article-lead-dispensary-16x9.jpg';
-import heroCult from '../../assets/images/22-photo-grow-featured-16x9.jpg';
-import heroProc from '../../assets/images/09-tile-processing.jpg';
-import tileDisp from '../../assets/images/07-tile-dispensaries.jpg';
-import tileCult from '../../assets/images/08-tile-cultivation.jpg';
-import tileProc from '../../assets/images/09-tile-processing.jpg';
+import heroDisp from '../../assets/images/26-industry-hero-dispensaries.jpg';
+import heroCult from '../../assets/images/27-industry-hero-cultivation.jpg';
+import heroProc from '../../assets/images/28-industry-hero-processing.jpg';
+import tileDisp from '../../assets/images/29-industries-panel-dispensaries.jpg';
+import tileCult from '../../assets/images/30-industries-panel-cultivation.jpg';
+import tileProc from '../../assets/images/31-industries-panel-processing.jpg';
 
 export type IndustryKey = 'dispensaries' | 'cultivation' | 'processing';
 
@@ -39,7 +39,7 @@ export const industries: Record<IndustryKey, Industry> = {
     href: '/industries/dispensaries',
     h1: 'Dispensary financing',
     lede: 'Keep top sellers on the shelf and vendors paid, without waiting on a bank.',
-    hero: { src: heroDisp, alt: 'Budtender helping a customer at a dispensary counter with a tablet', position: '50% 40%' },
+    hero: { src: heroDisp, alt: 'Bright retail store interior with a curved wooden ceiling and a display counter lined with plants', position: '50% 62%' },
     overview: {
       h2: 'Empty shelves cost more than you think',
       body: "Running light on your top SKUs costs sales you won't get back. Vendors want cash on delivery, and tax bills don't wait. The right capital covers the gap between buying stock and selling it.",
@@ -71,7 +71,7 @@ export const industries: Record<IndustryKey, Industry> = {
       body: "Vendors want cash on delivery, and your best sellers can't sit out of stock. Running light on top SKUs before Green Wednesday costs sales you won't get back. A line of credit or short-term capital keeps the shelves full.",
       link: 'See dispensary financing',
       image: tileDisp,
-      imageAlt: 'Dispensary sales floor with glass display cases under hanging globe lights',
+      imageAlt: 'Wooden apothecary cabinet stocked with rows of labeled glass bottles',
     },
   },
   cultivation: {
@@ -80,7 +80,7 @@ export const industries: Record<IndustryKey, Industry> = {
     href: '/industries/cultivation',
     h1: 'Cultivation financing',
     lede: 'Fund lights, HVAC and payroll between harvests, without waiting on a bank.',
-    hero: { src: heroCult, alt: 'Grower’s hands checking cannabis plants in a grow', position: '50% 50%' },
+    hero: { src: heroCult, alt: 'Young cannabis plants growing under bright lights in an indoor grow room', position: '50% 68%' },
     overview: {
       h2: 'Harvest pays once. Costs come monthly.',
       body: "Power, nutrients and crew payroll don't pause between harvests. Croptober cash has to last. Financing the big gear keeps that cash working on the next run.",
@@ -112,7 +112,7 @@ export const industries: Record<IndustryKey, Industry> = {
       body: 'Harvest pays once. Power, nutrients and payroll come every month. Equipment financing and term loans spread lights, HVAC and build-outs over the years they earn, so harvest cash goes back into the next run.',
       link: 'See grow financing',
       image: tileCult,
-      imageAlt: 'Dense canopy of flowering cannabis plants under grow lights',
+      imageAlt: 'Large room of flowering cannabis plants in an indoor grow',
     },
   },
   processing: {
@@ -121,7 +121,7 @@ export const industries: Record<IndustryKey, Industry> = {
     href: '/industries/processing',
     h1: 'Processor financing',
     lede: 'Fund extraction gear and inputs while retailers pay on terms.',
-    hero: { src: heroProc, alt: 'Gloved hand holding a cannabis flower ready for trimming', position: '50% 45%' },
+    hero: { src: heroProc, alt: 'Rows of labeled glass jars and bottles on wooden lab shelves', position: '50% 50%' },
     overview: {
       h2: "Retailers pay late. Inputs can't wait.",
       body: 'You buy biomass and packaging now and get paid on terms later. Financing the equipment and the gap keeps orders moving without draining your cash.',
@@ -153,7 +153,7 @@ export const industries: Record<IndustryKey, Industry> = {
       body: "Retailers pay on terms, and biomass doesn't wait. Extraction gear and packaging lines cost real money up front. Equipment financing and term loans cover the build, so cash covers inputs for orders already booked.",
       link: 'See processor financing',
       image: tileProc,
-      imageAlt: 'Gloved hand holding a cannabis flower ready for trimming',
+      imageAlt: 'Glass laboratory beakers lit against a dark background',
     },
   },
 };

@@ -13,11 +13,11 @@ export const site = {
 
   // Phone used on the website (call + text buttons). Legal documents keep their own number.
   phone: {
-    display: `(313)${NBSP}329-7157`,
-    plain: '(313) 329-7157',
-    tel: 'tel:+13133297157',
-    sms: 'sms:+13133297157',
-    e164: '+13133297157',
+    display: `(947)${NBSP}238-6272`,
+    plain: '(947) 238-6272',
+    tel: 'tel:+19472386272',
+    sms: 'sms:+19472386272',
+    e164: '+19472386272',
   },
   email: 'info@leverupliquidity.com',
   hours: '9am–5pm. Text anytime.',
