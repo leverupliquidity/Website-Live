@@ -46,8 +46,9 @@ export const site = {
 export const integrations = {
   // Web3Forms access key (public by design; it only lets the form send to Ryan's inbox).
   web3formsKey: '8f4f3bf3-4384-4dea-a124-5051c3412137',
-  // Google Analytics 4 measurement ID, e.g. 'G-XXXXXXXXXX'
-  ga4: '',
+  // Google Analytics 4: the Google tag (G-E4XKFJR8N3) lives directly after <head> in
+  // src/layouts/BaseLayout.astro, so it appears exactly once on every page.
+  ga4: 'G-E4XKFJR8N3',
   // Umami Cloud website ID (UUID)
   umamiWebsiteId: 'a3e13b85-35fe-4b06-abcf-5b18e6c6130e',
   umamiSrc: 'https://cloud.umami.is/script.js',

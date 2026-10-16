@@ -1,21 +1,10 @@
 ---
-// GA4 · Umami · Microsoft Clarity. Each loads only when its ID is set in src/data/site.ts.
+// Umami · Microsoft Clarity. Each loads only when its ID is set in src/data/site.ts.
+// The Google tag (GA4, G-E4XKFJR8N3) is pasted directly after <head> in src/layouts/BaseLayout.astro.
 // Netlify Analytics/Observability run on Netlify's servers and need no code.
 import { integrations } from '../../data/site';
-const { ga4, umamiWebsiteId, umamiSrc, clarity } = integrations;
+const { umamiWebsiteId, umamiSrc, clarity } = integrations;
 ---
-{ga4 && (
-  <>
-    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4}`}></script>
-    <script is:inline define:vars={{ ga4 }}>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      window.gtag = gtag;
-      gtag('js', new Date());
-      gtag('config', ga4);
-    </script>
-  </>
-)}
 {umamiWebsiteId && <script is:inline defer src={umamiSrc} data-website-id={umamiWebsiteId}></script>}
 {clarity && (
   <script is:inline define:vars={{ clarity }}>
