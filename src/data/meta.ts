@@ -9,7 +9,7 @@ export const meta: Record<string, Meta> = {
   '/': {
     title: 'Cannabis Business Financing | Leverup Liquidity',
     description:
-      'We match licensed cannabis operators with private lenders. Compare lines of credit, equipment financing, term loans and cash advances, with every fee shown first.',
+      'We match licensed cannabis operators with funders. Compare lines of credit, equipment financing, term loans and cash advances, with every fee shown first.',
   },
   '/financing': {
     title: 'Compare Cannabis Financing Options | Leverup Liquidity',
