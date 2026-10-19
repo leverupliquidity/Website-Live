@@ -28,9 +28,9 @@ export const site = {
   social: {
     instagram: 'https://www.instagram.com/leverupliquidity/',
     facebook: 'https://www.facebook.com/profile.php?id=61589328271662',
-    // TODO(Ryan): paste the LinkedIn page address here. Until then the footer link
-    // points to the LinkedIn home page.
-    linkedin: '',
+    // From the entity-facts doc (Content Engine/Knowledge).
+    linkedin: 'https://www.linkedin.com/company/leverup-liquidity/',
+    x: 'https://x.com/LeverupLiquid',
   },
 
   // "Updated [DATE]" / "Last updated [DATE]" placeholders in the design.

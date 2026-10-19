@@ -91,6 +91,11 @@ export const meta: Record<string, Meta> = {
     description:
       'Plain-English guides to cannabis business financing: costs, factor rates, APR and how to compare offers before you sign.',
   },
+  '/guides/cannabis-business-loans': {
+    title: 'Cannabis Business Loans: How to Qualify When Banks Say No',
+    description:
+      'Cannabis business loans depend on revenue, time in business and an active license, not just credit. See the minimums, five loan types and how to qualify.',
+  },
   '/guides/factor-rate-vs-apr': {
     title: 'Factor Rate vs. APR: How to Compare Two Offers',
     description:
