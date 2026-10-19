@@ -1,0 +1,71 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "@id": "https://leverupliquidity.com/guides/why-banks-deny-cannabis-business-loans#article",
+    "headline": "Why Did My Bank Say No to My Cannabis Business Loan?",
+    "description": "Most banks turn down cannabis loans over federal risk, not your file. See the real reasons for a denial and what lenders check instead.",
+    "inLanguage": "en-US",
+    "keywords": "why won't banks lend to cannabis businesses, can banks lend to cannabis companies, cannabis business loan denied",
+    "about": {
+      "@type": "Thing",
+      "name": "Cannabis business loan denials"
+    },
+    "author": {
+      "@type": "Person",
+      "@id": "https://leverupliquidity.com/about#ryan-rodriguez",
+      "name": "Ryan Rodriguez",
+      "jobTitle": "Founder and CEO",
+      "url": "https://leverupliquidity.com/about",
+      "worksFor": {
+        "@id": "https://leverupliquidity.com/#org"
+      },
+      "sameAs": [
+        "https://www.linkedin.com/in/ryan-rodriguez-78a544444/"
+      ]
+    },
+    "publisher": {
+      "@id": "https://leverupliquidity.com/#org"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://leverupliquidity.com/guides/why-banks-deny-cannabis-business-loans"
+    },
+    "citation": [
+      "https://www.gao.gov/products/gao-26-107498",
+      "https://www.polsinelli.com/publications/doj-reclassifies-state-licensed-medical-marijuana-banking-opportunities",
+      "https://stateandstrain.com/pulse/marijuana-rescheduling-timeline/",
+      "https://www.merkley.senate.gov/merkley-bipartisan-senators-reintroduce-cannabis-banking-reform/"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Will a bank denial hurt my credit?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The denial itself doesn't change your score. The hard credit pull some banks run with an application can show up on your report for a time. Leverup Liquidity's first check is a soft pull, which doesn't affect your credit score."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can a credit union lend to a dispensary?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Some can. GAO's count of about 1,000 institutions filing cannabis-related reports in 2024 includes both banks and credit unions, but filing those reports doesn't mean an institution lends. Ask a credit union about lending directly, not only about accounts."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does a medical license change my options after rescheduling?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It can help. State-licensed medical marijuana has been in Schedule III since April 28, 2026, which lowers the risk some banks see. Bank Secrecy Act reporting still applies, and adult-use operations remain Schedule I."
+        }
+      }
+    ]
+  }
+]
