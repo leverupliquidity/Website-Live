@@ -1,4 +1,28 @@
 User-agent: *
 Allow: /
 
+# AI search and user-initiated retrieval bots
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# Optional: uncomment to opt out of AI training
+# User-agent: GPTBot
+# Disallow: /
+# User-agent: ClaudeBot
+# Disallow: /
+# User-agent: Google-Extended
+# Disallow: /
+
 Sitemap: https://leverupliquidity.com/sitemap-index.xml
