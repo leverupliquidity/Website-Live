@@ -1,0 +1,59 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "@id": "https://leverupliquidity.com/guides/cannabis-business-loans#article",
+    "headline": "How to Get a Cannabis Business Loan When the Bank Says No",
+    "description": "Cannabis business loans depend on revenue, time in business and an active license, not just credit. See the minimums, five loan types and how to qualify.",
+    "inLanguage": "en-US",
+    "keywords": "cannabis business loans, cannabis loans, dispensary loans, cannabis lenders",
+    "about": { "@type": "Thing", "name": "Cannabis business loans" },
+    "author": {
+      "@type": "Person",
+      "@id": "https://leverupliquidity.com/about#ryan-rodriguez",
+      "name": "Ryan Rodriguez",
+      "jobTitle": "Founder and CEO",
+      "url": "https://leverupliquidity.com/about",
+      "worksFor": { "@id": "https://leverupliquidity.com/#org" },
+      "sameAs": ["https://www.linkedin.com/in/ryan-rodriguez-78a544444/"]
+    },
+    "publisher": { "@id": "https://leverupliquidity.com/#org" },
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://leverupliquidity.com/guides/cannabis-business-loans" },
+    "citation": [
+      "https://www.gao.gov/assets/890/888233.pdf",
+      "https://www.americanbar.org/groups/tort_trial_insurance_practice/resources/tortsource/2026-summer/marijuana-finally-rescheduled-after-55-years",
+      "https://www.morganlewis.com/pubs/2026/09/high-time-for-a-change-post-dea-hearing-broader-marijuana-rescheduling-questions-remain"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Do I qualify for a cannabis business loan?",
+        "acceptedAnswer": { "@type": "Answer", "text": "You likely qualify if you've been in business at least 6 months, earn at least $250,000 a year, have a credit score above 500 and hold an active state cannabis license." }
+      },
+      {
+        "@type": "Question",
+        "name": "What are the best cannabis business loans for startups with low credit scores?",
+        "acceptedAnswer": { "@type": "Answer", "text": "If you've been open less than 6 months, most cannabis lenders will say no for now. After 6 months and $250,000 in annual revenue, credit scores above 500 can qualify for some products." }
+      },
+      {
+        "@type": "Question",
+        "name": "Which cannabis lenders offer flexible repayment terms?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Payments are weekly or monthly, depending on the product and lender. Typical terms run from 8 months on a merchant cash advance to 7 years on a commercial real estate loan." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do you get a business loan for a cannabis farm?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Licensed cultivators use the same four minimums. Equipment financing is a common fit for grows, with an average deal of $70,000 over a typical 4-year term." }
+      },
+      {
+        "@type": "Question",
+        "name": "Will checking whether I qualify hurt my credit?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. The first check is a soft pull, which doesn't affect your credit score." }
+      }
+    ]
+  }
+]
