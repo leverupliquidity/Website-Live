@@ -11,6 +11,8 @@ description: "Most banks turn down cannabis loans over federal risk, not your fi
 category: Getting approved
 date: 2026-10-19
 author: Ryan Rodriguez
+# authorBio  Optional. Replaces the standard one-line bio at the foot of this guide.
+authorBio: "I'm Ryan Rodriguez, founder and CEO of Leverup Liquidity. I spent years in commercial financing before starting Leverup in 2026. I watched dozens of cannabis operators get turned down by banks for reasons that had nothing to do with their businesses. I started Leverup to match licensed cannabis businesses with lenders who actually review their files."
 readTime: 6 min
 lede: "A bank's no usually says more about federal law than about your business. Here's how to tell which kind of no you got, and which reasons you can fix."
 leadImage: ../../assets/images/17-step-03.jpg
