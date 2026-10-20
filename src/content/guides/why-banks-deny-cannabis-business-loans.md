@@ -63,7 +63,7 @@ Cannabis lenders commonly look at four things in a file: license status, time in
 
 Check your file against these common lender criteria first. Meeting them doesn't guarantee approval, but it can show whether your file or the bank's policy was the bigger issue. Next, apply only where cannabis files actually get reviewed, rather than applying blind and collecting declines. Our first check is a soft pull, so seeing your options doesn't affect your credit score.
 
-There are very few good lenders in cannabis, and they don't all want the same files. One may lend on equipment but not real estate. Another may set a different bar for time in business. As a broker, we match your file with lenders whose criteria it fits, and the lender pays our fee, not you.
+There are very few good lenders in cannabis, and they don't all want the same files. One may lend on equipment but not real estate. Another may set a different bar for time in business. As a broker, we match your file with lenders whose criteria it fits.
 
 The products range widely. Across Leverup-placed loans in 2026, a line of credit averaged about $100,000 and replenishes as you repay it, while a commercial real estate loan averaged about $500,000 over a typical 7-year term. These are averages, not quotes. Rates, fees and terms vary by lender and file. Payments are weekly or monthly, depending on the product. Our guide to [getting a cannabis business loan when the bank says no](/guides/cannabis-business-loans) walks through all five loan types, and you can [compare financing](/financing) side by side.
 
