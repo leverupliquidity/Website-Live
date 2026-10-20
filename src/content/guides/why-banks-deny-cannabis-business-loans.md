@@ -50,7 +50,7 @@ Lending raises the stakes again. A loan keeps the bank tied to your business for
 
 ## What file problems actually get a cannabis loan declined?
 
-Four file problems cause most real declines: a state license that has lapsed or is still pending, less than 6 months in business, revenue under $250,000 a year, and bank deposits that don't back up the revenue you report. Lenders check each of these before they look hard at your credit score.
+Four file problems cause most real declines: a state license that has lapsed or is still pending, less than a year in business, revenue under $1,000,000 a year, and bank deposits that don't back up the revenue you report. Lenders check each of these before they look hard at your credit score.
 
 - **License status.** Your license is the business. If it lapses, you can't legally operate, so a lender can't count on being repaid. This applies to [dispensaries](/industries/dispensaries), [grows](/industries/cultivation) and [processors](/industries/processing) alike.
 - **Time in business.** Longer than a year and you're typically safe. Under that, there are options but a more narrow selection. Lenders want to see how cash moves through your slow weeks, not only your best ones.
