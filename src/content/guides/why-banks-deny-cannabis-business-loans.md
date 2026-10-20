@@ -50,22 +50,22 @@ Lending raises the stakes again. A loan keeps the bank tied to your business for
 
 ## What file problems actually get a cannabis loan declined?
 
-Four file problems cause most real declines: a state license that has lapsed or is still pending, less than a year in business, revenue under $1,000,000 a year, and bank deposits that don't back up the revenue you report. Lenders check each of these before they look hard at your credit score.
+Cannabis lenders commonly look at four things in a file: license status, time in business, revenue, and bank deposits that back up the revenue you report. A gap in any of them can lead to a decline. Criteria vary by lender.
 
 - **License status.** Your license is the business. If it lapses, you can't legally operate, so a lender can't count on being repaid. This applies to [dispensaries](/industries/dispensaries), [grows](/industries/cultivation) and [processors](/industries/processing) alike.
-- **Time in business.** Longer than a year and you're typically safe. Under that, there are options but a more narrow selection. Lenders want to see how cash moves through your slow weeks, not only your best ones.
-- **Revenue.** $1,000,000 a year, or about $83,000 a month. That's the safe range most lenders will work with, because revenue is what carries the payment.
+- **Time in business.** Some lenders look for at least a year. Others work with younger businesses, though there are fewer options. Lenders want to see how cash moves through your slow weeks, not only your best ones.
+- **Revenue.** $1,000,000 a year, or about $83,000 a month, is a level some lenders look for. Requirements vary by lender, and revenue matters because it's what carries the payment.
 - **Deposits that match your books.** Lenders read your bank statements to confirm revenue. A cash-heavy business that deposits only part of its sales will look smaller on paper than it is.
 
 ## What should I do after a bank says no?
 
-Check your file against the four minimums first. If you meet them, the bank's no was about the bank. Next, apply only where cannabis files actually get reviewed, rather than applying blind and collecting declines. Our first check is a soft pull, so seeing your options doesn't affect your credit score.
+Check your file against these common lender criteria first. Meeting them doesn't guarantee approval, but it can show whether your file or the bank's policy was the bigger issue. Next, apply only where cannabis files actually get reviewed, rather than applying blind and collecting declines. Our first check is a soft pull, so seeing your options doesn't affect your credit score.
 
-There are very few good lenders in cannabis, and they don't all want the same files. One may lend on equipment but not real estate. Another may want 12 months in business instead of 6. As a broker, we know which lenders are likely to accept a given file, and the lender pays our fee, not you.
+There are very few good lenders in cannabis, and they don't all want the same files. One may lend on equipment but not real estate. Another may set a different bar for time in business. As a broker, we match your file with lenders whose criteria it fits, and the lender pays our fee, not you.
 
 The products range widely. A line of credit averages about $100,000 and replenishes as you repay it, while a commercial real estate loan averages about $500,000 over a typical 7-year term. Payments are weekly or monthly, depending on the product. Our guide to [getting a cannabis business loan when the bank says no](/guides/cannabis-business-loans) walks through all five loan types, and you can [compare financing](/financing) side by side.
 
-The takeaway is simple. A bank's no tells you about federal law and that bank's policy. Your license, your time in business and your revenue tell a lender whether to say yes.
+The takeaway is simple. A bank's no tells you about federal law and that bank's policy. Your license, your time in business and your revenue are what a lender looks at next.
 
 ## Frequently asked questions
 
@@ -83,4 +83,4 @@ It can help. State-licensed medical marijuana has been in Schedule III since Apr
 
 ## See where your file stands
 
-If your license is active and you meet the four minimums, you likely have options a bank won't show you. Start with a [soft-pull check](/apply). It takes about 5 minutes and won't affect your credit score.
+If your license is active, you can see which lenders' criteria your file fits. Start with a [soft-pull check](/apply). It takes about 5 minutes and won't affect your credit score.
