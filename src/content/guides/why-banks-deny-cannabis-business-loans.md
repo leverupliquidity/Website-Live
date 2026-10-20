@@ -5,10 +5,8 @@
 # The page's search title and description live in src/data/meta.ts.
 # The structured data (BlogPosting, FAQPage, author) lives in
 # src/data/jsonld/why-banks-deny-cannabis-business-loans.json.
-# See src/content/guides/factor-rate-vs-apr.md for what every field below means.
-# Open [VERIFY] items are marked in the text. Remove each one before publishing.
-# ─────────────────────────────────────────────────────────────────────────────
-title: "Why Did My Bank Say No to My Cannabis Business Loan?"
+# See src/content/guides/factor-rate-vs-apr.md for what every field below means.# ─────────────────────────────────────────────────────────────────────────────
+title: "Why Did My Bank Turn Down My Cannabis Business Loan?"
 description: "Most banks turn down cannabis loans over federal risk, not your file. See the real reasons for a denial and what lenders check instead."
 category: Getting approved
 date: 2026-10-19
@@ -20,13 +18,13 @@ leadImageAlt: "Two people review printed loan paperwork at a counter beside a ph
 leadCaption: "Most declines are decided before anyone reads your file."
 ---
 
-Most cannabis owners think the bank said no because of their credit score. Usually it didn't. Banks decline cannabis files because federal law still treats most cannabis as illegal, and serving you brings legal risk and reporting costs. When your file does cause the no, it's usually license status, time in business or revenue.
+Most cannabis owners have done the hard work of finding a cannabis-friendly bank. Only to apply for capital and have it shot down. Many cannabis business owners believe it's a problem with their credit, revenue, or time in business because the bank already works with them. But banks decline cannabis files because serving you brings legal risk and reporting costs most banks aren't willing to undergo. When your file gets shot down that's usually why.
 
-The difference matters, because only one of those is yours to fix. Below: why banks pass, what the 2026 rescheduling did and didn't change, and the file problems that cause real declines.
+The difference matters, because only one of those is yours to fix. I'll give you an idea of why banks pass, what the 2026 rescheduling did and didn't change, and the file problems that cause real declines.
 
-## Why do most banks say no to cannabis business loans?
+## Why do most banks turn down cannabis business loans?
 
-Most banks say no because of federal law, not your file. With a few exceptions, cannabis is still a controlled substance at the federal level. A 2026 Government Accountability Office review found that the threat of legal and regulatory sanctions, plus the cost of Bank Secrecy Act compliance, keeps many institutions away from cannabis businesses.
+More often than not it's because of federal law, not your file. A 2026 Government Accountability Office review found that the threat of legal and regulatory sanctions, plus the cost of Bank Secrecy Act compliance, keeps many institutions away from cannabis businesses.
 
 That finding comes from focus groups and interviews with 74 financial institutions and with owners or managers from 51 cannabis businesses ([GAO-26-107498](https://www.gao.gov/products/gao-26-107498)). The owners described the other side of it: accounts closed without much warning, high fees on the accounts they could get, and high interest rates on business loans.
 
@@ -38,7 +36,7 @@ Only if you hold a state medical license. Since April 28, 2026, state-licensed m
 
 The April order lowered the risk banks see in medical operators, and some may start treating them like other heavily regulated customers, such as casinos ([Polsinelli](https://www.polsinelli.com/publications/doj-reclassifies-state-licensed-medical-marijuana-banking-opportunities)). It didn't remove the Bank Secrecy Act reporting that comes with them. If you run a dispensary that sells to both medical and adult-use customers, the adult-use side still carries full Schedule I risk in a bank's eyes.
 
-The broader case would move all marijuana to Schedule III. Hearings ended in July, but the judge stayed his recommendation while he decides whether to admit a new GAO audit, and no restart date has been set ([State & Strain](https://stateandstrain.com/pulse/marijuana-rescheduling-timeline/)). [VERIFY the status of the stay the week this publishes.]
+The broader case would move all marijuana to Schedule III. Hearings ended in July, but the judge stayed his recommendation while he decides whether to admit a new GAO audit, and no restart date has been set ([State & Strain](https://stateandstrain.com/pulse/marijuana-rescheduling-timeline/)).
 
 Congress is the other route. The SAFE Banking Act of 2026 would bar federal regulators from penalizing banks that serve state-legal cannabis businesses, and earlier versions passed the House seven times ([Sen. Merkley](https://www.merkley.senate.gov/merkley-bipartisan-senators-reintroduce-cannabis-banking-reform/)). The American Bankers Association backs it; its CEO, Rob Nichols, said the bill would give banks "a clear federal safe harbor." Until it passes, the conflict between state and federal law stays in place.
 
@@ -50,24 +48,14 @@ Some of those 1,000 institutions only serve ancillary businesses, such as equipm
 
 Lending raises the stakes again. A loan keeps the bank tied to your business for years, and if you can't repay, it has to collect from a business federal law still treats as illegal. The SAFE Banking Act would bar regulators from taking action on a loan to a cannabis business owner, which tells you how much that exposure worries banks today. So a bank that's happy to hold your cash can still be firmly out of the lending business.
 
-## Was it my credit score?
-
-Usually not. When a bank declines a cannabis business, the industry decided it before your score came up. Lenders that do work in cannabis consider credit scores from 500, and the score mostly shapes the terms you're offered, such as the payment schedule and the amount, rather than whether you get an offer at all.
-
-This is the misconception that costs owners the most time. An owner hears no, assumes it was the score, and spends months paying down cards before trying again. Then the next bank says no for the same federal reason. (Your credit utilization was never the problem. Federal law was.)
-
-A score below 500 can still stop a deal with a cannabis lender, so it's worth knowing yours. But if you're above that line and a bank turned you down, look at the industry and your file first.
-
 ## What file problems actually get a cannabis loan declined?
 
 Four file problems cause most real declines: a state license that has lapsed or is still pending, less than 6 months in business, revenue under $250,000 a year, and bank deposits that don't back up the revenue you report. Lenders check each of these before they look hard at your credit score.
 
 - **License status.** Your license is the business. If it lapses, you can't legally operate, so a lender can't count on being repaid. This applies to [dispensaries](/industries/dispensaries), [grows](/industries/cultivation) and [processors](/industries/processing) alike.
-- **Time in business.** Six months is the usual floor. Lenders want to see how cash moves through your slow weeks, not only your best ones.
-- **Revenue.** At least $250,000 a year, or about $21,000 a month. That's the floor the lenders we work with set, because revenue is what carries the payment.
-- **Deposits that match your books.** Lenders read your bank statements to confirm revenue. A cash-heavy business that deposits only part of its sales will look smaller on paper than it is. [VERIFY how many months of statements lenders typically request.]
-
-[VERIFY: quote from Ryan Rodriguez on the most common file-side reason he sees for a decline.]
+- **Time in business.** Longer than a year and you're typically safe. Under that, there are options but a more narrow selection. Lenders want to see how cash moves through your slow weeks, not only your best ones.
+- **Revenue.** $1,000,000 a year, or about $83,000 a month. That's the safe range most lenders will work with, because revenue is what carries the payment.
+- **Deposits that match your books.** Lenders read your bank statements to confirm revenue. A cash-heavy business that deposits only part of its sales will look smaller on paper than it is.
 
 ## What should I do after a bank says no?
 
@@ -83,7 +71,7 @@ The takeaway is simple. A bank's no tells you about federal law and that bank's 
 
 ### Will a bank denial hurt my credit?
 
-The denial itself doesn't change your score. The hard credit pull some banks run with an application can show up on your report for a time. [VERIFY how long a hard inquiry stays and affects scores.] Our first check is a soft pull, which doesn't affect your credit score at all, so you can see where you stand first.
+The denial itself doesn't change your score. The hard credit pull some banks run with an application can show up on your report for a time. Our first check is a soft pull, which doesn't affect your credit score at all, so you can see where you stand first.
 
 ### Can a credit union lend to a dispensary?
 
