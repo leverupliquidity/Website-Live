@@ -58,8 +58,18 @@ const articleLd = {
   publisher: { '@type': 'Organization', '@id': `${site.url}/#org`, name: site.name, logo: { '@type': 'ImageObject', url: `${site.url}/icon-512.png` } },
   mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
 };
+// Optional per-guide structured data: src/data/jsonld/<slug>.json (an array of JSON-LD objects).
+// When present it replaces the default Article block. A BlogPosting in it gets the share image and
+// the guide's date filled in here, so those never drift from the guide file.
+const ldFiles = import.meta.glob<{ default: Record<string, unknown>[] }>('../../data/jsonld/*.json', { eager: true });
+const customLd = ldFiles[`../../data/jsonld/${entry.id}.json`]?.default;
+const pageLd = customLd
+  ? customLd.map((ld) => (ld['@type'] === 'BlogPosting'
+      ? { ...ld, image: [shareUrl], datePublished: date.iso, dateModified: date.iso }
+      : ld))
+  : [articleLd];
 ---
-<BaseLayout metaKey={metaKey} {...own} ogType="article" ogImage={shareUrl} jsonLd={[articleLd]}>
+<BaseLayout metaKey={metaKey} {...own} ogType="article" ogImage={shareUrl} jsonLd={pageLd}>
   <div class="crumb-trunc"><Breadcrumb items={[{ label: 'Guides', href: '/guides' }, { label: g.title }]} /></div>
 
   <header class="art-head">
@@ -124,7 +134,7 @@ const articleLd = {
     <div class="container about-author__grid">
       <div class="bio">
         <span class="bio__photo"><Img src={headshot} alt="Ryan Rodriguez" widths={[192]} sizes="96px" /></span>
-        <p class="bio__text">Ryan Rodriguez, Founder, Leverup Liquidity. We help licensed cannabis operators find capital, with clear answers and no sales games.</p>
+        <p class="bio__text">{g.authorBio ?? 'Ryan Rodriguez, Founder, Leverup Liquidity. We help licensed cannabis operators find capital, with clear answers and no sales games.'}</p>
       </div>
       <div class="disclaimer">
         <h2 class="disclaimer__h">Disclaimer</h2>

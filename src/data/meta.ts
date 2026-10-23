@@ -96,6 +96,11 @@ export const meta: Record<string, Meta> = {
     description:
       'A factor rate and an APR measure cost differently. Learn how to compare total payback, payment size and fees before you sign a cash advance or loan.',
   },
+  '/guides/why-banks-deny-cannabis-business-loans': {
+    title: 'Why Your Bank Denied Your Cannabis Business Loan',
+    description:
+      'Most banks turn down cannabis loans over federal risk, not your file. See the real reasons for a denial and what lenders check instead.',
+  },
   '/privacy': {
     title: 'Privacy Policy | Leverup Liquidity',
     description: 'How Leverup Liquidity collects, uses and protects your information. We do not sell your personal information.',

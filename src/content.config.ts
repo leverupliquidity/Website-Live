@@ -14,6 +14,7 @@ const guides = defineCollection({
       category: z.string(),
       date: z.coerce.date(),
       author: z.string(),
+      authorBio: z.string().optional(),
       readTime: z.string(),
       lede: z.string(),
       leadImage: image(),
