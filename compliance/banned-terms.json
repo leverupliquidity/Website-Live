@@ -1,0 +1,545 @@
+{
+  "_comment": "Banned terms for leverupliquidity.com. Read by scripts/guard.mjs on every build and by `node scripts/guard.mjs --text <file>` for drafts. Patterns are JavaScript regular expressions, matched case-insensitively against visible text, titles, meta and Open Graph/Twitter text, JSON-LD values and alt text. Mirrored on the 'Banned terms' tab of the Leverup Claims Register sheet; change this file first, then the sheet. Every allowlist entry must carry a claims-register ID.",
+  "version": 1,
+  "updated": "2026-10-27",
+  "source": "claude/leverup-website-strategy-problem-first.md: Guardrails every page follows (2, 4); Compliance rules > Rules for every block > Claims (1-6, 9)",
+  "scope": {
+    "legalLayer": [
+      "/privacy",
+      "/sms-terms",
+      "/terms",
+      "/licenses",
+      "/accessibility"
+    ],
+    "legalLayerNote": "Excluded from the scan entirely. Counsel owns this text.",
+    "strictPrefixes": [
+      "/rules"
+    ],
+    "strictNote": "Under /rules/** both tiers block the build.",
+    "skipFiles": [
+      "e5af999b4e3e75bc8fe912f732b78da7.txt",
+      "robots.txt"
+    ],
+    "skipFilesNote": "Locked verification and crawler files; the guard checks them by hash instead."
+  },
+  "safeContexts": {
+    "_comment": "Phrases that must never trip a block-tier pattern. The guard fails at startup if any block pattern matches one of these, so tax and rule figures stay usable.",
+    "mustNotMatchBlock": [
+      "Michigan's 24% wholesale marijuana tax",
+      "the 24% wholesale tax took effect January 1, 2026",
+      "a 10% excise tax on adult-use sales",
+      "the state tax rate rose to 24%",
+      "280E bars deductions for businesses that traffic in Schedule I or II substances",
+      "a $45,000 tax bill due April 15",
+      "Updated October 27, 2026",
+      "license renewal every 12 months",
+      "Call or text (947) 238-6272",
+      "if you're interested in a call",
+      "Schedule III",
+      "a harvest that sells 4 months later",
+      "Quick actions",
+      "Best way to reach you",
+      "Biomass, testing fees and packaging for big orders.",
+      "Buy at the right price",
+      "your best sellers can't sit out of stock",
+      "state license fees",
+      "Last 3 to 6 months of bank statements"
+    ]
+  },
+  "tiers": {
+    "block": {
+      "description": "Fails the build on every page outside the legal layer.",
+      "terms": [
+        {
+          "id": "B-AMT-RANGE",
+          "category": "Financing amounts",
+          "pattern": "\\$\\s?\\d[\\d,.]*\\s?(?:k|m|mm|b|million|thousand)?\\s*(?:–|—|-|to|through)\\s*\\$\\s?\\d",
+          "match": [
+            "$5K–$1M",
+            "from $50K to $5M",
+            "$10,000 - $500,000"
+          ],
+          "noMatch": [
+            "a $45,000 tax bill"
+          ]
+        },
+        {
+          "id": "B-AMT-SHORT",
+          "category": "Financing amounts",
+          "pattern": "\\$\\s?\\d[\\d,.]*\\s?(?:k|mm?|b)\\b",
+          "match": [
+            "$5K",
+            "up to $1M",
+            "$2.5MM"
+          ],
+          "noMatch": [
+            "$45,000 tax"
+          ]
+        },
+        {
+          "id": "B-AMT-LIMIT",
+          "category": "Financing amounts",
+          "pattern": "\\b(?:up to|as much as|as little as|starting at|minimum of|maximum of|borrow|loan amounts?|funding amounts?|advance amounts?)\\s+(?:of\\s+)?\\$\\s?\\d",
+          "match": [
+            "up to $250,000",
+            "borrow $50,000",
+            "loan amounts of $10,000"
+          ],
+          "noMatch": [
+            "a $45,000 tax bill"
+          ]
+        },
+        {
+          "id": "B-AMT-NEAR",
+          "category": "Financing amounts",
+          "pattern": "(?:\\$\\s?\\d[\\d,.]*[^.$]{0,40}\\b(?:loans?|lines? of credit|advances?|financing|funding|funded|capital|credit lines?|buyout|down payments?|lease)\\b|\\b(?:loans?|lines? of credit|advances?|financing|funding|funded|capital|buyout|down payments?|lease)\\b[^.$]{0,40}\\$\\s?\\d)",
+          "match": [
+            "$250,000 in funding",
+            "financing from $10,000",
+            "we funded $2 million",
+            "With a $1 buyout lease"
+          ],
+          "noMatch": [
+            "a $45,000 tax bill due April 15"
+          ]
+        },
+        {
+          "id": "B-TERM-RANGE",
+          "category": "Durations tied to financing",
+          "pattern": "\\b\\d+\\s?(?:–|—|-|to)\\s?\\d+\\s?(?:months?|mos?\\.?|years?|yrs?|weeks?)\\b(?! of (?:bank statements|statements|sales|deposits|history|records))",
+          "match": [
+            "6–24 months",
+            "12 to 60 months",
+            "1-5 years"
+          ],
+          "noMatch": [
+            "license renewal every 12 months"
+          ]
+        },
+        {
+          "id": "B-TERM-NEAR",
+          "category": "Durations tied to financing",
+          "pattern": "(?:\\b(?:terms?|repay(?:ment)?|pay(?:s|ing)? (?:it )?back|paid back|paid off|payoff|amortiz\\w*|loan|advance|line of credit|financing)\\b[^.]{0,30}\\b\\d+\\s?(?:months?|years?|weeks?)\\b|\\b\\d+\\s?(?:months?|years?|weeks?)\\b[^.]{0,20}\\b(?:terms?|repayment|to repay|to pay (?:it )?back|loan|advance|financing)\\b)",
+          "match": [
+            "terms up to 60 months",
+            "repay over 18 months",
+            "a 24 month term"
+          ],
+          "noMatch": [
+            "a harvest that sells 4 months later"
+          ]
+        },
+        {
+          "id": "B-TERM-WORD",
+          "category": "Durations tied to financing",
+          "pattern": "\\b(?:term lengths?|repayment (?:terms?|periods?|schedules?)|payment schedules?|amortization)\\b",
+          "match": [
+            "repayment terms",
+            "term length",
+            "payment schedule"
+          ],
+          "noMatch": []
+        },
+        {
+          "id": "B-RATE-APR",
+          "category": "Rates",
+          "pattern": "\\b(?:APRs?|annual percentage rates?|annualized (?:rate|cost))\\b",
+          "match": [
+            "APR",
+            "annual percentage rate"
+          ],
+          "noMatch": [
+            "April 15"
+          ]
+        },
+        {
+          "id": "B-RATE-FACTOR",
+          "category": "Rates",
+          "pattern": "\\bfactor[\\s-]+rates?\\b|\\bfactor of \\d",
+          "match": [
+            "factor rate",
+            "factor-rate",
+            "a factor of 1.3"
+          ],
+          "noMatch": [
+            "a key factor in cash flow"
+          ]
+        },
+        {
+          "id": "B-RATE-INTEREST",
+          "category": "Rates",
+          "pattern": "\\binterest\\b(?!\\s+in\\b)|\\binterest-free\\b",
+          "match": [
+            "interest",
+            "interest rates",
+            "no interest charged"
+          ],
+          "noMatch": [
+            "if you're interested in a call",
+            "an interest in your business"
+          ]
+        },
+        {
+          "id": "B-RATE-WORD",
+          "category": "Rates",
+          "pattern": "(?<!\\b(?:tax|excise|wholesale|sales|data|text|message|msg|use|retail|cultivation|state|response|close|closing|success|growth|failure)\\s)\\brates?\\b(?!\\s+(?:of|on)\\s+(?:tax|taxation))",
+          "match": [
+            "low rates",
+            "rates from 1.1",
+            "our rate"
+          ],
+          "noMatch": [
+            "Message and data rates may apply",
+            "the state tax rate rose to 24%",
+            "wholesale tax rate"
+          ]
+        },
+        {
+          "id": "B-RATE-PCT",
+          "category": "Rates",
+          "pattern": "\\b\\d+(?:\\.\\d+)?\\s?%[^.]{0,25}\\b(?:APR|interest|fee|fees|rate|rates|factor|holdback|retrieval|remittance|of (?:daily |future )?sales|of (?:each|every) sale)\\b(?<!tax rate)|\\b(?:APR|interest|fee|fees|factor|holdback|retrieval|remittance|origination)\\b[^.]{0,25}\\b\\d+(?:\\.\\d+)?\\s?%",
+          "match": [
+            "8% origination fee",
+            "interest of 12%",
+            "10% of daily sales"
+          ],
+          "noMatch": [
+            "Michigan's 24% wholesale marijuana tax",
+            "the state tax rate rose to 24%"
+          ]
+        },
+        {
+          "id": "B-FEE",
+          "category": "Fees and cost figures",
+          "pattern": "(?<!\\b(?:testing|lab|license|licensing|permit|renewal|registration|filing|state|tax)\\s)\\bfees?\\b|\\bcharges?\\b(?=[^.]{0,20}\\b(?:you|financing|loan|advance|origination|closing|broker|late|monthly|annual))",
+          "match": [
+            "every fee",
+            "no fee if you walk away",
+            "origination fee",
+            "we charge you"
+          ],
+          "noMatch": [
+            "Updated October 27, 2026"
+          ]
+        },
+        {
+          "id": "B-COST-FIG",
+          "category": "Fees and cost figures",
+          "pattern": "\\b(?:origination|closing costs?|prepayment|payback amounts?|payoff amounts?|cost of (?:capital|financing|funding|borrowing|the (?:loan|advance|line))|borrowing costs?|financing costs?|holdback|remittance|daily payments?|weekly payments?|monthly payments?|fixed payments?|payment (?:size|amount)s?|price of (?:money|capital|financing|the (?:loan|advance|line))|pricing|priced)\\b",
+          "match": [
+            "payment size",
+            "fixed payments",
+            "cost of capital",
+            "pricing",
+            "the price of money"
+          ],
+          "noMatch": [
+            "a $45,000 tax bill"
+          ]
+        },
+        {
+          "id": "B-TRANSPARENCY",
+          "category": "Cost-transparency promises",
+          "pattern": "\\b(?:every (?:fee|cost|charge|number|dollar)|all (?:the )?(?:terms|fees|costs)(?: (?:up ?front|upfront|first))?|full cost|true cost|real cost|all-in cost|no hidden (?:fees|costs|charges)|nothing hidden|no surprises?|(?:shown|show|see|know) (?:it )?(?:all )?(?:up ?front|upfront|first)|up ?front|upfront|line by line|before you sign|real numbers|costs? and terms|real offers?)\\b",
+          "match": [
+            "every fee shown first",
+            "all terms up front",
+            "Full cost up front",
+            "no hidden fees",
+            "See every fee before you sign",
+            "real offers",
+            "See costs and terms"
+          ],
+          "noMatch": [
+            "Updated October 27, 2026"
+          ]
+        },
+        {
+          "id": "B-COMPARE",
+          "category": "Cost comparisons",
+          "pattern": "\\b(?:total (?:cost|payback|repayment|amount repaid)|side[\\s-]by[\\s-]side|compare (?:[a-z]+ ){0,2}(?:offers?|quotes?|costs?|terms|options|financing|lenders?)|compare all\\b|comparison (?:table|chart)|cheaper|cheapest|most affordable|lowest)\\b",
+          "match": [
+            "total cost",
+            "total payback",
+            "side by side",
+            "compare offers",
+            "Compare Cannabis Financing Options",
+            "Compare all four"
+          ],
+          "noMatch": [
+            "Schedule III"
+          ]
+        },
+        {
+          "id": "B-SPEED",
+          "category": "Speed claims",
+          "pattern": "\\b(?:in (?:about |under |less than |as little as |just )?(?:\\d+|one|two|three|five|ten|fifteen) (?:minutes?|mins?|hours?)|within (?:\\d+|one|two|24|48|72) (?:business )?(?:hours?|days?)|\\d+\\s?(?:–|—|-|to)\\s?\\d+ (?:business )?(?:hours?|days)|within (?:the|an|one|the same) (?:hour|day)|same[\\s-]day|next[\\s-]day|overnight|fast(?:er|est)?|quick(?:ly|er|est)?(?!\\s+(?:actions?|links?|menu|nav))|rapid(?:ly)?|instant(?:ly)?|speedy|speed|how fast|how quickly|how long (?:until|before) (?:you get|funding|the money)|as fast as|as soon as tomorrow)\\b",
+          "match": [
+            "in 5 minutes",
+            "same-day",
+            "fast funding",
+            "how fast",
+            "1–3 days",
+            "within 24 hours",
+            "funds land within 2–12 hours",
+            "We review your file within the hour"
+          ],
+          "noMatch": [
+            "Updated October 27, 2026"
+          ]
+        },
+        {
+          "id": "B-SPEED-MIN",
+          "category": "Speed claims",
+          "pattern": "\\b(?:about|under|only|just|takes?|takes about|in) (?:\\d+|one|two|three|four|five|ten|fifteen|twenty) minutes?\\b|\\b(?:\\d+|one|two|three|four|five|ten|fifteen|twenty) minutes?\\b(?=[^.]{0,40}\\b(?:apply|applying|start|tell|takes?|now|find out|qualify|application)\\b)|\\bminutes? to (?:apply|start)\\b|(?:·|:)\\s*(?:\\d+|one|two|three|four|five|ten|fifteen|twenty) (?:minutes?|hours?|days?)\\b",
+          "match": [
+            "about five minutes",
+            "takes 5 minutes",
+            "Five minutes to apply.",
+            "Five minutes is all it takes to find out.",
+            "Five minutes now, documents later.",
+            "Step 01 · 5 minutes"
+          ],
+          "noMatch": []
+        },
+        {
+          "id": "B-APPROVAL",
+          "category": "Approval, guarantee and secure claims",
+          "pattern": "\\b(?:pre-?approv\\w*|pre-?qualif\\w*|get(?:ting)? approved|be approved|approval (?:odds|rates?|in|within)|(?:fast|quick|easy|instant|guaranteed|high|same-day) approvals?|approved (?:in|within|today|fast)|we approve|approves? (?:most|every|all)|guarantee(?:d|s)?|we (?:secure|get you|find you|will get you)|secure (?:your )?(?:funding|financing|capital|a loan)|what you qualify for|you(?:'ll)? qualify|qualif(?:y|ies|ied) for|get funded|funding decisions?|eligib(?:le|ility) for (?:funding|financing|a loan))\\b",
+          "match": [
+            "fast approval",
+            "guaranteed",
+            "we secure funding",
+            "See what you qualify for",
+            "get funded",
+            "get approved in 24 hours"
+          ],
+          "noMatch": [
+            "files go only to lenders you approve",
+            "What if nobody approves me?"
+          ]
+        },
+        {
+          "id": "B-SUPERLATIVE",
+          "category": "Superlatives and only claims",
+          "pattern": "\\b(?:best(?![\\s-]+(?:way|time|number|sellers?|selling|practices?))|#1|number one|no\\. ?1|leading|top-rated|top rated|most trusted|unmatched|unbeatable|world-class|industry-leading|largest|biggest|the only|our only|only (?:company|broker|firm|team|place|one that|ones that|lender|funder))\\b",
+          "match": [
+            "Best for short gaps",
+            "the only cannabis-focused",
+            "industry-leading"
+          ],
+          "noMatch": [
+            "only on business days"
+          ]
+        },
+        {
+          "id": "B-CREDIT",
+          "category": "Credit-impact claims",
+          "pattern": "\\b(?:(?:hard|soft) (?:credit )?(?:pull|inquiry|inquiries|check)s?|credit (?:pull|check|score|inquiry|inquiries|report|history)s?|(?:hurt|affect|impact|ding|damage|lower|touch)s? your credit|won't (?:hurt|affect|impact|touch) your credit|bad credit|poor credit|no credit)\\b",
+          "match": [
+            "No hard credit pull",
+            "won't hurt your credit",
+            "soft pull",
+            "credit score"
+          ],
+          "noMatch": [
+            "Schedule III"
+          ]
+        },
+        {
+          "id": "B-COLLATERAL",
+          "category": "No collateral / no penalty",
+          "pattern": "\\b(?:collateral|unsecured|no (?:personal )?guarantee|penalt(?:y|ies)|prepayment)\\b",
+          "match": [
+            "no collateral",
+            "No penalty",
+            "prepayment penalty"
+          ],
+          "noMatch": [
+            "Schedule III"
+          ]
+        }
+      ]
+    },
+    "warn": {
+      "description": "Business-model and product-mechanics language. Reported in compliance/warn-report.md, not blocking, until Phase 3 replaces those pages. Blocks under /rules/**.",
+      "terms": [
+        {
+          "id": "W-BROKER",
+          "category": "Business model",
+          "pattern": "\\b(?:brokers?|brokerage|brokered)\\b",
+          "match": [
+            "financing broker"
+          ],
+          "noMatch": []
+        },
+        {
+          "id": "W-LENDER",
+          "category": "Business model",
+          "pattern": "\\b(?:lenders?|lending partners?|funders?|funding partners?|capital (?:providers?|partners?|sources?)|investors?|marketplace|network of)\\b",
+          "match": [
+            "lenders",
+            "funders",
+            "funding partners"
+          ],
+          "noMatch": []
+        },
+        {
+          "id": "W-MATCH",
+          "category": "Business model",
+          "pattern": "\\b(?:we match|matches you|match you|matched with|matching you|connect you with (?:lenders|funders)|shop your|send your (?:file|application|files) to)\\b",
+          "match": [
+            "We match licensed cannabis operators",
+            "match you with lenders"
+          ],
+          "noMatch": []
+        },
+        {
+          "id": "W-PAID",
+          "category": "How Leverup is paid",
+          "pattern": "\\b(?:commissions?|compensat\\w*|referral fees?|(?:we|we're|we are|leverup is|leverup gets) paid|what we're paid|how we (?:get|are|'re) paid|paid by the (?:lender|funder))\\b",
+          "match": [
+            "what we're paid",
+            "commission",
+            "we are paid by"
+          ],
+          "noMatch": []
+        },
+        {
+          "id": "W-MECHANICS",
+          "category": "Product mechanics",
+          "pattern": "\\b(?:lump sum|draw (?:again|what you need|as needs)|repay(?:s|ing|ment)?|pay it back|share of (?:future |your )?sales|not a loan|revolving|underwrit\\w*|funded|funding)\\b",
+          "match": [
+            "One lump sum",
+            "Draw again",
+            "Cash now for a share of future sales. Not a loan.",
+            "repay"
+          ],
+          "noMatch": []
+        },
+        {
+          "id": "W-PRODUCT",
+          "category": "Product menu language",
+          "pattern": "\\b(?:lines? of credit|term loans?|merchant cash advances?|cash advances?|equipment financing|MCAs?)\\b",
+          "match": [
+            "Lines of credit",
+            "merchant cash advance"
+          ],
+          "noMatch": []
+        },
+        {
+          "id": "W-APPLY",
+          "category": "Application framing",
+          "pattern": "\\b(?:apply now|apply for (?:financing|funding|a loan)|application)\\b",
+          "match": [
+            "Apply now"
+          ],
+          "noMatch": []
+        }
+      ]
+    }
+  },
+  "allowlist": [
+    {
+      "id": "A-001",
+      "claimId": "LV-L01",
+      "termIds": [
+        "B-FEE",
+        "B-RATE-WORD"
+      ],
+      "phrase": "Message and data rates may apply",
+      "pages": [
+        "*"
+      ],
+      "reason": "Carrier-required SMS disclosure inside the counsel-owned consent text on forms (out of scope for this purge)."
+    },
+    {
+      "id": "A-002",
+      "claimId": "LV-F01",
+      "termIds": [
+        "B-COST-FIG"
+      ],
+      "phrase": "Payment amount",
+      "pages": [
+        "/apply"
+      ],
+      "reason": "Form field label in the Existing Funding section: asks about the owner's current obligations. Data collection, not a claim."
+    },
+    {
+      "id": "A-003",
+      "claimId": "LV-F02",
+      "termIds": [
+        "B-CREDIT"
+      ],
+      "phrase": "Estimated Credit Score",
+      "pages": [
+        "/apply"
+      ],
+      "reason": "Form field label (self-reported). Data collection, not a credit-impact claim."
+    },
+    {
+      "id": "A-004",
+      "claimId": "LV-L02",
+      "termIds": [
+        "B-CREDIT"
+      ],
+      "phrase": "consumer credit reports and credit scores",
+      "pages": [
+        "/apply"
+      ],
+      "reason": "Credit Authorization text at submit: counsel's legal layer, out of scope for this purge."
+    },
+    {
+      "id": "A-005",
+      "claimId": "LV-F03",
+      "termIds": [
+        "B-AMT-SHORT",
+        "B-AMT-RANGE"
+      ],
+      "phrase": "Under $50K",
+      "pages": [
+        "/financing"
+      ],
+      "reason": "Fit finder answer chip: the owner's monthly revenue band, not a financing amount."
+    },
+    {
+      "id": "A-006",
+      "claimId": "LV-F03",
+      "termIds": [
+        "B-AMT-SHORT",
+        "B-AMT-RANGE"
+      ],
+      "phrase": "$50K to $150K",
+      "pages": [
+        "/financing"
+      ],
+      "reason": "Fit finder answer chip: the owner's monthly revenue band, not a financing amount."
+    },
+    {
+      "id": "A-007",
+      "claimId": "LV-F03",
+      "termIds": [
+        "B-AMT-SHORT",
+        "B-AMT-RANGE"
+      ],
+      "phrase": "$150K to $500K",
+      "pages": [
+        "/financing"
+      ],
+      "reason": "Fit finder answer chip: the owner's monthly revenue band, not a financing amount."
+    },
+    {
+      "id": "A-008",
+      "claimId": "LV-F03",
+      "termIds": [
+        "B-AMT-SHORT",
+        "B-AMT-RANGE"
+      ],
+      "phrase": "Over $500K",
+      "pages": [
+        "/financing"
+      ],
+      "reason": "Fit finder answer chip: the owner's monthly revenue band, not a financing amount."
+    }
+  ]
+}

@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/guard.mjs",
+    "guard": "node scripts/guard.mjs",
+    "guard:text": "node scripts/guard.mjs --text",
     "preview": "astro preview",
     "check": "astro check",
     "test:indexnow": "node tools/test-indexnow.mjs"

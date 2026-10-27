@@ -4,7 +4,6 @@ import ProductCard from '../components/shared/ProductCard.astro';
 import FaqList from '../components/shared/FaqList.astro';
 import ClosingCTA from '../components/shared/ClosingCTA.astro';
 import HomeHero from '../components/home/HomeHero.astro';
-import ProofPoints from '../components/home/ProofPoints.astro';
 import IndustryTiles from '../components/home/IndustryTiles.astro';
 import StepsBand from '../components/home/StepsBand.astro';
 import FounderStrip from '../components/home/FounderStrip.astro';
@@ -12,15 +11,13 @@ import { faqs } from '../data/faq';
 import '../components/h1-ui/h1.css';
 
 const steps = [
-  { title: 'Apply in 5 minutes', body: 'Business and license basics. No hard credit pull.' },
+  { title: 'Apply', body: 'Business and license basics.' },
   { title: 'We match lenders', body: 'We pick lenders that fit your license and revenue, and say why.' },
-  { title: 'See real numbers', body: 'Total cost, payment and every fee, side by side.' },
-  { title: 'You decide', body: 'Sign the one that fits or walk away. No fee either way.' },
+  { title: 'You decide', body: 'Sign the one that fits or walk away.' },
 ];
 ---
 <BaseLayout>
   <HomeHero />
-  <ProofPoints />
 
   <section class="section section--paper home-fin" aria-labelledby="fin-h">
     <div class="container">
@@ -29,12 +26,12 @@ const steps = [
           <h2 class="h2" id="fin-h">Four ways to fund a cannabis&nbsp;business</h2>
           <p class="h1-lede">Each one fits a different need. We'll say which.</p>
         </div>
-        <div class="section-head__action home-fin__link-d"><a class="link" href="/financing">Compare all four</a></div>
+        <div class="section-head__action home-fin__link-d"><a class="link" href="/financing">See all four</a></div>
       </div>
       <div class="grid grid--4 swipe">
         <ProductCard product="loc" /><ProductCard product="equipment" /><ProductCard product="term" /><ProductCard product="mca" />
       </div>
-      <a class="link home-fin__link-m" href="/financing">Compare all four</a>
+      <a class="link home-fin__link-m" href="/financing">See all four</a>
     </div>
   </section>
 
@@ -57,7 +54,7 @@ const steps = [
   <section class="section section--paper" aria-labelledby="faq-h">
     <div class="container faq-split home-faq">
       <div class="faq-split__head">
-        <h2 class="h2" id="faq-h">Straight answers, up&nbsp;front</h2>
+        <h2 class="h2" id="faq-h">Straight answers</h2>
         <p class="h1-lede">The questions every operator asks before applying.</p>
         <a href="/faq" class="btn btn--secondary home-faq__btn-d">Read the FAQ</a>
       </div>
@@ -68,7 +65,7 @@ const steps = [
     </div>
   </section>
 
-  <ClosingCTA title="Find out what you qualify for in 5 minutes." lede="No obligation. Stop anytime, no fee owed." />
+  <ClosingCTA title="Start when you&rsquo;re ready." lede="No obligation. Stop anytime." />
 </BaseLayout>
 
 <style>

@@ -9,32 +9,32 @@ export const meta: Record<string, Meta> = {
   '/': {
     title: 'Cannabis Business Financing | Leverup Liquidity',
     description:
-      'We match licensed cannabis operators with funders. Compare lines of credit, equipment financing, term loans and cash advances, with every fee shown first.',
+      'We match licensed cannabis operators with funders. Lines of credit, equipment financing, term loans and cash advances.',
   },
   '/financing': {
-    title: 'Compare Cannabis Financing Options | Leverup Liquidity',
+    title: 'Cannabis Financing Options | Leverup Liquidity',
     description:
-      "Lines of credit, equipment financing, term loans and cash advances for licensed cannabis businesses, side by side: amounts, terms, costs and what we're paid.",
+      'Lines of credit, equipment financing, term loans and cash advances for licensed cannabis businesses.',
   },
   '/financing/lines-of-credit': {
     title: 'Cannabis Business Lines of Credit | Leverup Liquidity',
     description:
-      '$5K–$1M lines of credit for licensed cannabis operators. Draw for vendor orders, repay from sales, then draw again. See every fee before you sign.',
+      'Lines of credit for licensed cannabis operators. Draw for vendor orders, repay from sales, then draw again.',
   },
   '/financing/equipment-financing': {
     title: 'Cannabis Equipment Financing | Leverup Liquidity',
     description:
-      'Finance lights, HVAC and extraction gear from $10K to $5M over 24–60 months, and keep your cash for stock. Every cost shown line by line before you sign.',
+      'Finance lights, HVAC and extraction gear, and keep your cash for stock.',
   },
   '/financing/term-loans': {
     title: 'Cannabis Term Loans | Leverup Liquidity',
     description:
-      'One lump sum from $50K to $5M with fixed payments over 12–60 months for a build-out, new location or buyout. Full cost up front.',
+      'One lump sum for a build-out, new location or buyout.',
   },
   '/financing/merchant-cash-advance': {
     title: 'Cannabis Merchant Cash Advance | Leverup Liquidity',
     description:
-      'Cash now for a share of future sales, $5K–$1M. See the factor rate, total payback and payment size before you sign. Not a loan. Best for short gaps.',
+      'Cash now for a share of future sales. Not a loan.',
   },
   '/industries': {
     title: 'Cannabis Industry Financing | Leverup Liquidity',
@@ -44,27 +44,27 @@ export const meta: Record<string, Meta> = {
   '/industries/dispensaries': {
     title: 'Dispensary Financing | Leverup Liquidity',
     description:
-      'Financing for licensed dispensaries: inventory, holiday stock-ups, build-outs and tax bills. Compare real offers with every fee shown up front.',
+      'Financing for licensed dispensaries: inventory, holiday stock-ups, build-outs and tax bills.',
   },
   '/industries/cultivation': {
     title: 'Cannabis Grow Financing | Leverup Liquidity',
     description:
-      'Financing for licensed cultivators: lights, HVAC, benching and the months between harvests. Compare offers from lenders who fund grows.',
+      'Financing for licensed cultivators: lights, HVAC, benching and the months between harvests.',
   },
   '/industries/processing': {
     title: 'Cannabis Processor Financing | Leverup Liquidity',
     description:
-      'Financing for licensed processors and labs: extraction gear, packaging and the wait for retailers to pay. See every cost before you sign.',
+      'Financing for licensed processors and labs: extraction gear, packaging and the wait for retailers to pay.',
   },
   '/how-it-works': {
     title: 'How Cannabis Financing Works | Leverup Liquidity',
     description:
-      'Apply in five minutes. We match you with lenders, you see real numbers side by side, and you decide. No hard credit pull, no fee if you walk away.',
+      'We match you with lenders, and you decide.',
   },
   '/apply': {
     title: 'Apply for Cannabis Business Financing | Leverup Liquidity',
     description:
-      'See what you qualify for in about five minutes. No hard credit pull, no obligation, and your files go only to lenders you approve.',
+      'No obligation, and your files go only to lenders you approve.',
   },
   '/apply/confirmation': {
     title: 'Application Received | Leverup Liquidity',
@@ -74,7 +74,7 @@ export const meta: Record<string, Meta> = {
   '/about': {
     title: 'About Us | Leverup Liquidity',
     description:
-      'Leverup Liquidity is a financing broker for licensed cannabis businesses, founded by Ryan Rodriguez. We walk you through every number before you sign.',
+      'Leverup Liquidity is a financing broker for licensed cannabis businesses, founded by Ryan Rodriguez.',
   },
   '/contact': {
     title: 'Contact Us | Leverup Liquidity',
@@ -84,17 +84,12 @@ export const meta: Record<string, Meta> = {
   '/faq': {
     title: 'Cannabis Financing FAQ | Leverup Liquidity',
     description:
-      'Straight answers on costs, credit checks, eligibility, timing and privacy before you apply for cannabis business financing.',
+      'Straight answers on eligibility and privacy before you apply for cannabis business financing.',
   },
   '/guides': {
     title: 'Cannabis Financing Guides | Leverup Liquidity',
     description:
-      'Plain-English guides to cannabis business financing: costs, factor rates, APR and how to compare offers before you sign.',
-  },
-  '/guides/factor-rate-vs-apr': {
-    title: 'Factor Rate vs. APR: How to Compare Two Offers',
-    description:
-      'A factor rate and an APR measure cost differently. Learn how to compare total payback, payment size and fees before you sign a cash advance or loan.',
+      'Plain-English guides to cannabis business financing.',
   },
   '/privacy': {
     title: 'Privacy Policy | Leverup Liquidity',

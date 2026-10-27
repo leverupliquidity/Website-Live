@@ -22,7 +22,7 @@ const host = new URL(site.url).host;
         <p class="lede nf__lede">But your options do.</p>
         <div class="btn-row btn-row--stack nf__btns" data-hero-cta>
           <a href="/" class="btn btn--primary">Go home</a>
-          <a href="/financing" class="btn btn--secondary">Compare financing</a>
+          <a href="/financing" class="btn btn--secondary">Financing overview</a>
           <a href="/contact" class="btn btn--secondary">Talk with us</a>
         </div>
         <form class="nf__search" role="search" action="https://www.google.com/search" method="get">
@@ -47,7 +47,7 @@ const host = new URL(site.url).host;
             <span class="quick__thumb"><Img src={p.image} alt="" widths={[112]} sizes="56px" /></span>
             <span class="quick__text">
               <span class="quick__name">{p.name}</span>
-              <a href={p.href} class="link">See costs and terms<span class="visually-hidden">: {p.name}</span></a>
+              <a href={p.href} class="link">Learn more<span class="visually-hidden">: {p.name}</span></a>
             </span>
           </li>
         ))}

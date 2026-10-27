@@ -76,7 +76,6 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
                   <div class="mega__media"><Img src={p.image} alt="" widths={[300, 600]} sizes="296px" /></div>
                   <span class="mega__name">{p.menuName}</span>
                   <span class="mega__blurb">{p.menuBlurb}</span>
-                  <span class="mega__figs mono">{p.amount}<span aria-hidden="true">&nbsp;&nbsp;·&nbsp;&nbsp;</span><span class="visually-hidden">, </span>{p.term}</span>
                 </a>
               </li>
             ))}
@@ -86,7 +85,7 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
             {nav.industries.map((i) => <a href={i.href} class="link">{i.label}</a>)}
           </div>
           <div class="mega__foot">
-            <a href="/financing" class="link">Compare all four</a>
+            <a href="/financing" class="link">See all four</a>
             <a href="/contact" class="link">Not sure? Talk with us</a>
             <a href={site.phone.tel} class="link link-icon" data-track="tel_click"><Icon name="phone" size={20} />Call or text {site.phone.display}</a>
           </div>
@@ -124,7 +123,7 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
                     </li>
                   ))}
                 </ul>
-                <a href="/financing" class="link link--17">Compare all four</a>
+                <a href="/financing" class="link link--17">See all four</a>
               </div>
             </li>
             <li class="mobile-menu__item">

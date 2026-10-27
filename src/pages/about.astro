@@ -20,12 +20,10 @@ const photos = [
   { src: photoP, alt: 'Old apothecary counter with wooden cabinets, glass jars and dried flowers' },
 ];
 const howWeWork = [
-  { icon: 'ledger', title: 'Every fee up front', body: 'You see total cost before you sign.' },
-  { icon: 'shield', title: 'No obligation', body: 'Stop anytime, no fee owed.' },
+  { icon: 'shield', title: 'No obligation', body: 'Stop anytime.' },
   { icon: 'users', title: 'Lenders chosen for you', body: 'We tell you why each made the list.' },
   { icon: 'document', title: 'Honest second opinions', body: "Send us any offer and we'll say if it's good." },
   { icon: 'clipboard-check', title: 'A plan either way', body: 'Not a fit yet? You get it in writing.' },
-  { icon: 'repeat', title: 'We check back', body: "When you likely qualify for cheaper money, we'll tell you." },
 ];
 ---
 <BaseLayout>
@@ -52,12 +50,8 @@ const howWeWork = [
   <section class="section section--white about-story" aria-label="Our story">
     <div class="container">
       <div class="about-story__col">
-        <p>Cannabis operators run strong businesses with real payroll and innovative operations that banks still won't work with. That leaves a lot of owners without capital, or with offers they can't compare and complex terms full of unforeseen hurdles.</p>
+        <p>Cannabis operators run strong businesses with real payroll and innovative operations that banks still won't work with. That leaves a lot of owners without capital.</p>
         <p>So we built Leverup to do one thing well: find the funders that back cannabis, line up their offers the same way, and demystify the process.</p>
-        <figure class="about-quote">
-          <blockquote class="quote">“We’ll walk you through every number before&nbsp;you&nbsp;sign.”</blockquote>
-          <figcaption class="meta about-quote__by">Ryan Rodriguez, Founder, Leverup Liquidity</figcaption>
-        </figure>
         <p>If you're not a fit yet, you leave with a written plan. If someone else gave you a better deal, we'll tell you to take it.</p>
       </div>
     </div>
@@ -104,7 +98,7 @@ const howWeWork = [
     </div>
   </section>
 
-  <ClosingCTA title="Let's see what's out there for you." lede="Five minutes to apply. No obligation to sign." />
+  <ClosingCTA title="Let's see what's out there for you." lede="No obligation to sign." />
 </BaseLayout>
 
 <style>

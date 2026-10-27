@@ -10,9 +10,10 @@ import { guideDate, noWidow } from '../components/guides/format';
 import featuredImg from '../assets/images/22-photo-grow-featured-16x9.jpg';
 
 const guides = (await getCollection('guides')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+// No guides are live while the Phase 3 guides are written; the featured block renders only when one exists.
 const featured = guides[0];
-const href = `/guides/${featured.id}`;
-const date = guideDate(featured.data.date);
+const href = featured ? `/guides/${featured.id}` : '';
+const date = featured ? guideDate(featured.data.date) : null;
 ---
 <BaseLayout metaKey="/guides">
   <Breadcrumb items={[{ label: 'Guides' }]} />
@@ -24,6 +25,7 @@ const date = guideDate(featured.data.date);
     </div>
   </section>
 
+  {featured && date && (
   <section class="section--paper featured" aria-labelledby="featured-h">
     <div class="container featured__grid">
       <a href={href} class="featured__media" tabindex="-1" aria-hidden="true">
@@ -38,6 +40,7 @@ const date = guideDate(featured.data.date);
       </div>
     </div>
   </section>
+  )}
 
   <section class="signup" aria-labelledby="signup-h">
     <div class="container signup__grid">
