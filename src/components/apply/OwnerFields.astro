@@ -41,7 +41,7 @@ const nm = (s: string) => `Owner ${n} — ${s}`;
         </button>
       </div>
     </Field>
-    <Field id={`${p}credit`} label="Estimated Credit Score" required hint="Self-reported estimate — no credit is pulled when you submit this form.">
+    <Field id={`${p}credit`} label="Estimated Credit Score" required hint="Self-reported estimate.">
       <select class="select" id={`${p}credit`} name={nm('Estimated credit score')} aria-describedby={`${p}credit-hint`} required>
         <option value="">Select range</option>
         {CREDIT_RANGES.map((c) => <option>{c}</option>)}
