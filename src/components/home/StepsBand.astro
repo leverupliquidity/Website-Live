@@ -13,7 +13,7 @@ const { steps, action, id = 'steps-h' } = Astro.props;
       </div>
       {action && <a href={action.href} class="btn btn--secondary-on-brand steps__btn">{action.label}</a>}
     </div>
-    <ol role="list" class="steps__list">
+    <ol role="list" class="steps__list" style={`--steps: ${steps.length}`}>
       {steps.map((s, i) => (
         <li class="steps__item">
           <div class="steps__top"><span class="h1-numbox" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><span class="steps__line" aria-hidden="true"></span></div>
@@ -48,7 +48,7 @@ const { steps, action, id = 'steps-h' } = Astro.props;
     .steps__head { grid-template-columns: 1fr auto; align-items: end; gap: 32px; margin-bottom: 48px; }
     .steps__text { gap: 16px; }
     .steps__btn { display: inline-flex; margin-bottom: 4px; }
-    .steps__list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; }
+    .steps__list { grid-template-columns: repeat(var(--steps, 4), minmax(0, 1fr)); gap: 32px; }
     .steps__item { grid-template-columns: none; gap: 28px; }
     .steps__top { display: flex; align-items: center; gap: 16px; }
     .steps__line { display: block; flex: 1; height: 1.5px; background: var(--border-on-brand); }
