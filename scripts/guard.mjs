@@ -6,6 +6,7 @@
 //   node scripts/guard.mjs --dist <dir>    scan another build folder
 //   node scripts/guard.mjs --text <file>   check a draft (txt, md or html) before anyone uses it
 //   node scripts/guard.mjs --text <file> --rules   same, with /rules strictness (warn tier blocks)
+//   --no-report   don't rewrite compliance/warn-report.md    --json <file>   dump every hit as JSON
 //
 // Fails (exit 1) when:
 //   - a block-tier banned term appears outside the legal layer, or any banned term under /rules/**
@@ -20,18 +21,18 @@
 
 import { readFileSync, writeFileSync, existsSync, readdirSync, statSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-import { join, relative, extname, sep } from 'node:path';
+import { join, relative, extname, sep, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const args = process.argv.slice(2);
 const argVal = (name) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : undefined; };
-const DIST = join(ROOT, argVal('--dist') ?? 'dist');
+const DIST = resolve(ROOT, argVal('--dist') ?? 'dist');
 const TEXT_FILE = argVal('--text');
 const STRICT_TEXT = args.includes('--rules');
 const WRITE_REPORT = !args.includes('--no-report');
 
-const LOCK = JSON.parse(readFileSync(join(ROOT, 'compliance/site-verification.lock.json'), 'utf8'));
+const LOCK = JSON.parse(readFileSync(resolve(ROOT, argVal('--lock') ?? 'compliance/site-verification.lock.json'), 'utf8'));
 const TERMS = JSON.parse(readFileSync(join(ROOT, 'compliance/banned-terms.json'), 'utf8'));
 
 // ── Compile and self-test the term list ─────────────────────
