@@ -37,10 +37,10 @@ const productData = Object.fromEntries(products.map((p) => [p.key, { name: p.nam
     <button type="submit" class="btn btn--primary fit__submit" data-fit-submit>Find my fit</button>
     <div class="fit__result" data-fit-result tabindex="-1" hidden>
       <p class="fit__product" data-fit-product>Lines of credit</p>
-      <p class="fit__copy">Based on your answers, these usually fit best. Apply to see what lenders actually offer.</p>
+      <p class="fit__copy">Apply to see what lenders actually offer.</p>
       <div class="btn-row btn-row--stack">
         <a href="/apply" class="btn btn--primary" data-track="cta_see_options" data-track-location="fit_finder">See my options</a>
-        <a href="/financing/lines-of-credit" class="btn btn--secondary" data-fit-link>See costs and terms</a>
+        <a href="/financing/lines-of-credit" class="btn btn--secondary" data-fit-link>Learn more</a>
       </div>
     </div>
     <p class="visually-hidden" role="status" aria-live="polite" data-fit-status></p>
@@ -88,7 +88,7 @@ const productData = Object.fromEntries(products.map((p) => [p.key, { name: p.nam
       const p = products[key];
       nameEl.textContent = p.name;
       link.href = p.href;
-      link.setAttribute('aria-label', `See costs and terms: ${p.name}`);
+      link.setAttribute('aria-label', `Learn more: ${p.name}`);
       const wasHidden = result.hidden;
       result.hidden = false;
       submit.hidden = true;
