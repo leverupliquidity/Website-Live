@@ -7,7 +7,7 @@ import RuleCard from '../components/rules/RuleCard.astro';
 import UpdatedChip from '../components/rules/UpdatedChip.astro';
 import SourceLinks from '../components/rules/SourceLinks.astro';
 import TalkItThrough from '../components/rules/TalkItThrough.astro';
-import { board, hubAnswer, hubUpdated, hubPublished, ahead, ryan, GENERAL_INFO } from '../data/rules';
+import { board, hubAnswer, hubUpdated, hubPublished, ahead, ryan, GENERAL_INFO, schemaDate } from '../data/rules';
 import { site } from '../data/site';
 
 const url = site.url + '/rules';
@@ -17,7 +17,7 @@ const sorted = [...board].sort((a, b) => b.date.iso.localeCompare(a.date.iso));
 const collection = {
   '@context': 'https://schema.org', '@type': 'CollectionPage', '@id': url + '#page',
   name: H1, url, description: hubAnswer,
-  datePublished: hubPublished.iso, dateModified: hubUpdated.iso, inLanguage: 'en-US',
+  datePublished: schemaDate(hubPublished), dateModified: schemaDate(hubUpdated), inLanguage: 'en-US',
   author: { '@type': 'Person', name: ryan.name, jobTitle: ryan.jobTitle, sameAs: [ryan.linkedin] },
   publisher: { '@id': site.url + '/#org' },
   mainEntity: { '@id': url + '#rules' },

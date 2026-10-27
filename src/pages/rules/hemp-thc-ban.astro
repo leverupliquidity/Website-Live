@@ -8,7 +8,7 @@ import StatusChip from '../../components/rules/StatusChip.astro';
 import UpdatedChip from '../../components/rules/UpdatedChip.astro';
 import SourceLinks from '../../components/rules/SourceLinks.astro';
 import TalkItThrough from '../../components/rules/TalkItThrough.astro';
-import { hemp, ryan, GENERAL_INFO, SOURCES } from '../../data/rules';
+import { hemp, ryan, GENERAL_INFO, SOURCES, schemaDate } from '../../data/rules';
 import { site } from '../../data/site';
 
 const url = site.url + hemp.slug;
@@ -29,8 +29,9 @@ const article = {
   headline: H1,
   description: hemp.answer,
   mainEntityOfPage: url,
-  datePublished: hemp.published.iso,
-  dateModified: hemp.updated.iso,
+  image: [site.url + '/og-default.png'],
+  datePublished: schemaDate(hemp.published),
+  dateModified: schemaDate(hemp.updated),
   author: { '@type': 'Person', name: ryan.name, jobTitle: ryan.jobTitle, url: site.url + '/about', sameAs: [ryan.linkedin] },
   publisher: { '@type': 'Organization', '@id': site.url + '/#org', name: site.name, url: site.url, logo: { '@type': 'ImageObject', url: site.url + '/icon-512.png' } },
   about: [{ '@type': 'Thing', name: 'Federal definition of hemp' }, { '@type': 'Legislation', name: 'Public Law 119-37, Division B, Section 781', url: SOURCES.pl11937.href }],

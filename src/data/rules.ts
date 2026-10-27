@@ -18,6 +18,14 @@ const day = (iso: string): Day => {
   return { iso, display: `${months[m - 1]} ${d}, ${y}` };
 };
 
+// Schema datetime with an explicit New York offset (Google flags dates without a time zone).
+export const schemaDate = (d: Day) => {
+  const noon = new Date(d.iso + 'T16:00:00Z');
+  const tz = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', timeZoneName: 'shortOffset' }).formatToParts(noon).find((p) => p.type === 'timeZoneName')?.value ?? 'GMT-5';
+  const h = Number(tz.replace('GMT', '')) || -5;
+  return `${d.iso}T12:00:00${h < 0 ? '-' : '+'}${String(Math.abs(h)).padStart(2, '0')}:00`;
+};
+
 export type Source = { label: string; href: string; date?: string };
 export type Status = 'in-effect' | 'pending' | 'starts' | 'changed';
 
