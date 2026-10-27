@@ -1,0 +1,61 @@
+{
+  "_comment": "Search-engine verification lock. Source: claude/phase-1-run-log.md (Prompt 1, read Oct 27, 2026). scripts/guard.mjs enforces every item marked enforcedByGuard. Never edit, move, rename, reformat or delete a protected item; add new items only, with the date and who approved them.",
+  "version": 1,
+  "createdAt": "2026-10-27",
+  "source": "claude/phase-1-run-log.md, Verification lock",
+  "site": "https://leverupliquidity.com",
+  "repoBaseline": { "repo": "leverupliquidity/Website-Live", "branch": "main", "commit": "d55d0cc0905584134bbf47b3fc06ebabcf305742" },
+
+  "dns": {
+    "_comment": "DNS lives at Porkbun. Code cannot change it; the guard does not check DNS. Never touch these records.",
+    "records": [
+      { "id": "gsc-dns-txt", "system": "Google Search Console (sc-domain:leverupliquidity.com)", "type": "TXT", "host": "leverupliquidity.com", "value": "google-site-verification=6Gu6lkCvy3R9R9VxdxXVusuflikdP5UXE3Im8devqvk", "note": "The only Search Console verification method in use. Bing is verified by import from this property, so it depends on this record too." },
+      { "id": "ms365-dns-txt", "system": "Microsoft 365 (not search)", "type": "TXT", "host": "leverupliquidity.com", "value": "MS=ms98818184" },
+      { "id": "spf", "system": "Email (not search)", "type": "TXT", "host": "leverupliquidity.com", "value": "v=spf1 include:spf.protection.outlook.com -all" },
+      { "id": "activeprospect-dns-txt", "system": "ActiveProspect / TrustedForm (not search)", "type": "TXT", "host": "leverupliquidity.com", "value": "activeprospect-domain-verification=fBfHFr2DePV3vbLltQpoqA==" },
+      { "id": "www-cname", "system": "Hosting", "type": "CNAME", "host": "www.leverupliquidity.com", "value": "leverupliquidity.netlify.app" }
+    ]
+  },
+
+  "metaTags": {
+    "_comment": "Exact meta strings that must stay in the head of the listed pages. None today: Search Console uses DNS, Bing uses import. Add an entry here if a tag is ever added.",
+    "required": [],
+    "absentAtLock": ["google-site-verification", "msvalidate.01", "facebook-domain-verification", "yandex-verification", "p:domain_verify"]
+  },
+
+  "files": [
+    { "id": "indexnow-key", "enforcedByGuard": true, "path": "e5af999b4e3e75bc8fe912f732b78da7.txt", "repoPath": "public/e5af999b4e3e75bc8fe912f732b78da7.txt", "bytes": 32, "sha256": "96a35f255a2633c1c3ed5aedb955919a910ad4addb9fa37251bfec0c7d8657d2", "contents": "e5af999b4e3e75bc8fe912f732b78da7", "url": "https://leverupliquidity.com/e5af999b4e3e75bc8fe912f732b78da7.txt" },
+    { "id": "robots", "enforcedByGuard": true, "path": "robots.txt", "repoPath": "public/robots.txt", "bytes": 472, "sha256": "80415c6ce3dbe827901d312d1c95c158818a4bfc17c370e24178cf9fe22c54e1", "url": "https://leverupliquidity.com/robots.txt", "note": "Crawler access. A deliberate robots.txt change must update this hash in the same commit, with Ryan's approval." }
+  ],
+
+  "indexnowConfig": { "path": "indexnow.config.mjs", "key": "e5af999b4e3e75bc8fe912f732b78da7", "endpoint": "https://api.indexnow.org/indexnow", "enforcedByGuard": true },
+
+  "protectedPaths": [
+    "/e5af999b4e3e75bc8fe912f732b78da7.txt",
+    "/robots.txt",
+    "/sitemap-index.xml",
+    "/sitemap-0.xml",
+    "/BingSiteAuth.xml",
+    "/google*.html",
+    "/.well-known/*"
+  ],
+
+  "sitemap": { "index": "sitemap-index.xml", "robotsLine": "Sitemap: https://leverupliquidity.com/sitemap-index.xml", "enforcedByGuard": true },
+
+  "crawlers": {
+    "_comment": "Must never be disallowed in robots.txt or blocked by a header, redirect, edge function or bot rule.",
+    "userAgents": ["Googlebot", "Bingbot", "OAI-SearchBot", "ChatGPT-User", "Claude-SearchBot", "Claude-User", "PerplexityBot"]
+  },
+
+  "analyticsNotVerification": {
+    "_comment": "Recorded so a deploy diff shows they didn't move. GA4 is not a Search Console verification method here.",
+    "ga4": "G-E4XKFJR8N3",
+    "clarity": "ytiqg1lcp5",
+    "umami": "a3e13b85-35fe-4b06-abcf-5b18e6c6130e"
+  },
+
+  "accounts": {
+    "searchConsole": { "property": "sc-domain:leverupliquidity.com", "method": "Domain name provider (DNS TXT)", "owner": "Ryan1rodriguez1889@gmail.com" },
+    "bing": { "site": "https://leverupliquidity.com/", "method": "Imported from GSC", "admin": "info@leverupliquidity.com" }
+  }
+}
