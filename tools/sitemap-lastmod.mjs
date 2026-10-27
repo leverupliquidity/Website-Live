@@ -25,6 +25,7 @@ const COMPONENT_DIRS = {
   industries: ['src/components/industries'],
   guides: ['src/components/guides'],
   apply: ['src/components/apply'],
+  rules: ['src/components/rules', 'src/data/rules.ts'],
 };
 
 function git(args) {

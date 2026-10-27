@@ -62,6 +62,7 @@ export const nav = {
   primary: [
     { label: 'Financing', href: '/financing', menu: 'financing' },
     { label: 'Industries', href: '/industries', menu: 'industries' },
+    { label: 'Rule changes', href: '/rules' },
     { label: 'How it works', href: '/how-it-works' },
     { label: 'Guides', href: '/guides' },
     { label: 'About', href: '/about' },

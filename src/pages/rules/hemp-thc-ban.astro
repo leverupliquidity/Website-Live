@@ -1,0 +1,241 @@
+---
+// Rule page: federal hemp THC ban (/rules/hemp-thc-ban). Problem-aware. Blueprint: strategy "Rule page".
+// All facts, dates and questions come from src/data/rules.ts.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/shared/Breadcrumb.astro';
+import Icon from '../../components/shared/Icon.astro';
+import StatusChip from '../../components/rules/StatusChip.astro';
+import UpdatedChip from '../../components/rules/UpdatedChip.astro';
+import SourceLinks from '../../components/rules/SourceLinks.astro';
+import TalkItThrough from '../../components/rules/TalkItThrough.astro';
+import { hemp, ryan, GENERAL_INFO, SOURCES } from '../../data/rules';
+import { site } from '../../data/site';
+
+const url = site.url + hemp.slug;
+const H1 = 'Hemp THC ban: what changes November 12 and December 11, 2026';
+
+// Worked example (problem dollars only).
+const { onHand, weekly } = hemp.impact.defaults;
+const start = new Date(hemp.impact.asOf.iso + 'T00:00:00Z');
+const end = new Date(hemp.impact.defaults.deadline + 'T00:00:00Z');
+const days = Math.round((end.getTime() - start.getTime()) / 86400000);
+const weeks = days / 7;
+const sold = Math.round(weekly * weeks);
+const left = Math.max(0, onHand - sold);
+const usd = (n: number) => '$' + n.toLocaleString('en-US');
+
+const article = {
+  '@context': 'https://schema.org', '@type': 'Article', '@id': url + '#article',
+  headline: H1,
+  description: hemp.answer,
+  mainEntityOfPage: url,
+  datePublished: hemp.published.iso,
+  dateModified: hemp.updated.iso,
+  author: { '@type': 'Person', name: ryan.name, jobTitle: ryan.jobTitle, url: site.url + '/about', sameAs: [ryan.linkedin] },
+  publisher: { '@type': 'Organization', '@id': site.url + '/#org', name: site.name, url: site.url, logo: { '@type': 'ImageObject', url: site.url + '/icon-512.png' } },
+  about: [{ '@type': 'Thing', name: 'Federal definition of hemp' }, { '@type': 'Legislation', name: 'Public Law 119-37, Division B, Section 781', url: SOURCES.pl11937.href }],
+  isAccessibleForFree: true,
+  inLanguage: 'en-US',
+};
+const faq = {
+  '@context': 'https://schema.org', '@type': 'FAQPage', '@id': url + '#faq',
+  mainEntity: hemp.questions.map((x) => ({ '@type': 'Question', name: x.q, acceptedAnswer: { '@type': 'Answer', text: x.a } })),
+};
+const qid = (i: number) => `q${i + 1}`;
+---
+<BaseLayout metaKey="/rules/hemp-thc-ban" ogType="article" lean jsonLd={[article, faq]}>
+  <Breadcrumb items={[{ label: 'Rule changes', href: '/rules' }, { label: 'Hemp THC ban' }]} />
+
+  <article class="rule" aria-labelledby="rule-h1">
+    <header class="rule-head section--paper">
+      <div class="container rule-head__inner">
+        <p class="rule-label"><Icon name="info" size={16} />{GENERAL_INFO} Ask your attorney or CPA about your own situation.</p>
+        <h1 class="h1" id="rule-h1">{H1}</h1>
+        <div class="rule-head__chips">
+          <StatusChip status={hemp.status} label={hemp.statusLabel} />
+          <UpdatedChip date={hemp.updated} />
+          {!hemp.review && <span class="review-chip"><Icon name="clock" size={16} />Attorney or CPA review pending</span>}
+        </div>
+        <dl class="rule-dates">
+          {hemp.dates.map((d) => (
+            <div class="rule-dates__row">
+              <dt><time datetime={d.date.iso}>{d.date.display}</time>{!d.firm && <span class="subject"> (subject to change)</span>}</dt>
+              <dd>{d.what}</dd>
+            </div>
+          ))}
+        </dl>
+        <div class="rule-head__meta">
+          <p class="byline">By <a href={ryan.linkedin} rel="noopener author" target="_blank">{ryan.name}<span class="visually-hidden"> on LinkedIn (opens in a new tab)</span></a>, {ryan.role}</p>
+          <p class="affects"><span class="affects__label">Who it hits:</span></p>
+          <ul class="tags" aria-label="Who it hits">{hemp.affects.map((a) => <li>{a}</li>)}</ul>
+        </div>
+      </div>
+    </header>
+
+    <section class="container block" aria-label="Short answer">
+      <div class="answer-box">
+        <p>{hemp.answer}</p>
+      </div>
+    </section>
+
+    <section class="container block" aria-labelledby="facts-h">
+      <h2 class="h2" id="facts-h">Key facts</h2>
+      <ol class="facts">
+        {hemp.facts.map((f) => (
+          <li class="fact">
+            <p>{f.text}</p>
+            <SourceLinks ids={f.sources} />
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="container block" aria-labelledby="impact-h">
+      <h2 class="h2" id="impact-h">What stock left on the shelf costs you</h2>
+      <p class="block__lede">A worked example in dollars of inventory, with every input shown. Swap in your own figures.</p>
+      <div class="impact">
+        <table class="impact__table">
+          <caption class="visually-hidden">Worked example inputs</caption>
+          <thead><tr><th scope="col">Input</th><th scope="col">Example</th><th scope="col">Where it comes from</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Affected hemp THC stock on hand on {hemp.impact.asOf.display}, at your cost</th><td>{usd(onHand)}</td><td>Example assumption</td></tr>
+            <tr><th scope="row">What you sell of that stock in a typical week, at your cost</th><td>{usd(weekly)}</td><td>Example assumption</td></tr>
+            <tr><th scope="row">Days from {hemp.impact.asOf.display} to December 11, 2026</th><td>{days} days, about {weeks.toFixed(1)} weeks</td><td>Calendar; date from H.R. 6500, Section 2019</td></tr>
+          </tbody>
+        </table>
+        <div class="impact__result" role="group" aria-labelledby="impact-result-h">
+          <p class="label" id="impact-result-h">Result</p>
+          <p class="impact__figure">About {usd(left)} of stock, at your cost, still on the shelf on December 11, 2026 in this example.</p>
+          <p class="impact__math">The math: {usd(onHand)} on hand minus {usd(weekly)} a week for {weeks.toFixed(1)} weeks ({usd(sold)} sold) leaves {usd(left)}.</p>
+        </div>
+        <div class="impact__notes">
+          <p class="label">Assumptions</p>
+          <ul>
+            <li>Sales of these SKUs hold at the example pace until the date, and no new stock of them arrives.</li>
+            <li>Dollars are at your cost, before any returns your vendors accept.</li>
+            <li>It uses December 11, 2026, which is subject to change. Products made with cannabinoids the plant can’t produce naturally face November 12, 2026, which leaves {Math.round((end.getTime() - Date.UTC(2026, 10, 12)) / 86400000)} fewer days.</li>
+            <li>The dollar inputs are example assumptions, not industry figures. Your own number: your affected stock at cost, minus your weekly sales of it at cost times the weeks left.</li>
+          </ul>
+          <SourceLinks ids={['pl11937', 'hr6500']} prefix="Date source" />
+        </div>
+      </div>
+    </section>
+
+    <section class="container block" aria-label="Questions owners ask">
+      {hemp.questions.map((x, i) => (
+        <div class="qa">
+          <h2 class="h2 qa__q" id={qid(i)}>{x.q}</h2>
+          <p class="qa__a">{x.a}</p>
+        </div>
+      ))}
+    </section>
+
+    <section class="container block" aria-labelledby="before-h">
+      <h2 class="h2" id="before-h">Before it hits</h2>
+      <ol class="checklist">
+        {hemp.checklist.map((c) => (
+          <li><span class="checklist__t">{c.t}</span><span class="checklist__d">{c.d}</span></li>
+        ))}
+      </ol>
+      <p class="block__more">See every rule we track, with dates and status, on <a href="/rules" class="link">cannabis rule changes</a>.</p>
+    </section>
+
+    <section class="container block" aria-labelledby="changelog-h">
+      <h2 class="h2" id="changelog-h">Changelog</h2>
+      <ol class="changelog" reversed>
+        {[...hemp.changelog].reverse().map((c) => (
+          <li><time datetime={c.date.iso}>{c.date.display}</time><span>{c.text}</span></li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="container block" aria-labelledby="review-h">
+      <h2 class="h3" id="review-h">Review</h2>
+      {hemp.review ? (
+        <p class="review">Written by {ryan.name}. Reviewed by {hemp.review.reviewer}, {hemp.review.credential}, on <time datetime={hemp.review.date.iso}>{hemp.review.date.display}</time>.</p>
+      ) : (
+        <p class="review"><span class="review-chip"><Icon name="clock" size={16} />Review pending</span> Written by {ryan.name}. An attorney or CPA has not reviewed this page yet.</p>
+      )}
+    </section>
+  </article>
+
+  <TalkItThrough id="talk-h" heading="Want to talk through your shelf?" lede="Call or text Ryan to work out what this rule means for the stock you hold and the cash tied up in it." />
+
+  <nav class="container block related" aria-labelledby="related-h">
+    <h2 class="h3" id="related-h">Related</h2>
+    <ul>
+      <li><a href="/rules" class="link">Cannabis rule changes: every rule we track, by date</a></li>
+    </ul>
+  </nav>
+</BaseLayout>
+
+<style>
+  .rule-head { padding-block: 24px 32px; }
+  .rule-head__inner { display: grid; gap: 16px; }
+  .rule-label { display: inline-flex; align-items: flex-start; gap: 8px; font-size: 13px; line-height: 20px; font-weight: 600; color: var(--text-primary); background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius); padding: 8px 12px; }
+  .rule-label :global(.icon) { flex: none; margin-top: 2px; color: var(--text-brand); }
+  .rule-head__chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .review-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; border: 1.5px dashed var(--border-strong); background: var(--bg-surface); font-size: 13px; line-height: 20px; font-weight: 600; color: var(--text-heading); white-space: nowrap; }
+  .rule-dates { display: grid; gap: 12px; margin: 0; }
+  .rule-dates__row { display: grid; gap: 2px; padding: 12px 16px; background: var(--bg-surface); border-left: 4px solid var(--border-brand); border-radius: var(--radius); }
+  .rule-dates dt { font-weight: 700; color: var(--text-heading); font-size: 17px; line-height: 28px; }
+  .rule-dates .subject { font-weight: 600; color: var(--text-primary); }
+  .rule-dates dd { margin: 0; font-size: 15px; line-height: 24px; }
+  .rule-head__meta { display: grid; gap: 8px; }
+  .byline { font-size: 15px; line-height: 24px; }
+  .byline a { color: var(--text-link); font-weight: 600; }
+  .affects__label { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+  .tags li { font-size: 13px; line-height: 20px; padding: 4px 10px; border-radius: var(--radius-sm); background: var(--bg-brand-subtle); color: var(--text-heading); font-weight: 600; }
+
+  .block { padding-block: 32px 0; }
+  .block .h2 { margin-bottom: 16px; }
+  .block__lede, .block__more { font-size: 17px; line-height: 28px; margin-bottom: 16px; }
+  .block__more { margin-top: 16px; }
+
+  .answer-box { border: 2px solid var(--border-brand); border-radius: var(--radius); padding: 20px; background: var(--bg-surface); }
+  .answer-box p { font-family: var(--font-serif); font-size: 20px; line-height: 30px; color: var(--text-heading); }
+
+  .facts { display: grid; gap: 16px; padding-left: 24px; margin: 0; }
+  .fact p { font-size: 17px; line-height: 28px; }
+
+  .impact { display: grid; gap: 20px; }
+  .impact__table { width: 100%; border-collapse: collapse; font-size: 15px; line-height: 24px; display: block; overflow-x: auto; }
+  .impact__table th, .impact__table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border-default); vertical-align: top; }
+  .impact__table thead th { font-size: 13px; color: var(--text-secondary); }
+  .impact__table tbody th { font-weight: 500; min-width: 180px; }
+  .impact__table td:nth-child(2) { font-weight: 700; white-space: nowrap; color: var(--text-heading); }
+  .impact__result { padding: 20px; background: var(--bg-brand); color: #fff; border-radius: var(--radius); display: grid; gap: 8px; }
+  .impact__result .label { color: var(--text-on-brand-accent); }
+  .impact__figure { font-family: var(--font-serif); font-size: 24px; line-height: 32px; font-weight: 600; }
+  .impact__math { font-size: 15px; line-height: 24px; color: var(--text-on-brand); }
+  .impact__notes ul { padding-left: 20px; margin: 8px 0 0; display: grid; gap: 6px; font-size: 15px; line-height: 24px; }
+
+  .qa { padding-top: 24px; }
+  .qa:first-child { padding-top: 0; }
+  .qa__q { margin-bottom: 8px !important; }
+  .qa__a { font-size: 17px; line-height: 28px; max-width: 70ch; }
+
+  .checklist { display: grid; gap: 12px; padding-left: 24px; margin: 0; }
+  .checklist li { display: grid; gap: 2px; font-size: 17px; line-height: 28px; }
+  .checklist__t { font-weight: 700; color: var(--text-heading); }
+
+  .changelog { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  .changelog li { display: grid; gap: 2px; padding-left: 16px; border-left: 3px solid var(--border-default); font-size: 15px; line-height: 24px; }
+  .changelog time { font-weight: 700; color: var(--text-heading); }
+  .review { font-size: 15px; line-height: 24px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+  .related { padding-bottom: 48px; }
+  .related ul { list-style: none; padding: 0; margin: 12px 0 0; }
+  .related a { display: inline-flex; align-items: center; min-height: 44px; font-size: 17px; }
+  .rule :global(.link), .block__more a { font-weight: 600; }
+
+  @media (min-width: 1024px) {
+    .rule-head { padding-block: 48px 48px; }
+    .rule-head__inner, .block > *, .related > * { max-width: 820px; }
+    .h1 { font-size: 48px; line-height: 56px; }
+    .rule-dates { grid-template-columns: 1fr 1fr; }
+    .block { padding-block: 56px 0; }
+    .impact__table { display: table; }
+  }
+</style>

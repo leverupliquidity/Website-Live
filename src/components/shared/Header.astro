@@ -9,8 +9,9 @@ import { site, nav } from '../../data/site';
 import { products } from '../../data/products';
 import { cleanPath } from '../../data/path';
 
-interface Props { variant?: 'default' | 'apply'; current?: string }
-const { variant = 'default' } = Astro.props;
+// lean: no product menus (used on /rules/**, where the guard blocks product-menu words).
+interface Props { variant?: 'default' | 'apply'; current?: string; lean?: boolean }
+const { variant = 'default', lean = false } = Astro.props;
 const path = cleanPath(Astro.url.pathname);
 const isActive = (href: string) => path === href || path.startsWith(href + '/');
 ---
@@ -32,7 +33,7 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
           <ul role="list" class="main-nav__list">
             {nav.primary.map((item) => (
               <li class="main-nav__item">
-                {item.menu ? (
+                {item.menu && !lean ? (
                   <button
                     type="button" class:list={['main-nav__link', { 'is-active': isActive(item.href) }]}
                     aria-expanded="false" aria-controls={`menu-${item.menu}`} data-menu-toggle
@@ -66,6 +67,7 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
 
   {variant !== 'apply' && (
     <>
+      {!lean && (<>
       <!-- Financing mega menu (desktop) -->
       <div class="mega" id="menu-financing" hidden data-menu>
         <div class="container">
@@ -103,11 +105,15 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
           <div class="mega__foot"><a href="/industries" class="link">See all industries</a></div>
         </div>
       </div>
+      </>)}
 
       <!-- Mobile menu -->
       <div class="mobile-menu" id="mobile-menu" hidden data-mobile-menu>
         <nav aria-label="Main" class="container">
           <ul role="list" class="mobile-menu__list">
+            {lean ? (
+            <li class="mobile-menu__item"><a href="/financing" class="mobile-menu__link">Financing</a></li>
+            ) : (
             <li class="mobile-menu__item">
               <button type="button" class="mobile-menu__toggle" aria-expanded="true" aria-controls="mm-financing" data-acc>
                 Financing <Icon name="plus" class="icon-plus" /><Icon name="minus" class="icon-minus" />
@@ -126,6 +132,7 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
                 <a href="/financing" class="link link--17">See all four</a>
               </div>
             </li>
+            )}
             <li class="mobile-menu__item">
               <button type="button" class="mobile-menu__toggle" aria-expanded="false" aria-controls="mm-industries" data-acc>
                 Industries <Icon name="plus" class="icon-plus" /><Icon name="minus" class="icon-minus" />
@@ -137,6 +144,7 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
                 </ul>
               </div>
             </li>
+            <li class="mobile-menu__item"><a href="/rules" class="mobile-menu__link" aria-current={isActive('/rules') ? 'page' : undefined}>Rule changes</a></li>
             <li class="mobile-menu__item"><a href="/how-it-works" class="mobile-menu__link">How it works</a></li>
             <li class="mobile-menu__item"><a href="/guides" class="mobile-menu__link">Guides</a></li>
             <li class="mobile-menu__item"><a href="/about" class="mobile-menu__link">About</a></li>

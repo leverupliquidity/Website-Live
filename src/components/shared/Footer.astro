@@ -4,8 +4,9 @@ import { Image } from 'astro:assets';
 import logoStack from '../../assets/logos/logo-secondary-reverse.png';
 import { site, SHOW_TERMS } from '../../data/site';
 import Icon from './Icon.astro';
-interface Props { variant?: 'site' | 'minimal' }
-const { variant = 'site' } = Astro.props;
+// lean: the Financing column keeps only the overview link (used on /rules/**, where the guard blocks product-menu words).
+interface Props { variant?: 'site' | 'minimal'; lean?: boolean }
+const { variant = 'site', lean = false } = Astro.props;
 const legal = [
   { label: 'Privacy', href: '/privacy' },
   ...(SHOW_TERMS ? [{ label: 'Terms', href: '/terms' }] : []),
@@ -13,11 +14,11 @@ const legal = [
 ];
 const linkedin = site.social.linkedin || 'https://www.linkedin.com/';
 const cols = [
-  { h: 'Financing', links: [
+  { h: 'Financing', links: lean ? [['Financing overview', '/financing']] : [
     ['Lines of credit', '/financing/lines-of-credit'], ['Equipment financing', '/financing/equipment-financing'],
     ['Term loans', '/financing/term-loans'], ['Merchant cash advance', '/financing/merchant-cash-advance'], ['Financing overview', '/financing'] ] },
   { h: 'Company', links: [['About', '/about'], ['How it works', '/how-it-works'], ['FAQ', '/faq'], ['Contact', '/contact']] },
-  { h: 'Resources', links: [['Guides', '/guides'], ['Industries', '/industries']] },
+  { h: 'Resources', links: [['Rule changes', '/rules'], ['Guides', '/guides'], ['Industries', '/industries']] },
 ];
 ---
 {variant === 'minimal' ? (

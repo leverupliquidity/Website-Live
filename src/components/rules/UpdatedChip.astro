@@ -1,0 +1,14 @@
+---
+// UpdatedChip: the date here must equal the page's dateModified.
+import type { Day } from '../../data/rules';
+interface Props { date: Day; label?: string }
+const { date, label = 'Updated' } = Astro.props;
+---
+<span class="updated-chip">{label} <time datetime={date.iso}>{date.display}</time></span>
+<style>
+  .updated-chip {
+    display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 999px;
+    background: var(--bg-surface); border: 1px solid var(--border-default);
+    font-size: 13px; line-height: 20px; font-weight: 600; color: var(--text-secondary); white-space: nowrap;
+  }
+</style>

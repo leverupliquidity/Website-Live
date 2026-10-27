@@ -86,6 +86,16 @@ export const meta: Record<string, Meta> = {
     description:
       'Straight answers on eligibility and privacy before you apply for cannabis business financing.',
   },
+  '/rules': {
+    title: 'Cannabis Rule Changes: Dates and Status | Leverup Liquidity',
+    description:
+      "Cannabis rule changes by date and status: the federal hemp THC ban, Michigan's wholesale marijuana tax and marijuana rescheduling, with primary sources.",
+  },
+  '/rules/hemp-thc-ban': {
+    title: 'Hemp THC Ban: What Changes Nov 12 and Dec 11, 2026 | Leverup',
+    description:
+      'Under Public Law 119-37, the hemp THC ban starts November 12, 2026, and the 0.4 mg per-container cap follows December 11, subject to change.',
+  },
   '/guides': {
     title: 'Cannabis Financing Guides | Leverup Liquidity',
     description:
