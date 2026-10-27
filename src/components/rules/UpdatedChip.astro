@@ -4,7 +4,7 @@ import type { Day } from '../../data/rules';
 interface Props { date: Day; label?: string }
 const { date, label = 'Updated' } = Astro.props;
 ---
-<span class="updated-chip">{label} <time datetime={date.iso}>{date.display}</time></span>
+<span class="updated-chip">{label}&nbsp;<time datetime={date.iso}>{date.display}</time></span>
 <style>
   .updated-chip {
     display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 999px;
