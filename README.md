@@ -6,7 +6,7 @@ Astro static site, hosted on Netlify (build: `npm run build`, publish `dist/`).
 - Page titles and descriptions: `src/data/meta.ts`
 - FAQ answers: `src/data/faq.ts`
 - Form consent wording: `src/data/consent.ts`
-- Guide article text: `src/content/guides/factor-rate-vs-apr.md`
+- Guide article text: one Markdown file per guide in `src/content/guides/` (none live; /guides/factor-rate-vs-apr was retired Oct 2026 and 301s to /guides)
 - Developer conventions: `BUILD-GUIDE.md`
 
 Local: `npm install`, then `npm run dev`.

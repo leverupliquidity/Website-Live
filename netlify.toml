@@ -33,6 +33,19 @@
   status = 301
   force = true
 
+# Retired Oct 2026 (Phase 1 purge): deal-mechanics guide. Exact paths only, one hop to /guides.
+[[redirects]]
+  from = "/guides/factor-rate-vs-apr"
+  to = "/guides"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/guides/factor-rate-vs-apr/"
+  to = "/guides"
+  status = 301
+  force = true
+
 
 [[headers]]
   for = "/*"
