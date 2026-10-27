@@ -54,12 +54,12 @@ const faqItems = faqs[ind.key];
           <h2 class="h2" id="ind-fit-h">{ind.fit.h2}</h2>
           <p class="lede ind-lede">{ind.fit.lede}</p>
         </div>
-        <div class="section-head__action desktop-only"><a class="link" href="/financing">Compare financing</a></div>
+        <div class="section-head__action desktop-only"><a class="link" href="/financing">Financing overview</a></div>
       </div>
       <ul role="list" class="grid grid--4 swipe ind-fit__grid">
         {ind.fit.cards.map((c) => <li><FitCard {...c} /></li>)}
       </ul>
-      <p class="ind-fit__more mobile-only"><a class="link" href="/financing">Compare financing</a></p>
+      <p class="ind-fit__more mobile-only"><a class="link" href="/financing">Financing overview</a></p>
     </div>
   </section>
 

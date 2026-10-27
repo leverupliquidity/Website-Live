@@ -11,7 +11,7 @@ import tileProc from '../../assets/images/31-industries-panel-processing.jpg';
 
 export type IndustryKey = 'dispensaries' | 'cultivation' | 'processing';
 
-export interface FitCard { product: ProductKey; name: string; amount: string; term: string; blurb: string }
+export interface FitCard { product: ProductKey; name: string; blurb: string }
 export interface Industry {
   key: IndustryKey;
   label: string;
@@ -27,10 +27,10 @@ export interface Industry {
   hub: { body: string; link: string; image: ImageMetadata; imageAlt: string };
 }
 
-const LOC = (blurb: string): FitCard => ({ product: 'loc', name: 'Lines of credit', amount: '$5K–$1M', term: '6–24 months', blurb });
-const MCA = (blurb: string): FitCard => ({ product: 'mca', name: 'Cash advance', amount: '$5K–$1M', term: '6–18 months', blurb });
-const EQUIP = (blurb: string): FitCard => ({ product: 'equipment', name: 'Equipment', amount: '$10K–$5M', term: '24–60 months', blurb });
-const TERM = (blurb: string): FitCard => ({ product: 'term', name: 'Term loans', amount: '$50K–$5M', term: '12–60 months', blurb });
+const LOC = (blurb: string): FitCard => ({ product: 'loc', name: 'Lines of credit', blurb });
+const MCA = (blurb: string): FitCard => ({ product: 'mca', name: 'Cash advance', blurb });
+const EQUIP = (blurb: string): FitCard => ({ product: 'equipment', name: 'Equipment', blurb });
+const TERM = (blurb: string): FitCard => ({ product: 'term', name: 'Term loans', blurb });
 
 export const industries: Record<IndustryKey, Industry> = {
   dispensaries: {
@@ -66,7 +66,7 @@ export const industries: Record<IndustryKey, Industry> = {
         { icon: 'ledger', title: 'Tax bills', body: 'Plan for them instead of scrambling' },
       ],
     },
-    close: { h2: 'Keep the shelves full without waiting on a bank.', lede: 'Five minutes to apply. No obligation to sign.' },
+    close: { h2: 'Keep the shelves full without waiting on a bank.', lede: 'No obligation to sign.' },
     hub: {
       body: "Vendors want cash on delivery, and your best sellers can't sit out of stock. Running light on top SKUs before Green Wednesday costs sales you won't get back. A line of credit or short-term capital keeps the shelves full.",
       link: 'See dispensary financing',
@@ -107,7 +107,7 @@ export const industries: Record<IndustryKey, Industry> = {
         { icon: 'ledger', title: 'Tax bills', body: 'Plan for them, not around them' },
       ],
     },
-    close: { h2: 'Fund the next run before this one sells.', lede: 'Five minutes to apply. No obligation to sign.' },
+    close: { h2: 'Fund the next run before this one sells.', lede: 'No obligation to sign.' },
     hub: {
       body: 'Harvest pays once. Power, nutrients and payroll come every month. Equipment financing and term loans spread lights, HVAC and build-outs over the years they earn, so harvest cash goes back into the next run.',
       link: 'See grow financing',
@@ -148,9 +148,9 @@ export const industries: Record<IndustryKey, Industry> = {
         { icon: 'building', title: 'Expansion', body: 'A second line or suite' },
       ],
     },
-    close: { h2: 'Keep orders moving while retailers pay.', lede: 'Five minutes to apply. No obligation to sign.' },
+    close: { h2: 'Keep orders moving while retailers pay.', lede: 'No obligation to sign.' },
     hub: {
-      body: "Retailers pay on terms, and biomass doesn't wait. Extraction gear and packaging lines cost real money up front. Equipment financing and term loans cover the build, so cash covers inputs for orders already booked.",
+      body: "Retailers pay on terms, and biomass doesn't wait. Extraction gear and packaging lines cost real money. Equipment financing and term loans cover the build, so cash covers inputs for orders already booked.",
       link: 'See processor financing',
       image: tileProc,
       imageAlt: 'Glass laboratory beakers lit against a dark background',
