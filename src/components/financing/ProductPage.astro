@@ -2,8 +2,6 @@
 // Shared template for the four product pages (/financing/<product>).
 // All copy comes from productContent.ts (verbatim from the Figma copy deck).
 import Breadcrumb from '../shared/Breadcrumb.astro';
-import KeyFigures from '../shared/KeyFigures.astro';
-import CostsTable from '../shared/CostsTable.astro';
 import FaqList from '../shared/FaqList.astro';
 import ProductCard from '../shared/ProductCard.astro';
 import ClosingCTA from '../shared/ClosingCTA.astro';
@@ -39,9 +37,6 @@ const others = products.filter((x) => x.key !== product).map((x) => x.key);
         {S.heroChecks.map((t) => <li><Icon name="check-circle" size={20} />{t}</li>)}
       </ul>
     </div>
-    <div class="pp-hero__panel">
-      <KeyFigures rows={c.keyFigures} linkLabel={S.keyFiguresLink} />
-    </div>
   </div>
 </section>
 
@@ -62,10 +57,10 @@ const others = products.filter((x) => x.key !== product).map((x) => x.key);
 
 <section class="section section--paper pp-how" aria-labelledby="pp-how-h">
   <div class="container">
-    <SectionHead id="pp-how-h" title={S.howTitle} lede={S.howLede}>
+    <SectionHead id="pp-how-h" title={S.howTitle}>
       <a slot="action" href="/how-it-works" class="link pp-desk">{S.howLink}</a>
     </SectionHead>
-    <ol class="pp-steps" role="list">
+    <ol class="pp-steps" role="list" style={`--pp-steps: ${c.steps.length}`}>
       {c.steps.map((s, i) => (
         <li class="pp-step">
           <div class="pp-step__num" aria-hidden="true"><span>{String(i + 1).padStart(2, '0')}</span></div>
@@ -77,16 +72,6 @@ const others = products.filter((x) => x.key !== product).map((x) => x.key);
       ))}
     </ol>
     <a href="/how-it-works" class="link pp-mob pp-after-link">{S.howLink}</a>
-  </div>
-</section>
-
-<section class="section section--white pp-costs" id="costs" aria-labelledby="pp-costs-h">
-  <div class="container pp-costs__grid">
-    <div class="pp-costs__head">
-      <h2 class="h2" id="pp-costs-h" set:html={S.costsTitle} />
-      <p class="lede">{S.costsLede}</p>
-    </div>
-    <CostsTable rows={c.costs} caption={`${p.name}: costs and terms`} />
   </div>
 </section>
 
@@ -138,10 +123,6 @@ const others = products.filter((x) => x.key !== product).map((x) => x.key);
   .pp-hero__call, .pp-hero__checks { display: none; }
   .pp-hero__checks li { font-size: 17px; line-height: 28px; }
   .pp-hero__checks :global(.icon) { margin-top: 4px; }
-  /* Long key-figure values ("Weekly, bi-weekly or monthly") wrap instead of overflowing */
-  .pp-hero__panel :global(.key-figures__row) { align-items: baseline; }
-  .pp-hero__panel :global(.key-figures__row dt) { flex: none; }
-  .pp-hero__panel :global(.key-figures__row dd) { min-width: 0; overflow-wrap: anywhere; font-weight: 500; }
 
   @media (min-width: 768px) {
     .pp-hero { padding-block: 56px 64px; }
@@ -151,13 +132,12 @@ const others = products.filter((x) => x.key !== product).map((x) => x.key);
   }
   @media (min-width: 1024px) {
     .pp-hero { padding-block: 64px 80px; }
-    .pp-hero__grid { grid-template-columns: minmax(0, 1fr) clamp(340px, 40%, 515px); gap: 64px; align-items: start; }
+    .pp-hero__grid { max-width: 760px; }
     .pp-hero__text { gap: 0; }
     .pp-hero__text .lede { margin-top: 20px; }
     .pp-hero__cta { margin-top: 28px; }
     .pp-hero__call { margin-top: 28px; }
     .pp-hero__checks { margin-top: 40px; }
-    .pp-hero__panel :global(.key-figures__row dd) { font-weight: 600; }
   }
 
   /* Full-width photo band: 3:2 on phones, 8:3 from tablet up */
@@ -197,27 +177,11 @@ const others = products.filter((x) => x.key !== product).map((x) => x.key);
   @media (min-width: 1024px) {
     .pp-desk { display: inline; }
     .pp-mob { display: none; }
-    .pp-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+    .pp-steps { grid-template-columns: repeat(var(--pp-steps, 3), minmax(0, 1fr)); gap: 32px; }
     .pp-step { grid-template-columns: 1fr; gap: 24px; }
     .pp-step__num::after { content: ''; flex: 1; height: 1px; margin-left: 16px; background: var(--border-default); }
     .pp-step__title { margin-bottom: 16px; }
   }
-
-  /* Costs */
-  .pp-costs__grid { display: grid; gap: 32px; }
-  .pp-costs__head { display: grid; gap: 12px; align-content: start; }
-  @media (min-width: 1024px) {
-    .pp-costs__grid { grid-template-columns: minmax(0, 0.64fr) minmax(0, 1fr); gap: 64px; }
-    .pp-costs__head { gap: 24px; padding-top: 8px; }
-    .pp-costs__head .h2 { max-width: 300px; }
-    .pp-costs__head .lede { max-width: 410px; }
-    .pp-costs__grid :global(.costs-table) { table-layout: fixed; }
-    .pp-costs__grid :global(.costs-table th:nth-child(1)) { width: 34%; }
-    .pp-costs__grid :global(.costs-table th:nth-child(2)) { width: 33%; }
-  }
-
-  /* Column headers all 13px (global .when rule also enlarges the header cell) */
-  @media (min-width: 768px) { .pp-costs__grid :global(.costs-table th.when) { font-size: 13px; } }
 
   /* Fit cards */
   .pp-fit__grid { display: grid; gap: 24px; }
