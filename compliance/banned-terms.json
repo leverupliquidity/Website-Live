@@ -42,7 +42,8 @@
       "Biomass, testing fees and packaging for big orders.",
       "Buy at the right price",
       "your best sellers can't sit out of stock",
-      "state license fees"
+      "state license fees",
+      "Last 3 to 6 months of bank statements"
     ]
   },
   "tiers": {
@@ -91,11 +92,12 @@
         {
           "id": "B-AMT-NEAR",
           "category": "Financing amounts",
-          "pattern": "(?:\\$\\s?\\d[\\d,.]*[^.$]{0,40}\\b(?:loans?|lines? of credit|advances?|financing|funding|funded|capital|credit lines?)\\b|\\b(?:loans?|lines? of credit|advances?|financing|funding|funded|capital)\\b[^.$]{0,40}\\$\\s?\\d)",
+          "pattern": "(?:\\$\\s?\\d[\\d,.]*[^.$]{0,40}\\b(?:loans?|lines? of credit|advances?|financing|funding|funded|capital|credit lines?|buyout|down payments?|lease)\\b|\\b(?:loans?|lines? of credit|advances?|financing|funding|funded|capital|buyout|down payments?|lease)\\b[^.$]{0,40}\\$\\s?\\d)",
           "match": [
             "$250,000 in funding",
             "financing from $10,000",
-            "we funded $2 million"
+            "we funded $2 million",
+            "With a $1 buyout lease"
           ],
           "noMatch": [
             "a $45,000 tax bill due April 15"
@@ -104,7 +106,7 @@
         {
           "id": "B-TERM-RANGE",
           "category": "Durations tied to financing",
-          "pattern": "\\b\\d+\\s?(?:–|—|-|to)\\s?\\d+\\s?(?:months?|mos?\\.?|years?|yrs?|weeks?)\\b",
+          "pattern": "\\b\\d+\\s?(?:–|—|-|to)\\s?\\d+\\s?(?:months?|mos?\\.?|years?|yrs?|weeks?)\\b(?! of (?:bank statements|statements|sales|deposits|history|records))",
           "match": [
             "6–24 months",
             "12 to 60 months",
@@ -238,14 +240,15 @@
         {
           "id": "B-TRANSPARENCY",
           "category": "Cost-transparency promises",
-          "pattern": "\\b(?:every (?:fee|cost|charge|number|dollar)|all (?:the )?(?:terms|fees|costs)(?: (?:up ?front|upfront|first))?|full cost|true cost|real cost|all-in cost|no hidden (?:fees|costs|charges)|nothing hidden|no surprises?|(?:shown|show|see|know) (?:it )?(?:all )?(?:up ?front|upfront|first)|up ?front|upfront|line by line|before you sign|real numbers|real offers?)\\b",
+          "pattern": "\\b(?:every (?:fee|cost|charge|number|dollar)|all (?:the )?(?:terms|fees|costs)(?: (?:up ?front|upfront|first))?|full cost|true cost|real cost|all-in cost|no hidden (?:fees|costs|charges)|nothing hidden|no surprises?|(?:shown|show|see|know) (?:it )?(?:all )?(?:up ?front|upfront|first)|up ?front|upfront|line by line|before you sign|real numbers|costs? and terms|real offers?)\\b",
           "match": [
             "every fee shown first",
             "all terms up front",
             "Full cost up front",
             "no hidden fees",
             "See every fee before you sign",
-            "real offers"
+            "real offers",
+            "See costs and terms"
           ],
           "noMatch": [
             "Updated October 27, 2026"
@@ -254,13 +257,14 @@
         {
           "id": "B-COMPARE",
           "category": "Cost comparisons",
-          "pattern": "\\b(?:total (?:cost|payback|repayment|amount repaid)|side[\\s-]by[\\s-]side|compare (?:[a-z]+ ){0,2}(?:offers?|quotes?|costs?|terms|options|financing|lenders?)|comparison (?:table|chart)|cheaper|cheapest|most affordable|lowest)\\b",
+          "pattern": "\\b(?:total (?:cost|payback|repayment|amount repaid)|side[\\s-]by[\\s-]side|compare (?:[a-z]+ ){0,2}(?:offers?|quotes?|costs?|terms|options|financing|lenders?)|compare all\\b|comparison (?:table|chart)|cheaper|cheapest|most affordable|lowest)\\b",
           "match": [
             "total cost",
             "total payback",
             "side by side",
             "compare offers",
-            "Compare Cannabis Financing Options"
+            "Compare Cannabis Financing Options",
+            "Compare all four"
           ],
           "noMatch": [
             "Schedule III"
@@ -269,14 +273,16 @@
         {
           "id": "B-SPEED",
           "category": "Speed claims",
-          "pattern": "\\b(?:in (?:about |under |less than |as little as |just )?(?:\\d+|one|two|three|five|ten|fifteen) (?:minutes?|mins?|hours?)|within (?:\\d+|one|two|24|48|72) (?:business )?(?:hours?|days?)|\\d+\\s?(?:–|—|-|to)\\s?\\d+ (?:business )?days|same[\\s-]day|next[\\s-]day|overnight|fast(?:er|est)?|quick(?:ly|er|est)?(?!\\s+(?:actions?|links?|menu|nav))|rapid(?:ly)?|instant(?:ly)?|speedy|speed|how fast|how quickly|how long (?:until|before) (?:you get|funding|the money)|as fast as|as soon as tomorrow)\\b",
+          "pattern": "\\b(?:in (?:about |under |less than |as little as |just )?(?:\\d+|one|two|three|five|ten|fifteen) (?:minutes?|mins?|hours?)|within (?:\\d+|one|two|24|48|72) (?:business )?(?:hours?|days?)|\\d+\\s?(?:–|—|-|to)\\s?\\d+ (?:business )?(?:hours?|days)|within (?:the|an|one|the same) (?:hour|day)|same[\\s-]day|next[\\s-]day|overnight|fast(?:er|est)?|quick(?:ly|er|est)?(?!\\s+(?:actions?|links?|menu|nav))|rapid(?:ly)?|instant(?:ly)?|speedy|speed|how fast|how quickly|how long (?:until|before) (?:you get|funding|the money)|as fast as|as soon as tomorrow)\\b",
           "match": [
             "in 5 minutes",
             "same-day",
             "fast funding",
             "how fast",
             "1–3 days",
-            "within 24 hours"
+            "within 24 hours",
+            "funds land within 2–12 hours",
+            "We review your file within the hour"
           ],
           "noMatch": [
             "Updated October 27, 2026"
@@ -285,26 +291,32 @@
         {
           "id": "B-SPEED-MIN",
           "category": "Speed claims",
-          "pattern": "\\b(?:about|under|only|just|takes?|takes about) (?:\\d+|one|two|three|five|ten|fifteen) minutes?\\b",
+          "pattern": "\\b(?:about|under|only|just|takes?|takes about|in) (?:\\d+|one|two|three|four|five|ten|fifteen|twenty) minutes?\\b|\\b(?:\\d+|one|two|three|four|five|ten|fifteen|twenty) minutes?\\b(?=[^.]{0,40}\\b(?:apply|applying|start|tell|takes?|now|find out|qualify|application)\\b)|\\bminutes? to (?:apply|start)\\b|(?:·|:)\\s*(?:\\d+|one|two|three|four|five|ten|fifteen|twenty) (?:minutes?|hours?|days?)\\b",
           "match": [
             "about five minutes",
-            "takes 5 minutes"
+            "takes 5 minutes",
+            "Five minutes to apply.",
+            "Five minutes is all it takes to find out.",
+            "Five minutes now, documents later.",
+            "Step 01 · 5 minutes"
           ],
           "noMatch": []
         },
         {
           "id": "B-APPROVAL",
           "category": "Approval, guarantee and secure claims",
-          "pattern": "\\b(?:approv(?:e|ed|es|al|als|ing)|pre-?approv\\w*|pre-?qualif\\w*|guarantee(?:d|s)?|guaranteed|we (?:secure|get you|find you|will get you)|secure (?:your )?(?:funding|financing|capital|a loan)|what you qualify for|you(?:'ll)? qualify|qualif(?:y|ies|ied) for|get funded|funding decisions?|eligib(?:le|ility) for (?:funding|financing|a loan))\\b",
+          "pattern": "\\b(?:pre-?approv\\w*|pre-?qualif\\w*|get(?:ting)? approved|be approved|approval (?:odds|rates?|in|within)|(?:fast|quick|easy|instant|guaranteed|high|same-day) approvals?|approved (?:in|within|today|fast)|we approve|approves? (?:most|every|all)|guarantee(?:d|s)?|we (?:secure|get you|find you|will get you)|secure (?:your )?(?:funding|financing|capital|a loan)|what you qualify for|you(?:'ll)? qualify|qualif(?:y|ies|ied) for|get funded|funding decisions?|eligib(?:le|ility) for (?:funding|financing|a loan))\\b",
           "match": [
             "fast approval",
             "guaranteed",
             "we secure funding",
             "See what you qualify for",
-            "get funded"
+            "get funded",
+            "get approved in 24 hours"
           ],
           "noMatch": [
-            "Schedule III"
+            "files go only to lenders you approve",
+            "What if nobody approves me?"
           ]
         },
         {
@@ -440,6 +452,94 @@
         "*"
       ],
       "reason": "Carrier-required SMS disclosure inside the counsel-owned consent text on forms (out of scope for this purge)."
+    },
+    {
+      "id": "A-002",
+      "claimId": "LV-F01",
+      "termIds": [
+        "B-COST-FIG"
+      ],
+      "phrase": "Payment amount",
+      "pages": [
+        "/apply"
+      ],
+      "reason": "Form field label in the Existing Funding section: asks about the owner's current obligations. Data collection, not a claim."
+    },
+    {
+      "id": "A-003",
+      "claimId": "LV-F02",
+      "termIds": [
+        "B-CREDIT"
+      ],
+      "phrase": "Estimated Credit Score",
+      "pages": [
+        "/apply"
+      ],
+      "reason": "Form field label (self-reported). Data collection, not a credit-impact claim."
+    },
+    {
+      "id": "A-004",
+      "claimId": "LV-L02",
+      "termIds": [
+        "B-CREDIT"
+      ],
+      "phrase": "consumer credit reports and credit scores",
+      "pages": [
+        "/apply"
+      ],
+      "reason": "Credit Authorization text at submit: counsel's legal layer, out of scope for this purge."
+    },
+    {
+      "id": "A-005",
+      "claimId": "LV-F03",
+      "termIds": [
+        "B-AMT-SHORT",
+        "B-AMT-RANGE"
+      ],
+      "phrase": "Under $50K",
+      "pages": [
+        "/financing"
+      ],
+      "reason": "Fit finder answer chip: the owner's monthly revenue band, not a financing amount."
+    },
+    {
+      "id": "A-006",
+      "claimId": "LV-F03",
+      "termIds": [
+        "B-AMT-SHORT",
+        "B-AMT-RANGE"
+      ],
+      "phrase": "$50K to $150K",
+      "pages": [
+        "/financing"
+      ],
+      "reason": "Fit finder answer chip: the owner's monthly revenue band, not a financing amount."
+    },
+    {
+      "id": "A-007",
+      "claimId": "LV-F03",
+      "termIds": [
+        "B-AMT-SHORT",
+        "B-AMT-RANGE"
+      ],
+      "phrase": "$150K to $500K",
+      "pages": [
+        "/financing"
+      ],
+      "reason": "Fit finder answer chip: the owner's monthly revenue band, not a financing amount."
+    },
+    {
+      "id": "A-008",
+      "claimId": "LV-F03",
+      "termIds": [
+        "B-AMT-SHORT",
+        "B-AMT-RANGE"
+      ],
+      "phrase": "Over $500K",
+      "pages": [
+        "/financing"
+      ],
+      "reason": "Fit finder answer chip: the owner's monthly revenue band, not a financing amount."
     }
   ]
 }
