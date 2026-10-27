@@ -9,7 +9,7 @@ export const site = {
   legalName: 'Leverup Leads LLC',
   url: 'https://leverupliquidity.com',
   description:
-    'Leverup Liquidity matches licensed cannabis operators with funders and shows the full cost before you sign.',
+    'Leverup Liquidity matches licensed cannabis operators with funders.',
 
   // Phone used on the website (call + text buttons). Legal documents keep their own number.
   phone: {
