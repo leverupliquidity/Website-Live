@@ -1,5 +1,5 @@
 ---
-// Founder strip: headshot (Harbor ground on desktop, paper circle on phones), quote, About us + Book a call.
+// Founder strip: headshot (Harbor ground on desktop, paper circle on phones), name, About us + Book a call.
 import Img from '../shared/Img.astro';
 import harbor from '../../assets/images/10-headshot-ryan-harbor.jpg';
 import circle from '../../assets/images/13-headshot-ryan-circle.jpg';
@@ -9,17 +9,16 @@ const alt = 'Ryan Rodriguez, founder of Leverup Liquidity, in a navy suit and ti
 <section class="founder" aria-label="A word from our founder">
   <div class="container founder__grid">
     <div class="founder__photo founder__photo--d"><Img src={harbor} alt={alt} widths={[296, 592]} sizes="296px" /></div>
-    <figure class="founder__body">
-      <figcaption class="founder__by">
+    <div class="founder__body">
+      <p class="founder__by">
         <span class="founder__photo founder__photo--m"><Img src={circle} alt={alt} widths={[96, 192]} sizes="96px" /></span>
         <span class="founder__name">Ryan Rodriguez, Founder, Leverup Liquidity</span>
-      </figcaption>
-      <blockquote class="quote founder__quote"><p>“We’ll walk you through every number before&nbsp;you&nbsp;sign.”</p></blockquote>
+      </p>
       <div class="btn-row btn-row--stack founder__btns">
         <a href="/about" class="btn btn--secondary">About us</a>
         <a href={site.bookingsUrl} target="_blank" rel="noopener" class="btn btn--secondary" data-track-location="founder">Book a call</a>
       </div>
-    </figure>
+    </div>
   </div>
 </section>
 

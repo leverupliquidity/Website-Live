@@ -1,5 +1,5 @@
 ---
-// "How it works, in 4 steps" on Harbor. Used on Home (with button) and How it works (timing lines, no button).
+// "How it works, in N steps" on Harbor. Used on Home (with button) and How it works (timing lines, no button).
 interface Step { title: string; body: string }
 interface Props { steps: Step[]; action?: { label: string; href: string }; id?: string }
 const { steps, action, id = 'steps-h' } = Astro.props;
@@ -8,7 +8,7 @@ const { steps, action, id = 'steps-h' } = Astro.props;
   <div class="container">
     <div class="steps__head">
       <div class="steps__text">
-        <h2 class="h2 h1-h2-bold" id={id}>How it works, in 4 steps</h2>
+        <h2 class="h2 h1-h2-bold" id={id}>How it works, in {steps.length} steps</h2>
         <p class="h1-lede h1-lede--brand">Most of the work is ours. Here's yours.</p>
       </div>
       {action && <a href={action.href} class="btn btn--secondary-on-brand steps__btn">{action.label}</a>}
@@ -19,7 +19,7 @@ const { steps, action, id = 'steps-h' } = Astro.props;
           <div class="steps__top"><span class="h1-numbox" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><span class="steps__line" aria-hidden="true"></span></div>
           <div>
             <h3 class="steps__title"><span class="visually-hidden">Step {i + 1}: </span>{s.title}</h3>
-            <p class="steps__body">{s.body}</p>
+            {s.body && <p class="steps__body">{s.body}</p>}
           </div>
         </li>
       ))}
