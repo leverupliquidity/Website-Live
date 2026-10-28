@@ -1,0 +1,23 @@
+---
+// StatusChip: rule status shown by icon + words + lightness, never by color alone.
+import Icon from '../shared/Icon.astro';
+import type { Status } from '../../data/rules';
+interface Props { status: Status; label: string }
+const { status, label } = Astro.props;
+const icon = { 'in-effect': 'check-circle', pending: 'clock', starts: 'calendar', changed: 'alert-circle' }[status];
+---
+<span class:list={['status-chip', `status-chip--${status}`]}>
+  <Icon name={icon} size={16} />
+  <span><span class="visually-hidden">Status: </span>{label}</span>
+</span>
+<style>
+  .status-chip {
+    display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px;
+    font-size: 13px; line-height: 20px; font-weight: 600; border: 1.5px solid; white-space: nowrap;
+  }
+  /* Each variant differs in fill, border and icon, and all text is at least 4.5:1 on its fill. */
+  .status-chip--starts { background: var(--bg-brand); color: #fff; border-color: var(--bg-brand); }
+  .status-chip--in-effect { background: var(--bg-brand-subtle); color: var(--text-heading); border-color: var(--border-brand); }
+  .status-chip--pending { background: var(--bg-surface); color: var(--text-heading); border-color: var(--border-strong); border-style: dashed; }
+  .status-chip--changed { background: var(--bg-accent-subtle); color: #5a2e0a; border-color: #8a4b16; }
+</style>

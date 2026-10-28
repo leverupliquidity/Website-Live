@@ -1,0 +1,27 @@
+---
+// Next step on rule pages (Phase 1): call or text Ryan. The email rule-alert signup is held back
+// until Ryan names where signups go (Prompt 4 run log), so this block has no form fields.
+import Icon from '../shared/Icon.astro';
+import { site } from '../../data/site';
+interface Props { heading: string; lede: string; id: string }
+const { heading, lede, id } = Astro.props;
+---
+<section class="talk" aria-labelledby={id}>
+  <div class="container talk__inner">
+    <h2 class="h2" id={id}>{heading}</h2>
+    <p class="talk__lede">{lede}</p>
+    <div class="talk__btns">
+      <a href={site.phone.tel} class="btn btn--primary btn--lg" data-track="tel_click" data-track-location="rules_next_step"><Icon name="phone" size={20} />Call Ryan</a>
+      <a href={site.phone.sms} class="btn btn--secondary btn--lg" data-track="sms_click" data-track-location="rules_next_step"><Icon name="message" size={20} />Text Ryan</a>
+    </div>
+    <p class="meta">{site.phone.plain}</p>
+  </div>
+</section>
+<style>
+  .talk { background: var(--bg-brand-subtle); padding-block: 48px; }
+  .talk__inner { display: grid; gap: 16px; justify-items: start; }
+  .talk__lede { font-size: 17px; line-height: 28px; max-width: 60ch; }
+  .talk__btns { display: flex; flex-wrap: wrap; gap: 12px; width: 100%; }
+  .talk__btns .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; flex: 1 1 160px; }
+  @media (min-width: 768px) { .talk__btns .btn { flex: 0 0 auto; } .talk { padding-block: 72px; } }
+</style>

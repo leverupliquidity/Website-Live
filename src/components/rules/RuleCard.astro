@@ -1,0 +1,41 @@
+---
+// RuleCard: one rule from the rules data file. Linked only when its page exists.
+import StatusChip from './StatusChip.astro';
+import UpdatedChip from './UpdatedChip.astro';
+import SourceLinks from './SourceLinks.astro';
+import type { RuleCardData } from '../../data/rules';
+interface Props { rule: RuleCardData; headingLevel?: 'h2' | 'h3' }
+const { rule, headingLevel = 'h3' } = Astro.props;
+const H = headingLevel;
+---
+<article class:list={['rule-card', { 'rule-card--linked': rule.href }]}>
+  <div class="rule-card__chips">
+    <StatusChip status={rule.status} label={rule.statusLabel} />
+  </div>
+  <H class="rule-card__name">
+    {rule.href ? <a href={rule.href}>{rule.name}</a> : rule.name}
+  </H>
+  <p class="rule-card__date"><time datetime={rule.date.iso}>{rule.date.display}</time>: {rule.dateNote}</p>
+  <p class="rule-card__line">{rule.line}</p>
+  <ul class="rule-card__tags" aria-label="Who it affects">
+    {rule.affects.map((a) => <li>{a}</li>)}
+  </ul>
+  <SourceLinks ids={rule.sources} />
+  <div class="rule-card__foot">
+    <UpdatedChip date={rule.updated} />
+    {rule.href ? <a href={rule.href} class="link rule-card__more">Read the rule page<span class="visually-hidden">: {rule.name}</span></a>
+      : null}
+  </div>
+</article>
+<style>
+  .rule-card { display: grid; gap: 10px; align-content: start; padding: 20px; background: var(--bg-surface); border: 1px solid var(--border-default); border-radius: var(--radius); }
+  .rule-card--linked { border: 2px solid var(--border-brand); }
+  .rule-card__name { font-family: var(--font-sans); font-size: 20px; line-height: 28px; font-weight: 600; color: var(--text-heading); }
+  .rule-card__name a { color: inherit; text-underline-offset: 3px; }
+  .rule-card__date { font-size: 15px; line-height: 24px; font-weight: 600; color: var(--text-heading); }
+  .rule-card__line { font-size: 15px; line-height: 24px; }
+  .rule-card__tags { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+  .rule-card__tags li { font-size: 13px; line-height: 20px; padding: 2px 8px; border-radius: var(--radius-sm); background: var(--bg-sunken); color: var(--text-primary); }
+  .rule-card__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-top: 6px; }
+  .rule-card__more { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; }
+</style>

@@ -1,0 +1,21 @@
+---
+// Inline source links for a fact or rule card.
+import { SOURCES } from '../../data/rules';
+interface Props { ids: (keyof typeof SOURCES)[]; prefix?: string }
+const { ids, prefix = 'Source' } = Astro.props;
+const list = ids.map((id) => SOURCES[id]);
+---
+<p class="src">
+  <span class="src__label">{prefix}{list.length > 1 ? 's' : ''}:</span>
+  {list.map((s, i) => (
+    <>
+      <a href={s.href} rel="noopener" target="_blank" class="src__link">{s.label}{s.date && `, ${s.date}`}<span class="visually-hidden"> (opens in a new tab)</span></a>{i < list.length - 1 && '; '}
+    </>
+  ))}
+</p>
+<style>
+  .src { font-size: 13px; line-height: 20px; color: var(--text-secondary); margin-top: 6px; }
+  .src__label { font-weight: 600; margin-right: 4px; }
+  .src__link { color: var(--text-link); text-underline-offset: 2px; word-break: break-word; }
+  .src__link:hover { color: var(--text-link-hover); }
+</style>

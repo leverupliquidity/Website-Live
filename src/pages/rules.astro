@@ -1,0 +1,108 @@
+---
+// Rules Desk hub (/rules). Problem-aware. Blueprint: strategy "Rules Desk hub".
+// Cards, dates and statuses come from src/data/rules.ts. No update-time commitment until Ryan sets the number of days.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/shared/Breadcrumb.astro';
+import RuleCard from '../components/rules/RuleCard.astro';
+import UpdatedChip from '../components/rules/UpdatedChip.astro';
+import SourceLinks from '../components/rules/SourceLinks.astro';
+import TalkItThrough from '../components/rules/TalkItThrough.astro';
+import { board, hubAnswer, hubUpdated, hubPublished, ahead, ryan, GENERAL_INFO, schemaDate } from '../data/rules';
+import { site } from '../data/site';
+
+const url = site.url + '/rules';
+const H1 = 'Cannabis rule changes that hit your cash';
+const sorted = [...board].sort((a, b) => b.date.iso.localeCompare(a.date.iso));
+
+const collection = {
+  '@context': 'https://schema.org', '@type': 'CollectionPage', '@id': url + '#page',
+  name: H1, url, description: hubAnswer,
+  datePublished: schemaDate(hubPublished), dateModified: schemaDate(hubUpdated), inLanguage: 'en-US',
+  author: { '@type': 'Person', name: ryan.name, jobTitle: ryan.jobTitle, sameAs: [ryan.linkedin] },
+  publisher: { '@id': site.url + '/#org' },
+  mainEntity: { '@id': url + '#rules' },
+};
+const itemList = {
+  '@context': 'https://schema.org', '@type': 'ItemList', '@id': url + '#rules',
+  name: 'Cannabis rules tracked by the Rules Desk',
+  itemListOrder: 'https://schema.org/ItemListOrderDescending',
+  numberOfItems: sorted.length,
+  itemListElement: sorted.map((r, i) => ({
+    '@type': 'ListItem', position: i + 1, name: r.name,
+    ...(r.href ? { url: site.url + r.href } : {}),
+  })),
+};
+---
+<BaseLayout metaKey="/rules" lean jsonLd={[collection, itemList]}>
+  <Breadcrumb items={[{ label: 'Rule changes' }]} />
+
+  <section class="section--paper hub-head" aria-labelledby="hub-h1">
+    <div class="container hub-head__inner">
+      <h1 class="h1" id="hub-h1">{H1}</h1>
+      <div class="hub-head__chips"><UpdatedChip date={hubUpdated} /></div>
+      <div class="answer-box"><p>{hubAnswer}</p></div>
+      <p class="hub-label">{GENERAL_INFO} Each rule links to its primary source.</p>
+    </div>
+  </section>
+
+  <section class="container hub-block" aria-labelledby="board-h">
+    <h2 class="h2" id="board-h">Rules we track, newest date first</h2>
+    <ul class="board" role="list">
+      {sorted.map((r) => <li><RuleCard rule={r} /></li>)}
+    </ul>
+  </section>
+
+  <section class="container hub-block" aria-labelledby="ahead-h">
+    <h2 class="h2" id="ahead-h">What’s ahead</h2>
+    <ol class="timeline">
+      {ahead.map((a) => (
+        <li class="timeline__item">
+          <p class="timeline__date"><time datetime={a.date.iso}>{a.date.display}</time>{!a.firm && <span class="subject"> (subject to change)</span>}</p>
+          <p class="timeline__text"><a href={a.href} class="link">{a.text}</a></p>
+          <SourceLinks ids={[a.source]} />
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="container hub-block" aria-labelledby="method-h">
+    <h2 class="h2" id="method-h">How the Rules Desk works</h2>
+    <dl class="method">
+      <div><dt>What’s tracked</dt><dd>Federal and state rules that change a licensed operator’s cash: the federal hemp definition, marijuana scheduling and 280E, and state cannabis taxes.</dd></div>
+      <div><dt>Sources</dt><dd>The rule itself first: the enacted law on govinfo.gov, the Federal Register, and state tax agencies. Law-firm analysis is named wherever a page relies on it.</dd></div>
+      <div><dt>Who writes and reviews</dt><dd>{ryan.name} writes each rule page. Each page shows whether an attorney or CPA has reviewed it, and when.</dd></div>
+    </dl>
+  </section>
+
+  <TalkItThrough id="talk-h" heading="Not sure what a rule means for you?" lede="Call or text Ryan to talk through what a rule change does to your shelf, your tax bill or your calendar." />
+</BaseLayout>
+
+<style>
+  .hub-head { padding-block: 24px 32px; }
+  .hub-head__inner { display: grid; gap: 16px; }
+  .hub-head__chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .answer-box { border: 2px solid var(--border-brand); border-radius: var(--radius); padding: 20px; background: var(--bg-surface); }
+  .answer-box p { font-family: var(--font-serif); font-size: 20px; line-height: 30px; color: var(--text-heading); }
+  .hub-label { font-size: 13px; line-height: 20px; font-weight: 600; color: var(--text-secondary); }
+  .hub-block { padding-block: 32px 0; }
+  .hub-block .h2 { margin-bottom: 16px; }
+  .board { display: grid; gap: 16px; list-style: none; margin: 0; padding: 0; }
+  .timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; border-left: 3px solid var(--border-brand); }
+  .timeline__item { padding-left: 16px; display: grid; gap: 4px; }
+  .timeline__date { font-weight: 700; font-size: 17px; line-height: 28px; color: var(--text-heading); }
+  .timeline__date .subject { font-weight: 600; color: var(--text-primary); }
+  .timeline__text { font-size: 17px; line-height: 28px; }
+  .timeline__text a { font-weight: 600; }
+  .method { display: grid; gap: 16px; margin: 0 0 48px; }
+  .method dt { font-weight: 700; color: var(--text-heading); }
+  .method dd { margin: 4px 0 0; font-size: 17px; line-height: 28px; }
+  @media (min-width: 768px) { .board { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) {
+    .hub-head { padding-block: 48px; }
+    .hub-head__inner > * { max-width: 820px; }
+    .h1 { font-size: 48px; line-height: 56px; }
+    .hub-block { padding-block: 56px 0; }
+    .hub-block:not(:first-of-type) > * { max-width: 820px; }
+    .method { grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  }
+</style>
